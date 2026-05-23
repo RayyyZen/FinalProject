@@ -15,7 +15,7 @@ public class Node {
     /**
      * The unique id of the node
      */
-    private int id;
+    private final int id;
 
     /**
      * The name of the node
@@ -118,6 +118,12 @@ public class Node {
         this(NodeState.OPEN, NodeType.DESTINATION, MAXAGENTS);
     }
 
+    public int getId(){
+        return this.id;
+    }
+
+    //public void getName()
+
     /**
      * Returns a String that contains the node's attributes
      * @return A String that contains the node's attributes
@@ -126,7 +132,7 @@ public class Node {
     public String toString(){
         StringBuilder string = new StringBuilder();
 
-        string.append(this.id + " : " + this.name + "\n-> State : " + this.state + "\n->Type : " + this.type + "\n-> Agents (" + this.getNumberOfAgents() + " / " + this.maxAgents + ") : \n");
+        //string.append(this.id + " : " + this.name + "\n-> State : " + this.state + "\n->Type : " + this.type + "\n-> Agents (" + this.getNumberOfAgents() + " / " + this.maxAgents + ") : \n");
         
         for(Agent agent : this.agents){
             string.append("--> " + agent + "\n");
