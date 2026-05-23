@@ -1,16 +1,17 @@
 package com.app.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * The node class that contains its informations and the agents located on it
- * @version 5.0
+ * @version 1.0
  * @since 1.0
  * @author Rayane
  */
-public class Node {
+public class Node implements Location {
     
     /**
      * The unique id of the node
@@ -53,26 +54,12 @@ public class Node {
     private static int lastID = 0;
 
     /**
-     * Checks if an argument is null
-     * @param obj The argument that will be checked
-     * @param message The message that will be shown if the argument is null
-     */
-    private void checkNullArgument(Object obj, String message){
-        if(message == null){
-            throw new IllegalArgumentException("The null argument message is null");
-        }
-        if(obj == null){
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    /**
      * Checks if an argument of any method of the node class is null
      * @param obj The argument that will be checked
      * @param attribute The attribute of the node that is null
      */
     private void checkNodeNullArgument(Object obj, String attribute){
-        checkNullArgument(obj, "The " + attribute + " of the node is null !");
+        Check.checkNullArgument(obj, "The " + attribute + " of the node is null !");
     }
 
     /**
@@ -118,11 +105,122 @@ public class Node {
         this(NodeState.OPEN, NodeType.DESTINATION, MAXAGENTS);
     }
 
+    /**
+     * Returns the unique id of the node
+     * @return the unique id of the node
+     */
     public int getId(){
         return this.id;
     }
 
-    //public void getName()
+    /**
+     * Returns the name of the node
+     * @return the name of the node
+     */
+    public String getName(){
+        return this.name;
+    }
+
+    /**
+     * Returns the state of the node
+     * @return the state of the node
+     */
+    public NodeState getState(){
+        return this.state;
+    }
+
+    /**
+     * Returns the type of the node
+     * @return the type of the node
+     */
+    public NodeType getType(){
+        return this.type;
+    }
+
+    /**
+     * Returns the maximum number of agents the node can store
+     * @return the maximum number of agents the node can store
+     */
+    public int getMaxAgents(){
+        return this.maxAgents;
+    }
+
+    /**
+     * Returns the number of agents stored in the node
+     * @return the number of agents stored in the node
+     */
+    public int getNumberOfAgents(){
+        return this.agents.size();
+    }
+
+    /**
+     * Returns all the agents that are stored in the node
+     * @return all the agents that are stored in the node
+     */
+    public List<Agent> getAgents(){
+        return this.agents;
+    }
+
+    /**
+     * Returns an agent from the node by his id
+     * @param id The id of the agent that will be eventually returned
+     * @return an agent from the node by his id
+     */
+    public Agent getAgentById(int id){
+        for(Agent agent : this.agents){
+            if(agent.getId() == id){
+                return agent;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Removes an agent from the node by his id
+     * @param id The id of the agent that will be removed
+     */
+    public void removeAgentById(int id){
+        Iterator<Agent> iterator = this.agents.iterator();
+
+        while(iterator.hasNext()){
+            Agent agent = iterator.next();
+            
+            if(agent.getId() == id){
+                iterator.remove();
+                agent.setLocation(null);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Removes all the agents from the node
+     */
+    public void removeAllAgents(){
+        Iterator<Agent> iterator = this.agents.iterator();
+
+        while(iterator.hasNext()){
+            Agent agent = iterator.next();
+            iterator.remove();
+            agent.setLocation(null);
+        }
+    }
+
+    /**
+     * Adds a new agent to the node
+     * @param agent The agent that will be added to the node
+     * @throws AppException In case the node has reached its maximum number of stored agents
+     */
+    public void addAgent(Agent agent) throws AppException {
+        Check.checkNullArgument(agent, "The agent who was being added to the node is null !");
+
+        if(this.getNumberOfAgents() >= this.maxAgents){
+            throw new AppException("The node is full !");
+        }
+        
+        this.agents.add(agent);
+        agent.setLocation(this);
+    }
 
     /**
      * Returns a String that contains the node's attributes
@@ -132,7 +230,7 @@ public class Node {
     public String toString(){
         StringBuilder string = new StringBuilder();
 
-        //string.append(this.id + " : " + this.name + "\n-> State : " + this.state + "\n->Type : " + this.type + "\n-> Agents (" + this.getNumberOfAgents() + " / " + this.maxAgents + ") : \n");
+        string.append(this.id + " : " + this.name + "\n-> State : " + this.state + "\n-> Type : " + this.type + "\n-> Agents (" + this.getNumberOfAgents() + " / " + this.maxAgents + ") : \n");
         
         for(Agent agent : this.agents){
             string.append("--> " + agent + "\n");
