@@ -22,14 +22,15 @@ public class NodeView extends Group {
      * @param x    the x-coordinate within the parent pane
      * @param y    the y-coordinate within the parent pane
      */
-    public NodeView(Node node, double x, double y) {
+    public NodeView(Node node, double x, double y, MainController controller) {
         this.node = node;
 
         Circle circle = new Circle(20, Color.LIGHTBLUE);
         circle.setStroke(Color.BLACK);
 
-        setOnMouseClicked(e ->{
-            System.out.println("Renvoie les infos du noeud");
+        setOnMouseClicked(event -> {
+            event.consume();
+            controller.showNodeDetails(node);
         });
         setStyle("-fx-cursor: hand;");
 

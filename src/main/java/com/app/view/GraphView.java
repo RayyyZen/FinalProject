@@ -30,6 +30,7 @@ import javafx.scene.shape.Line;
  */
 public class GraphView extends BorderPane {
 
+    private final MainController controller;
     private final Graph graph;
     private final Pane nodePane;
 
@@ -43,7 +44,8 @@ public class GraphView extends BorderPane {
      * already present in the model.
      * @param graph the graph to display and mutate
      */
-    public GraphView(Graph graph) {
+    public GraphView(MainController controller, Graph graph) {
+        this.controller = controller;
         this.graph = graph;
 
         // Toolbar
@@ -94,14 +96,14 @@ public class GraphView extends BorderPane {
 
         List<NodeView> views = new ArrayList<>();
         if (n == 1) {
-            views.add(new NodeView(nodes.get(0), cx, cy));
+            views.add(new NodeView(nodes.get(0), cx, cy, controller));
         } else {
             double radius = Math.min(cx, cy) - LAYOUT_MARGIN;
             for (int i = 0; i < n; i++) {
                 double angle = 2 * Math.PI * i / n - Math.PI / 2;
                 double x = cx + radius * Math.cos(angle);
                 double y = cy + radius * Math.sin(angle);
-                views.add(new NodeView(nodes.get(i), x, y));
+                views.add(new NodeView(nodes.get(i), x, y, controller));
             }
         }
 
