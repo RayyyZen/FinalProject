@@ -22,10 +22,12 @@ public class HomePage extends VBox {
 
         this.controller = controller;
         this.simulation = simulation;
+        this.getStyleClass().add("home-page");
 
         Button go = new Button("Go Graph");
 
-        //go.setOnAction(e -> controller.showGraph());
+        go.setOnAction(e -> controller.showGraph());
+        go.getStyleClass().add("primary-button");
 
         getChildren().add(go);
     }
