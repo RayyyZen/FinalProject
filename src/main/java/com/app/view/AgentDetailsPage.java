@@ -33,10 +33,9 @@ public class AgentDetailsPage extends BorderPane{
      */
     private void buildPage() {
         Label title = new Label("Agent details");
-        title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
         Button backButton = new Button("Back to agents");
-        backButton.setOnAction(event -> controller.showAgents());
+        backButton.setOnAction(e -> controller.showAgents((Node) agent.getLocation()));
 
         BorderPane topBar = new BorderPane();
         topBar.setLeft(backButton);

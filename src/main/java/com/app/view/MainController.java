@@ -63,8 +63,8 @@ public class MainController {
     /**
      * Shows the page containing all agents.
      */
-    public void showAgents() {
-        AgentListPage page = new AgentListPage(this, simulation.getGraph());
+    public void showAgents(Node node) {
+        AgentListPage page = new AgentListPage(this, node);
         root.setCenter(page);
     }
 
