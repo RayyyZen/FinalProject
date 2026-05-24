@@ -1,9 +1,9 @@
 package com.app.view;
 
+import com.app.model.Simulation;
+
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
-
-import com.app.model.Simulation;
 
 /**
  * Top-level UI controller. Owns the root {@link BorderPane} and swaps the
@@ -40,6 +40,12 @@ public class MainController {
         GraphView page = new GraphView(simulation.getGraph());
         root.setCenter(page);
     }
+
+    /**
+     * public void showNodeDetails(){
+        NodedetailsPage page = new NodedetailsPage(node);
+        root.setCenter(page);
+    }/
 
     /**
      * @return the root JavaFX node, to be wired into the main Scene
