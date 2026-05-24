@@ -14,4 +14,14 @@ public class Check {
             throw new IllegalArgumentException(message);
         }
     }
+
+    /**
+     * Checks if an argument of any method of a class is null
+     * @param obj The argument that will be checked
+     * @param className The class name
+     * @param attribute The attribute of the class that is null
+     */
+    static void checkClassNullArgument(Object obj, String className, String attribute){
+        checkNullArgument(obj, "The " + attribute + " of the " + className + " is null !");
+    }
 }

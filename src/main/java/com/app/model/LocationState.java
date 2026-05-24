@@ -1,5 +1,5 @@
 package com.app.model;
 
-public enum NodeState {
+public enum LocationState {
     OPEN, CLOSED
 }

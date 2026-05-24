@@ -61,15 +61,6 @@ public class Agent {
     private final static double SPEED = 1.0; 
 
     /**
-     * Checks if an argument of any method of the agent class is null
-     * @param obj The argument that will be checked
-     * @param attribute The attribute of the agent that is null
-     */
-    private void checkAgentNullArgument(Object obj, String attribute){
-        Check.checkNullArgument(obj, "The " + attribute + " of the agent is null !");
-    }
-
-    /**
      * The agent constructor that takes as arguments his name, speed, state, behavior, if he is tolerant to congestion and eventually his actual location
      * @param name The name of the agent
      * @param speed The speed of the agent
@@ -79,9 +70,9 @@ public class Agent {
      * @param location The actual location of the agent
      */
     public Agent(String name, double speed, AgentState state, AgentBehavior behavior, boolean isTolerantToCongestion, Location location){
-        checkAgentNullArgument(name, "name");
-        checkAgentNullArgument(state, "state");
-        checkAgentNullArgument(behavior, "behavior");
+        Check.checkClassNullArgument(name, "agent", "name");
+        Check.checkClassNullArgument(state, "agent", "state");
+        Check.checkClassNullArgument(behavior, "agent", "behavior");
 
         if(speed <= 0){
             throw new IllegalArgumentException("The agent's speed must be > 0 !");
