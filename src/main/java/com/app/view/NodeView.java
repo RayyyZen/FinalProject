@@ -28,6 +28,11 @@ public class NodeView extends Group {
         Circle circle = new Circle(20, Color.LIGHTBLUE);
         circle.setStroke(Color.BLACK);
 
+        setOnMouseClicked(e ->{
+            System.out.println("Renvoie les infos du noeud");
+        });
+        setStyle("-fx-cursor: hand;");
+
         Text label = new Text(node.getName());
         label.setX(-label.getLayoutBounds().getWidth() / 2);
         label.setY(5);
