@@ -67,7 +67,7 @@ public class Graph {
 
         int numberOfEdges = 21;
         double minDistance = 1.0;
-        double maxDistance = 20.0;
+        double maxDistance = 2000.0;
 
         for(int i = 0; i < numberOfEdges; i++){
             LocationState state = states.get(ThreadLocalRandom.current().nextInt(0, states.size()));

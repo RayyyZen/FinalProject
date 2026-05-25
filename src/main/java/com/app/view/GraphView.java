@@ -153,6 +153,10 @@ public class GraphView extends BorderPane {
                 arrow.setTranslateX(x2 - radius * Math.cos(angle));
                 arrow.setTranslateY(y2 - radius * Math.sin(angle));
 
+                arrow.setOnMouseClicked(event -> {
+                    event.consume();
+                   controller.showEdgeDetails(edge);
+                });
                 nodePane.getChildren().addAll(edgeLine, arrow);
             }
 
