@@ -138,6 +138,11 @@ public class GraphView extends BorderPane {
 
                 edgeLine.getStyleClass().addAll("edge", "click");
 
+                edgeLine.setOnMouseClicked(event -> {
+                    event.consume();
+                    controller.showEdgeDetails(edge);
+                });
+
                 nodePane.getChildren().add(edgeLine);
             }
 

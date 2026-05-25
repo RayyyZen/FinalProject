@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import com.app.model.Agent;
 import com.app.model.Node;
 import com.app.model.Edge;
+import com.app.model.Location;
 
 /**
  * Top-level UI controller. Owns the root {@link BorderPane} and swaps the
@@ -59,8 +60,8 @@ public class MainController {
      * @param edge the selected edge
      */
     public void showEdgeDetails(Edge edge) {
-        //EdgeDetailsPage page = new EdgeDetailsPage(this, edge);
-        //root.setCenter(page);
+        EdgeDetailsPage page = new EdgeDetailsPage(this, edge);
+        root.setCenter(page);
     }
 
     /**
@@ -73,8 +74,8 @@ public class MainController {
     /**
      * Shows the page containing all agents.
      */
-    public void showAgents(Node node) {
-        AgentListPage page = new AgentListPage(this, node);
+    public void showAgents(Location location) {
+        AgentListPage page = new AgentListPage(this, location);
         root.setCenter(page);
     }
 

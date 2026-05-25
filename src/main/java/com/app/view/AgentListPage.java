@@ -3,6 +3,7 @@ package com.app.view;
 import java.util.List;
 
 import com.app.model.Agent;
+import com.app.model.Location;
 import com.app.model.Node;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,16 +25,16 @@ public class AgentListPage extends BorderPane {
     
     private static final int AGENT_RADIUS = 20;
     private final MainController controller;
-    private final Node node;
+    private final Location location;
 
     /**
      * Creates the page displaying all agents.
      * @param controller the main controller used for navigation
      * @param graph the graph containing the agents
      */
-    public AgentListPage(MainController controller, Node node) {
+    public AgentListPage(MainController controller, Location location) {
         this.controller = controller;
-        this.node = node;
+        this.location = location;
         buildPage();
     }
 
@@ -53,7 +54,7 @@ public class AgentListPage extends BorderPane {
 
         setTop(topBar);
 
-        List<Agent> agents = node.getAgents();
+        List<Agent> agents = location.getAgents();
         if(agents.isEmpty()) {
             Label emptyLabel = new Label("No agents found.");
             setCenter(emptyLabel);
