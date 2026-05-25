@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.app.algo.Dijkstra;
+
 public class Graph {
     
     /**
@@ -63,7 +65,7 @@ public class Graph {
             this.nodes.add(node);
         }
 
-        int numberOfEdges = 7;
+        int numberOfEdges = 21;
         double minDistance = 1.0;
         double maxDistance = 20.0;
 
@@ -78,6 +80,23 @@ public class Graph {
             if(!source.equals(destination) && !this.existEdge(source, destination)){
                 Edge edge = new Edge(state, maxAgents, source, destination, distance);
                 this.edges.add(edge);
+            }
+        }
+
+        int numberOfAgents = 10;
+
+        for(int i = 0; i < numberOfAgents; i++){
+            Node node = this.nodes.get(ThreadLocalRandom.current().nextInt(0, this.nodes.size()));
+            Node destination = this.nodes.get(ThreadLocalRandom.current().nextInt(0, this.nodes.size()));
+
+            if(!node.equals(destination)){
+                Agent agent = new Agent();
+                agent.setDestination(destination);
+                try{
+                    node.addAgent(agent);
+                }catch(AppException e){
+                        
+                }
             }
         }
 
@@ -96,16 +115,15 @@ public class Graph {
         this.nodes.add(node);
     }
 
-    public void removeNodeById(int id){
-        Iterator<Node> iterator = this.nodes.iterator();
+    public void removeNode(Node node) throws AppException {
+        Check.checkNullArgument(node, "The node is null !");
 
-        while(iterator.hasNext()){
-            Node node = iterator.next();
-
-            if(node.getId() == id){
-                iterator.remove();
-            }
+        for(Edge edge : this.getEdges(node)){
+            this.removeEdge(edge);
         }
+
+        this.removeAgentsFromNode(node);
+        this.nodes.remove(node);
     }
 
     public void removeAllNodes(){
@@ -117,16 +135,11 @@ public class Graph {
         this.edges.add(edge);
     }
 
-    public void removeEdgeById(int id){
-        Iterator<Edge> iterator = this.edges.iterator();
+    public void removeEdge(Edge edge) throws AppException {
+        Check.checkNullArgument(edge, "The edge is null !");
 
-        while(iterator.hasNext()){
-            Edge edge = iterator.next();
-
-            if(edge.getId() == id){
-                iterator.remove();
-            }
-        }
+        this.removeAgentsFromEdge(edge);
+        this.edges.remove(edge);
     }
 
     public void removeAllEdges(){
@@ -169,6 +182,69 @@ public class Graph {
         return this.edges.size();
     }
 
+    public void removeAgentsFromNode(Node node) throws AppException {
+        Check.checkNullArgument(node, "The node is null !");
+        if(!this.nodes.contains(node)){
+            throw new AppException("The node you want to change is not contained in the graph !");
+        }
+
+        List<Node> adj = this.getAdj(node);
+
+        if(adj.isEmpty()){
+            node.removeAllAgents();
+            return ;
+        }
+
+        int size = adj.size();
+        int counter = 0;
+
+        List<Agent> agents = new ArrayList<>(node.getAgents());
+        Iterator<Agent> iterator = agents.iterator();
+
+        node.removeAllAgents();
+
+        while(counter < size && !agents.isEmpty()){
+            Node n = adj.get(counter);
+            int numberOfAddedAgents = n.getMaxAgents() - n.getNumberOfAgents();
+            int count = 0;
+
+            while(iterator.hasNext()){
+                if(counter < size - 1){
+                    if(count >= numberOfAddedAgents){
+                        break;
+                    }
+                }
+                Agent agent = iterator.next();
+                n.forceAddAgent(agent);
+                iterator.remove();
+                count++;
+            }
+        }
+    }
+
+    public void removeAgentsFromEdge(Edge edge) throws AppException {
+        Check.checkNullArgument(edge, "The edge is null !");
+        if(!this.edges.contains(edge)){
+            throw new AppException("The edge you want to change is not contained in the graph !");
+        }
+
+        List<Agent> agents = new ArrayList<>(edge.getAgents());
+        Iterator<Agent> iterator = agents.iterator();
+
+        edge.removeAllAgents();
+
+        Node source = edge.getSource();
+
+        while(iterator.hasNext()){
+            Agent agent = iterator.next();
+            source.addAgent(agent);
+        }
+    }
+
+    public Edge getNextLocation(Node source, Node destination){
+        return Dijkstra.nextLocation(this, source, destination);
+    }
+
     /**
      * Returns a String that contains the graph's attributes
      * @return A String that contains the graph's attributes
@@ -177,21 +253,10 @@ public class Graph {
     public String toString(){
         StringBuilder string = new StringBuilder();
 
-        int numberOfNodes = this.getNumberOfNodes();
-        int numberOfEdges = this.getNumberOfEdges();
-
-        string.append("\nGraph (" + numberOfNodes + " Nodes | " + numberOfEdges + " Edges) : \n\n");
-
-        string.append("-> Nodes (" + numberOfNodes + ") : \n\n");
-        
         for(Node node : this.nodes){
-            string.append("--> " + node + "\n");
-        }
-
-        string.append("-> Edges (" + numberOfEdges + ") : \n\n");
-        
-        for(Edge edge : this.edges){
-            string.append("--> " + edge + "\n");
+            for(Agent agent : node.getAgents()){
+                string.append("-> " + agent + "\n");
+            }
         }
 
         /*

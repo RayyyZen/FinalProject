@@ -1,5 +1,9 @@
 package com.app.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Top-level model object holding the state of the running simulation.
  * For now it only owns the {@link Graph}; agents and ticks will be added later.
@@ -22,5 +26,31 @@ public class Simulation {
      */
     public Graph getGraph(){
         return this.graph;
+    }
+
+    public void move(){
+        List<Node> nodes = this.graph.getAllNodes();
+        List<Edge> edges = this.graph.getAllEdges();
+
+        List<Agent> allAgents = new ArrayList<>();
+
+        for(Node node : nodes){
+            for(Agent agent : node.getAgents()){
+                allAgents.add(agent);
+            }
+        }
+
+        for(Edge edge : edges){
+            for(Agent agent : edge.getAgents()){
+                allAgents.add(agent);
+            }
+        }
+
+        Iterator<Agent> iterator = allAgents.iterator();
+
+        while(iterator.hasNext()){
+            Agent agent = iterator.next();
+            agent.moveToNextLocation(graph);
+        }
     }
 }

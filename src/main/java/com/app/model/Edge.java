@@ -33,6 +33,8 @@ public class Edge extends Location {
      */
     private static final int MAXAGENTS = 20;
 
+    private static final int TIME = 1;
+
     /**
      * The edge constructor that takes as arguments its name, max number of agents it can store, source node, destination node and the distance between both nodes
      * @param name The name of the edge
@@ -104,6 +106,41 @@ public class Edge extends Location {
      */
     public double getDistance(){
         return this.distance;
+    }
+
+    /**
+     * Moves an agent to his next location according to his destination
+     * @param agent The agent that will be moved
+     */
+    public void moveAgentToNextLocation(Graph graph, Agent agent) throws AppException {
+        if(!this.getAgents().contains(agent)){
+            throw new AppException("The agent does not belong to this edge");
+        }
+
+        double position = agent.getPosition();
+        double speed = agent.getSpeed();
+        double distance = this.distance;
+
+        double congestion = this.getNumberOfAgents() / this.getMaxAgents();
+        double newSpeed = speed * Math.exp((-1) * congestion);
+        double traveledDistance = newSpeed * TIME;
+
+        double newPosition = Math.min(position + (traveledDistance / distance), 1);
+        agent.setPosition(newPosition);
+
+        if(newPosition == 1){
+            Node node = this.destination;
+            try{
+                this.removeAgentById(agent.getId());
+                node.addAgent(agent);
+                agent.setPosition(0);
+                if(node.equals(agent.getDestination())){
+                    agent.setDestination(null);
+                }
+            } catch(AppException e) {
+
+            }
+        }
     }
 
     /**

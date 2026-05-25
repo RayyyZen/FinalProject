@@ -3,6 +3,7 @@ package com.app.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.app.model.AppException;
 import com.app.model.Edge;
 import com.app.model.Graph;
 import com.app.model.LocationState;
@@ -32,7 +33,7 @@ import javafx.scene.shape.Line;
 public class GraphView extends BorderPane {
 
     private final MainController controller;
-    private final Graph graph;
+    private final Simulation simulation;
     private final Pane nodePane;
 
     private static final int DEFAULT_MAX_AGENTS = 10;
@@ -45,9 +46,9 @@ public class GraphView extends BorderPane {
      * already present in the model.
      * @param graph the graph to display and mutate
      */
-    public GraphView(MainController controller, Graph graph) {
+    public GraphView(MainController controller, Simulation simulation) {
         this.controller = controller;
-        this.graph = graph;
+        this.simulation = simulation;
 
         // Toolbar
         Button addBtn = new Button("Ajouter un nœud");
@@ -67,22 +68,25 @@ public class GraphView extends BorderPane {
         // Button actions
         addBtn.setOnAction(e -> {
             Node n = new Node(LocationState.OPEN, NodeType.DESTINATION, DEFAULT_MAX_AGENTS);
-            graph.addNode(n);
+            simulation.getGraph().addNode(n);
             relayout();
         });
 
         removeBtn.setOnAction(e -> {
-            List<Node> nodes = graph.getAllNodes();
+            List<Node> nodes = simulation.getGraph().getAllNodes();
             if (!nodes.isEmpty()) {
                 Node last = nodes.get(nodes.size() - 1);
-                graph.removeNodeById(last.getId());
+                try {
+                    simulation.getGraph().removeNode(last);
+                } catch (AppException e1) {
+                }
                 relayout();
             }
         });
 
         nextBtn.setOnAction(e -> {
-            //Simulation.nextAction();
-            //relayout();
+            simulation.move();
+            relayout();
         });
 
         relayout();
@@ -95,7 +99,7 @@ public class GraphView extends BorderPane {
     private void relayout() {
         nodePane.getChildren().clear();
 
-        List<Node> nodes = graph.getAllNodes();
+        List<Node> nodes = simulation.getGraph().getAllNodes();
         int n = nodes.size();
         if (n == 0) return;
 
@@ -115,7 +119,7 @@ public class GraphView extends BorderPane {
             }
         }
 
-        for (Edge edge : graph.getAllEdges()) {
+        for (Edge edge : simulation.getGraph().getAllEdges()) {
             int s = nodes.indexOf(edge.getSource());
             int t = nodes.indexOf(edge.getDestination());
             if (s >= 0 && t >= 0) {

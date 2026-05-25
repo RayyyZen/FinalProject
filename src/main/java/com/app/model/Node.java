@@ -64,6 +64,29 @@ public class Node extends Location {
     }
 
     /**
+     * Moves an agent to his next location according to his destination
+     * @param agent The agent that will be moved
+     */
+    public void moveAgentToNextLocation(Graph graph, Agent agent) throws AppException {
+        if(!this.getAgents().contains(agent)){
+            throw new AppException("The agent does not belong to this edge");
+        }
+
+        if(agent.getDestination() != null){
+            Edge edge = graph.getNextLocation(this, agent.getDestination());
+            if(edge != null){
+                try{
+                    this.removeAgentById(agent.getId());
+                    edge.addAgent(agent);
+                    agent.setPosition(0);
+                } catch(AppException e) {
+                    
+                }
+            }
+        }
+    }
+
+    /**
      * Returns a String that contains the node's attributes
      * @return A String that contains the node's attributes
      */

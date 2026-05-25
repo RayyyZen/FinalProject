@@ -150,6 +150,17 @@ public abstract class Location {
     }
 
     /**
+     * Forces the add of a new agent to the location
+     * @param agent The agent that will be added to the location
+     */
+    public void forceAddAgent(Agent agent) {
+        Check.checkNullArgument(agent, "The agent who was being added to the location is null !");
+        
+        this.agents.add(agent);
+        agent.setLocation(this);
+    }
+
+    /**
      * Removes an agent from the location by his id
      * @param id The id of the agent that will be removed
      */
@@ -195,6 +206,12 @@ public abstract class Location {
 
         return string.toString();
     }
+
+    /**
+     * Moves an agent to his next location according to his destination
+     * @param agent The agent that will be moved
+     */
+    public abstract void moveAgentToNextLocation(Graph graph, Agent agent) throws AppException;
 
     /**
      * Returns a String that contains the location's attributes

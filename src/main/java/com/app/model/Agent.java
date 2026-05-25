@@ -58,7 +58,7 @@ public class Agent {
     /**
      * The constant speed that an agent initially has if the user does not specify it
      */
-    private final static double SPEED = 1.0; 
+    private final static double SPEED = 1000.0; 
 
     /**
      * The agent constructor that takes as arguments his name, speed, state, behavior, if he is tolerant to congestion and eventually his actual location
@@ -185,6 +185,24 @@ public class Agent {
      */
     public void setDestination(Node destination){
         this.destination = destination;
+    }
+
+    /**
+     * Changes the position of the agent
+     * @param position The new position of the agent
+     */
+    public void setPosition(double position){
+        this.position = position;
+    }
+
+    public void moveToNextLocation(Graph graph){
+        if(this.location != null){
+            try{
+                this.location.moveAgentToNextLocation(graph, this);
+            } catch(AppException e) {
+
+            }
+        }
     }
 
     /**

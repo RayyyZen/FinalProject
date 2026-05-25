@@ -41,7 +41,7 @@ public class MainController {
      * Replaces the center of the root pane with the graph view.
      */
     public void showGraph() {
-        GraphView page = new GraphView(this,simulation.getGraph());
+        GraphView page = new GraphView(this,simulation);
         root.setCenter(page);
     }
 
