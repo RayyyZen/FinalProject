@@ -8,6 +8,7 @@ import com.app.model.Graph;
 import com.app.model.LocationState;
 import com.app.model.Node;
 import com.app.model.NodeType;
+import com.app.model.Simulation;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -51,14 +52,16 @@ public class GraphView extends BorderPane {
         // Toolbar
         Button addBtn = new Button("Ajouter un nœud");
         Button removeBtn = new Button("Supprimer un nœud");
-        HBox toolbar = new HBox(10, addBtn, removeBtn);
+        Button nextBtn = new Button("Next");
+
+        HBox toolbar = new HBox(10, addBtn, removeBtn, nextBtn);
         toolbar.setPadding(new Insets(10));
         setTop(toolbar);
 
         // nodePane
         nodePane = new Pane();
         nodePane.setPrefSize(NODEPANE_W, NODEPANE_H);
-        nodePane.setStyle("-fx-background-color: white;");
+        nodePane.getStyleClass().add("background");
         setCenter(nodePane);
 
         // Button actions
@@ -75,6 +78,11 @@ public class GraphView extends BorderPane {
                 graph.removeNodeById(last.getId());
                 relayout();
             }
+        });
+
+        nextBtn.setOnAction(e -> {
+            //Simulation.nextAction();
+            //relayout();
         });
 
         relayout();
@@ -113,10 +121,23 @@ public class GraphView extends BorderPane {
             if (s >= 0 && t >= 0) {
                 NodeView a = views.get(s);
                 NodeView b = views.get(t);
-                nodePane.getChildren().add(new Line(
+
+                Line edgeLine = new Line(
                         a.getLayoutX(), a.getLayoutY(),
-                        b.getLayoutX(), b.getLayoutY()));
+                        b.getLayoutX(), b.getLayoutY()
+                );
+
+                //edgeLine.setOnMouseClicked(event -> {
+                //    event.consume();
+                //    controller.showEdgeDetails(edge);
+                //});
+
+                edgeLine.getStyleClass().addAll("edge", "click");
+
+                nodePane.getChildren().add(edgeLine);
             }
+
+
         }
 
         nodePane.getChildren().addAll(views);

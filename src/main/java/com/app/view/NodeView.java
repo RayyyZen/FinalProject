@@ -25,14 +25,14 @@ public class NodeView extends Group {
     public NodeView(Node node, double x, double y, MainController controller) {
         this.node = node;
 
-        Circle circle = new Circle(20, Color.LIGHTBLUE);
-        circle.setStroke(Color.BLACK);
+        Circle circle = new Circle(25, Color.LIGHTBLUE);
+
+        circle.getStyleClass().addAll("node", "click");
 
         setOnMouseClicked(event -> {
             event.consume();
             controller.showNodeDetails(node);
         });
-        setStyle("-fx-cursor: hand;");
 
         Text label = new Text(node.getName());
         label.setX(-label.getLayoutBounds().getWidth() / 2);

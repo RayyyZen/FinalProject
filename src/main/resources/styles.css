@@ -24,3 +24,20 @@
     -fx-font-size: 20px;
     -fx-font-weight: bold;
 }
+
+.background{
+    -fx-background-color: white;
+}
+
+.edge{
+    -fx-stroke-width: 3;
+}
+
+.node{
+    -fx-stroke : black;
+}
+
+.click{
+    -fx-cursor: hand;
+
+}

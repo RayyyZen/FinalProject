@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 
 import com.app.model.Agent;
 import com.app.model.Node;
+import com.app.model.Edge;
 
 /**
  * Top-level UI controller. Owns the root {@link BorderPane} and swaps the
@@ -51,6 +52,15 @@ public class MainController {
     public void showNodeDetails(Node node) {
         NodeDetailsPage page = new NodeDetailsPage(this, node);
         root.setCenter(page);
+    }
+
+    /**
+     * Shows the details page for a selected edge.
+     * @param edge the selected edge
+     */
+    public void showEdgeDetails(Edge edge) {
+        //EdgeDetailsPage page = new EdgeDetailsPage(this, edge);
+        //root.setCenter(page);
     }
 
     /**
