@@ -16,7 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
+import javafx.scene.transform.Rotate;
 
 /**
  * Main graphical view of the {@link Graph}.
@@ -131,19 +134,26 @@ public class GraphView extends BorderPane {
                         b.getLayoutX(), b.getLayoutY()
                 );
 
-                //edgeLine.setOnMouseClicked(event -> {
-                //    event.consume();
-                //    controller.showEdgeDetails(edge);
-                //});
+                edgeLine.setOnMouseClicked(event -> {
+                    event.consume();
+                   controller.showEdgeDetails(edge);
+                });
 
                 edgeLine.getStyleClass().addAll("edge", "click");
 
-                edgeLine.setOnMouseClicked(event -> {
-                    event.consume();
-                    controller.showEdgeDetails(edge);
-                });
+                double x1 = a.getLayoutX(), y1 = a.getLayoutY();
+                double x2 = b.getLayoutX(), y2 = b.getLayoutY();
 
-                nodePane.getChildren().add(edgeLine);
+                double angle = Math.atan2(y2 - y1, x2 - x1);
+                double radius = 25;
+
+                Polygon arrow = new Polygon(0, 0, -12, -6, -12, 6);
+                arrow.setFill(Color.BLACK);
+                arrow.getTransforms().add(new Rotate(Math.toDegrees(angle), 0, 0));
+                arrow.setTranslateX(x2 - radius * Math.cos(angle));
+                arrow.setTranslateY(y2 - radius * Math.sin(angle));
+
+                nodePane.getChildren().addAll(edgeLine, arrow);
             }
 
 
