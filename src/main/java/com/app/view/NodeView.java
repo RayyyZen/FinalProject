@@ -1,6 +1,7 @@
 package com.app.view;
 
-import com.app.model.Node;
+import com.app.controller.MainController;
+import com.app.model.graph.location.node.Node;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

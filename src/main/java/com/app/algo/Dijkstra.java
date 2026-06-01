@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-import com.app.model.*;
+import com.app.model.graph.Graph;
+import com.app.model.graph.location.edge.Edge;
+import com.app.model.graph.location.node.Node;
 
 public class Dijkstra {
     

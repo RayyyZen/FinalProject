@@ -1,6 +1,6 @@
 package com.app.model;
 
-import com.app.algo.Dijkstra;
+import com.app.model.simulation.Simulation;
 
 public class Main {
     

@@ -1,8 +1,13 @@
-package com.app.model;
+package com.app.model.simulation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.app.model.agent.Agent;
+import com.app.model.graph.Graph;
+import com.app.model.graph.location.edge.Edge;
+import com.app.model.graph.location.node.Node;
 
 /**
  * Top-level model object holding the state of the running simulation.

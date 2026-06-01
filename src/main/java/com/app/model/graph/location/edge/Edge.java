@@ -1,4 +1,12 @@
-package com.app.model;
+package com.app.model.graph.location.edge;
+
+import com.app.model.agent.Agent;
+import com.app.model.exception.AppException;
+import com.app.model.graph.Graph;
+import com.app.model.graph.location.Location;
+import com.app.model.graph.location.LocationState;
+import com.app.model.graph.location.node.Node;
+import com.app.model.util.Check;
 
 /**
  * The edge class that contains its informations

@@ -1,9 +1,14 @@
-package com.app.model;
+package com.app.model.graph.location;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+
+import com.app.model.agent.Agent;
+import com.app.model.exception.AppException;
+import com.app.model.graph.Graph;
+import com.app.model.util.Check;
 
 /**
  * The location class that contains its informations and the agents located on it

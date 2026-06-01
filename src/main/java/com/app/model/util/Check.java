@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.model.util;
 
 public class Check {
     /**
@@ -6,7 +6,7 @@ public class Check {
      * @param obj The argument that will be checked
      * @param message The message that will be shown if the argument is null
      */
-    static void checkNullArgument(Object obj, String message){
+    public static void checkNullArgument(Object obj, String message){
         if(message == null){
             throw new IllegalArgumentException("The null argument message is null");
         }
@@ -21,7 +21,7 @@ public class Check {
      * @param className The class name
      * @param attribute The attribute of the class that is null
      */
-    static void checkClassNullArgument(Object obj, String className, String attribute){
+    public static void checkClassNullArgument(Object obj, String className, String attribute){
         checkNullArgument(obj, "The " + attribute + " of the " + className + " is null !");
     }
 }

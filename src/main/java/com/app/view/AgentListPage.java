@@ -2,9 +2,10 @@ package com.app.view;
 
 import java.util.List;
 
-import com.app.model.Agent;
-import com.app.model.Location;
-import com.app.model.Node;
+import com.app.controller.MainController;
+import com.app.model.agent.Agent;
+import com.app.model.graph.location.Location;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;

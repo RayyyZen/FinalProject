@@ -1,6 +1,12 @@
-package com.app.model;
+package com.app.model.agent;
 
 import java.util.Objects;
+
+import com.app.model.exception.AppException;
+import com.app.model.graph.Graph;
+import com.app.model.graph.location.Location;
+import com.app.model.graph.location.node.Node;
+import com.app.model.util.Check;
 
 public class Agent {
     

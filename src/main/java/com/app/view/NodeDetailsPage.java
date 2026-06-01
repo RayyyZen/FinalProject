@@ -1,6 +1,8 @@
 package com.app.view;
 
-import com.app.model.Node;
+import com.app.controller.MainController;
+import com.app.model.graph.location.node.Node;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

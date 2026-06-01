@@ -1,14 +1,14 @@
-package com.app.view;
+package com.app.controller;
 
-import com.app.model.Simulation;
+import com.app.model.agent.Agent;
+import com.app.model.graph.location.*;
+import com.app.model.graph.location.node.Node;
+import com.app.model.graph.location.edge.Edge;
+import com.app.model.simulation.Simulation;
+import com.app.view.*;
 
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
-
-import com.app.model.Agent;
-import com.app.model.Node;
-import com.app.model.Edge;
-import com.app.model.Location;
 
 /**
  * Top-level UI controller. Owns the root {@link BorderPane} and swaps the
@@ -34,7 +34,7 @@ public class MainController {
      * Replaces the center of the root pane with the home page.
      */
     public void showHome() {
-        HomePage page = new HomePage(this, simulation);
+        HomePage page = new HomePage(this);
         root.setCenter(page);
     }
 

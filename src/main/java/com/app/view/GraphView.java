@@ -3,13 +3,14 @@ package com.app.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.model.AppException;
-import com.app.model.Edge;
-import com.app.model.Graph;
-import com.app.model.LocationState;
-import com.app.model.Node;
-import com.app.model.NodeType;
-import com.app.model.Simulation;
+import com.app.controller.MainController;
+import com.app.model.exception.AppException;
+import com.app.model.graph.Graph;
+import com.app.model.graph.location.LocationState;
+import com.app.model.graph.location.edge.Edge;
+import com.app.model.graph.location.node.Node;
+import com.app.model.graph.location.node.NodeType;
+import com.app.model.simulation.Simulation;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;

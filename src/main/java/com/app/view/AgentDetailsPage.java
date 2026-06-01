@@ -1,8 +1,10 @@
 package com.app.view;
 
-import com.app.model.Agent;
-import com.app.model.Location;
-import com.app.model.Node;
+import com.app.controller.MainController;
+import com.app.model.agent.Agent;
+import com.app.model.graph.location.Location;
+import com.app.model.graph.location.node.Node;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

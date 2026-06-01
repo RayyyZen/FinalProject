@@ -1,6 +1,8 @@
 package com.app.view;
 
-import com.app.model.Edge;
+import com.app.controller.MainController;
+import com.app.model.graph.location.edge.Edge;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

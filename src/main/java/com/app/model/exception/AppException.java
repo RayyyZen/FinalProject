@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.model.exception;
 
 /**
  * The AppException class that inherits from the Exception class
