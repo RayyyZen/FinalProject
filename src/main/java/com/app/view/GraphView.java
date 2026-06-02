@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.controller.MainController;
+import com.app.model.agent.Agent;
 import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.LocationState;
@@ -17,9 +18,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -123,6 +127,8 @@ public class GraphView extends BorderPane {
             }
         }
 
+        List<javafx.scene.Node> agentVisuals = new ArrayList<>();
+
         for (Edge edge : simulation.getGraph().getAllEdges()) {
             int s = nodes.indexOf(edge.getSource());
             int t = nodes.indexOf(edge.getDestination());
@@ -159,11 +165,31 @@ public class GraphView extends BorderPane {
                    controller.showEdgeDetails(edge);
                 });
                 nodePane.getChildren().addAll(edgeLine, arrow);
+
+                for (Agent agent : edge.getAgents()) {
+                    
+                    double progress = agent.getPosition();
+                    double agentX = x1 + progress * (x2 - x1);
+                    double agentY = y1 + progress * (y2 - y1);
+
+                    Circle agentCircle = new Circle(10, Color.ORANGE);
+                    agentCircle.setStroke(Color.BLACK);
+
+                    Text agentLabel = new Text(String.valueOf(agent.getId()));
+
+                    
+                    StackPane agentVisual = new StackPane(agentCircle, agentLabel);
+                    agentVisual.setLayoutX(agentX - 10);
+                    agentVisual.setLayoutY(agentY - 10);
+
+                    agentVisuals.add(agentVisual);
+                }
             }
 
 
         }
 
         nodePane.getChildren().addAll(views);
+        nodePane.getChildren().addAll(agentVisuals);
     }
 }
