@@ -62,8 +62,10 @@ public class GraphView extends BorderPane {
         Button addBtn = new Button("Ajouter un nœud");
         Button removeBtn = new Button("Supprimer un nœud");
         Button nextBtn = new Button("Next");
+        Button addNode = new Button("Create a node");
+        Button addEdge = new Button("Create a edge");
 
-        HBox toolbar = new HBox(10, addBtn, removeBtn, nextBtn);
+        HBox toolbar = new HBox(10, addBtn, removeBtn, nextBtn, addNode, addEdge);
         toolbar.setPadding(new Insets(10));
         setTop(toolbar);
 
@@ -96,6 +98,10 @@ public class GraphView extends BorderPane {
             simulation.move();
             relayout();
         });
+
+        addNode.setOnAction(e -> controller.showCreateNode());
+
+        addEdge.setOnAction(e -> controller.showCreateEdge());
 
         relayout();
     }

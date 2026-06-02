@@ -59,9 +59,12 @@ public class NodeDetailsPage extends BorderPane{
         Button showAgentsButton = new Button("Voir agents");
         showAgentsButton.setOnAction(e -> controller.showAgents(node));
 
+        Button createAgentButton = new Button("Create an agent");
+        createAgentButton.setOnAction(e -> controller.showCreateAgent(node));
+
         VBox content = new VBox(25);
         content.setPadding(new Insets(25));
-        content.getChildren().addAll(grid, showAgentsButton);
+        content.getChildren().addAll(grid, showAgentsButton, createAgentButton);
 
         setCenter(content);
     }

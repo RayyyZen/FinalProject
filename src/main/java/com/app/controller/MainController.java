@@ -87,4 +87,16 @@ public class MainController {
         AgentDetailsPage page = new AgentDetailsPage(this, agent);
         root.setCenter(page);
     }
+
+    public void showCreateNode() {
+        root.setCenter(new CreateNodePage(this, simulation.getGraph()));
+    }
+
+    public void showCreateEdge() {
+    root.setCenter(new CreateEdgePage(this, simulation.getGraph()));
+    }
+
+    public void showCreateAgent(Node node) {
+        root.setCenter(new CreateAgentPage(this, simulation.getGraph(), node));
+    }
 }
