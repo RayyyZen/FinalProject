@@ -3,15 +3,19 @@
 }
 
 .button {
-    -fx-background-color: #0078d7;
+    -fx-background-color: #C10C1F;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 10 20 10 20;
-    -fx-background-radius: 5;
+    -fx-background-radius: 10;
 }
 
 .button:hover {
-    -fx-background-color: #005a9e;
+    -fx-background-color: #FAF3E1;
+    -fx-text-fill: black;
+    -fx-border-color : black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10;
 }
 
 .home-page {
