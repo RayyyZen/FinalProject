@@ -25,6 +25,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
+import javafx.geometry.Pos;
 
 /**
  * Main graphical view of the {@link Graph}.
@@ -63,10 +66,20 @@ public class GraphView extends BorderPane {
         Button removeBtn = new Button("Delete a node");
         Button nextBtn = new Button("Next");
         Button addNode = new Button("Create a node");
-        Button addEdge = new Button("Create a edge");
+        Button addEdge = new Button("Create an edge");
 
-        HBox toolbar = new HBox(10, addBtn, removeBtn, nextBtn, addNode, addEdge);
-        toolbar.setPadding(new Insets(10));
+        addBtn.getStyleClass().add("tool-button");
+        removeBtn.getStyleClass().add("tool-button");
+        addNode.getStyleClass().add("tool-button");
+        addEdge.getStyleClass().add("tool-button");
+
+        nextBtn.getStyleClass().add("primary-button");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, spacer, nextBtn);
+        toolbar.setPadding(new Insets(15, 20, 15, 20));
         setTop(toolbar);
 
         // nodePane
@@ -161,7 +174,7 @@ public class GraphView extends BorderPane {
                 double radius = 25;
 
                 Polygon arrow = new Polygon(0, 0, -12, -6, -12, 6);
-                arrow.setFill(Color.BLACK);
+                arrow.setFill(Color.GREY);
                 arrow.getTransforms().add(new Rotate(Math.toDegrees(angle), 0, 0));
                 arrow.setTranslateX(x2 - radius * Math.cos(angle));
                 arrow.setTranslateY(y2 - radius * Math.sin(angle));

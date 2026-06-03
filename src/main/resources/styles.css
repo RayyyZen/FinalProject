@@ -2,25 +2,37 @@
     -fx-background-color: #f4f4f4;
 }
 
-.button {
+.primary-button {
     -fx-background-color: #C10C1F;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10 20 10 20;
-    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
 }
 
-.button:hover {
+.primary-button:hover {
+    -fx-background-color: #A00A19;
+}
+
+.tool-button {
     -fx-background-color: #FAF3E1;
-    -fx-text-fill: black;
-    -fx-border-color : black;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10;
+    -fx-text-fill: #333333;
+    -fx-border-color: #333333;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15 8 15;
+    -fx-cursor: hand;
+}
+
+.tool-button:hover {
+    -fx-background-color: #EAE0C8;
+    -fx-border-color: #333333;
 }
 
 .home-page {
     -fx-alignment: center;
-    -fx-spacing: 20; /* Espace entre les éléments */
+    -fx-spacing: 20;
 
 }
 
@@ -35,10 +47,11 @@
 
 .edge{
     -fx-stroke-width: 3;
+    -fx-stroke : grey;
 }
 
 .node{
-    -fx-stroke : black;
+    -fx-stroke : grey;
 }
 
 .click{
