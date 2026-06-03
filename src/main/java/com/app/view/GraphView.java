@@ -13,11 +13,15 @@ import com.app.model.graph.location.node.Node;
 import com.app.model.graph.location.node.NodeType;
 import com.app.model.simulation.Simulation;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -25,9 +29,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.Priority;
-import javafx.geometry.Pos;
+import javafx.util.Duration;
 
 /**
  * Main graphical view of the {@link Graph}.
@@ -67,6 +69,12 @@ public class GraphView extends BorderPane {
         Button nextBtn = new Button("Next");
         Button addNode = new Button("Create a node");
         Button addEdge = new Button("Create an edge");
+        Button playBtn = new Button("Play");
+        Button stopBtn = new Button("Stop");
+        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(2), e -> { simulation.move(); relayout(); }));
+        loop.setCycleCount(Timeline.INDEFINITE);
+        playBtn.setOnAction(e -> loop.play());
+        stopBtn.setOnAction(e -> loop.stop());
 
         addBtn.getStyleClass().add("tool-button");
         removeBtn.getStyleClass().add("tool-button");
@@ -78,7 +86,7 @@ public class GraphView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, spacer, nextBtn);
+        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, spacer, playBtn, stopBtn, nextBtn);
         toolbar.setPadding(new Insets(15, 20, 15, 20));
         setTop(toolbar);
 
