@@ -55,7 +55,7 @@ public class EdgeDetailsPage extends BorderPane {
         addRow(grid, 5, "Distance", String.valueOf(edge.getDistance()));
         addRow(grid, 6, "Agents", edge.getNumberOfAgents() + " / " + edge.getMaxAgents());
 
-        Button showAgentsButton = new Button("Voir agents");
+        Button showAgentsButton = new Button("See agents");
         showAgentsButton.setOnAction(e -> controller.showAgents(edge));
 
         VBox content = new VBox(25);

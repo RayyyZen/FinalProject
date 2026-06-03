@@ -56,7 +56,7 @@ public class NodeDetailsPage extends BorderPane{
         addRow(grid, 3, "Type", String.valueOf(node.getType()));
         addRow(grid, 4, "Agents", node.getNumberOfAgents() + " / " + node.getMaxAgents());
 
-        Button showAgentsButton = new Button("Voir agents");
+        Button showAgentsButton = new Button("See agents");
         showAgentsButton.setOnAction(e -> controller.showAgents(node));
 
         Button createAgentButton = new Button("Create an agent");

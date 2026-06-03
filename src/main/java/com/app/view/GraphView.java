@@ -59,8 +59,8 @@ public class GraphView extends BorderPane {
         this.simulation = simulation;
 
         // Toolbar
-        Button addBtn = new Button("Ajouter un nœud");
-        Button removeBtn = new Button("Supprimer un nœud");
+        Button addBtn = new Button("Add a node");
+        Button removeBtn = new Button("Delete a node");
         Button nextBtn = new Button("Next");
         Button addNode = new Button("Create a node");
         Button addEdge = new Button("Create a edge");
