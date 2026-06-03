@@ -133,7 +133,7 @@ public class Edge extends Location {
         double newSpeed = speed * Math.exp((-1) * congestion);
         double traveledDistance = newSpeed * TIME;
 
-        double newPosition = Math.min(position + (traveledDistance / distance), 1);
+        double newPosition = Math.min(position + ((traveledDistance / 10.0) / distance), 1);
         agent.setPosition(newPosition);
 
         if(newPosition == 1){
