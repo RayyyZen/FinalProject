@@ -55,12 +55,15 @@ public class EdgeDetailsPage extends BorderPane {
         addRow(grid, 5, "Distance", String.valueOf(edge.getDistance()));
         addRow(grid, 6, "Agents", edge.getNumberOfAgents() + " / " + edge.getMaxAgents());
 
+        Button deleteButton = new Button("Delete edge");
+        deleteButton.setOnAction(e -> controller.deleteEdge(edge));
+
         Button showAgentsButton = new Button("See agents");
         showAgentsButton.setOnAction(e -> controller.showAgents(edge));
 
         VBox content = new VBox(25);
         content.setPadding(new Insets(25));
-        content.getChildren().addAll(grid, showAgentsButton);
+        content.getChildren().addAll(grid, deleteButton, showAgentsButton);
 
         setCenter(content);
     }

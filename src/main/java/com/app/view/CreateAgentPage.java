@@ -28,6 +28,15 @@ public class CreateAgentPage extends BorderPane {
     private final Node node;
 
     /**
+     * Creates the agents adding page
+     * @param controller the main controller used for navigation
+     * @param graph the selected graph
+     */
+    public CreateAgentPage(MainController controller, Graph graph) {
+        this(controller, graph, null);
+    }
+
+    /**
      * Creates the agents adding page.
      * @param controller the main controller used for navigation
      * @param graph the selected graph
@@ -44,7 +53,7 @@ public class CreateAgentPage extends BorderPane {
      * Builds the page layout.
      */
     private void buildPage() {
-        Label title = new Label("Create an agent on " + node.getName());
+        Label title = new Label("Create an agent on ");
         Button back = new Button("Back");
         back.setOnAction(e -> controller.showGraph());
 
@@ -52,6 +61,13 @@ public class CreateAgentPage extends BorderPane {
         topBar.setLeft(back);
         topBar.setCenter(title);
         setTop(topBar);
+
+        ComboBox<Node> startNodeBox = new ComboBox<>();
+        startNodeBox.getItems().addAll(graph.getAllNodes());
+        startNodeBox.setConverter(nodeConverter());
+        if (node != null) {
+            startNodeBox.setValue(node);
+        }
 
         TextField nameField = new TextField();
 
@@ -76,12 +92,13 @@ public class CreateAgentPage extends BorderPane {
         GridPane grid = new GridPane();
         grid.setHgap(20);
         grid.setVgap(12);
-        addRow(grid, 0, "Name", nameField);
-        addRow(grid, 1, "Speed", speedField);
-        addRow(grid, 2, "State", stateBox);
-        addRow(grid, 3, "Behavior", behaviorBox);
-        addRow(grid, 4, "Congestion", tolerantBox);
-        addRow(grid, 5, "Destination", destinationBox);
+        addRow(grid, 0, "Start node", startNodeBox);
+        addRow(grid, 1, "Name", nameField);
+        addRow(grid, 2, "Speed", speedField);
+        addRow(grid, 3, "State", stateBox);
+        addRow(grid, 4, "Behavior", behaviorBox);
+        addRow(grid, 5, "Congestion", tolerantBox);
+        addRow(grid, 6, "Destination", destinationBox);
 
         Label errorLabel = new Label();
         Button create = new Button("Create");
@@ -91,6 +108,11 @@ public class CreateAgentPage extends BorderPane {
         setCenter(content);
 
         create.setOnAction(e -> {
+            Node startNode = startNodeBox.getValue();
+            if (startNode == null) {
+                errorLabel.setText("Please select a start node");
+                return;
+            }
             String name = nameField.getText().trim();
             if (name.isEmpty()) {
                 errorLabel.setText("The name is required");
@@ -114,8 +136,8 @@ public class CreateAgentPage extends BorderPane {
                 if (destination != null) {
                     agent.setDestination(destination);
                 }
-                node.addAgent(agent);
-                controller.showAgents(node);
+                startNode.addAgent(agent);
+                controller.showAgents(startNode);
             } catch (AppException ex) {
                 errorLabel.setText(ex.getMessage());
             }

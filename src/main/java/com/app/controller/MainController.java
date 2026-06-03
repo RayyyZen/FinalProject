@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import com.app.model.exception.AppException;
 import com.app.model.agent.Agent;
 import com.app.model.graph.location.*;
 import com.app.model.graph.location.node.Node;
@@ -73,6 +74,7 @@ public class MainController {
 
     /**
      * Shows the page containing all agents.
+     * @param location the agent's location
      */
     public void showAgents(Location location) {
         AgentListPage page = new AgentListPage(this, location);
@@ -88,15 +90,78 @@ public class MainController {
         root.setCenter(page);
     }
 
+    /**
+     * Create option to add a detail node.
+     */
     public void showCreateNode() {
         root.setCenter(new CreateNodePage(this, simulation.getGraph()));
     }
 
-    public void showCreateEdge() {
-    root.setCenter(new CreateEdgePage(this, simulation.getGraph()));
+    /**
+     * Create option to add a detail edge.
+     * @param source the node source
+     */
+    public void showCreateEdge(Node source) {
+        root.setCenter(new CreateEdgePage(this, simulation.getGraph(), source));
     }
 
+    /**
+     * Create option to add a detail edge.
+     */
+    public void showCreateEdge() {
+        root.setCenter(new CreateEdgePage(this, simulation.getGraph()));
+    }
+
+    /**
+     * Create option to add a detail agent.
+     */
+    public void showCreateAgent() {
+        root.setCenter(new CreateAgentPage(this, simulation.getGraph()));
+    }
+
+    /**
+     * Create option to add a detail agent.
+     * @param node the selected node
+     */
     public void showCreateAgent(Node node) {
         root.setCenter(new CreateAgentPage(this, simulation.getGraph(), node));
+    }
+
+    /**
+     * Delete option for a selected node
+     * @param node the selected node
+     */
+    public void deleteNode(Node node) {
+        try {
+            simulation.getGraph().removeNode(node);
+        } catch (AppException e) {
+        }
+        showGraph();
+    }
+
+    /**
+     * Delete option for a selected edge
+     * @param edge the selected edge
+     */
+    public void deleteEdge(Edge edge) {
+        try {
+            simulation.getGraph().removeEdge(edge);
+        } catch (AppException e) {
+        }
+        showGraph();
+    }
+
+    /**
+     * Delete option for a selected agent
+     * @param agent the selected agent
+     */
+    public void deleteAgent(Agent agent) {
+        Location location = agent.getLocation();
+        if (location != null) {
+            location.removeAgentById(agent.getId());
+            showAgents(location);
+        } else {
+            showGraph();
+        }
     }
 }

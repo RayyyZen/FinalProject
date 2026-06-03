@@ -25,6 +25,7 @@ public class CreateEdgePage extends BorderPane {
     private final MainController controller;
     private final Graph graph;
     private TextField nameField;
+    private final Node presetSource;
 
     /**
      * Creates the edge adding page.
@@ -32,8 +33,19 @@ public class CreateEdgePage extends BorderPane {
      * @param graph the selected graph
      */
     public CreateEdgePage(MainController controller, Graph graph) {
+        this(controller, graph, null);
+    }
+
+    /**
+     * Creates the edge adding page.
+     * @param controller the main controller used for navigation
+     * @param graph the selected graph
+     * @param presetSource the preselected node
+     */
+    public CreateEdgePage(MainController controller, Graph graph, Node presetSource) {
         this.controller = controller;
         this.graph = graph;
+        this.presetSource = presetSource;
         buildPage();
     }
 
@@ -64,6 +76,9 @@ public class CreateEdgePage extends BorderPane {
         destinationBox.getItems().addAll(graph.getAllNodes());
         sourceBox.setConverter(nodeConverter());
         destinationBox.setConverter(nodeConverter());
+        if (presetSource != null) {
+            sourceBox.setValue(presetSource);
+        }
 
         TextField distanceField = new TextField();
         distanceField.setPromptText("> 0");

@@ -69,6 +69,7 @@ public class GraphView extends BorderPane {
         Button nextBtn = new Button("Next");
         Button addNode = new Button("Create a node");
         Button addEdge = new Button("Create an edge");
+        Button addAgent = new Button("Create an agent");
         Button playBtn = new Button("Play");
         Button stopBtn = new Button("Stop");
         Timeline loop = new Timeline(new KeyFrame(Duration.seconds(2), e -> { simulation.move(); relayout(); }));
@@ -86,7 +87,7 @@ public class GraphView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, spacer, playBtn, stopBtn, nextBtn);
+        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent, spacer, playBtn, stopBtn, nextBtn);
         toolbar.setPadding(new Insets(15, 20, 15, 20));
         setTop(toolbar);
 
@@ -123,6 +124,8 @@ public class GraphView extends BorderPane {
         addNode.setOnAction(e -> controller.showCreateNode());
 
         addEdge.setOnAction(e -> controller.showCreateEdge());
+
+        addAgent.setOnAction(e -> controller.showCreateAgent());
 
         relayout();
     }

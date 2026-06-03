@@ -56,15 +56,21 @@ public class NodeDetailsPage extends BorderPane{
         addRow(grid, 3, "Type", String.valueOf(node.getType()));
         addRow(grid, 4, "Agents", node.getNumberOfAgents() + " / " + node.getMaxAgents());
 
+        Button deleteButton = new Button("Delete node");
+        deleteButton.setOnAction(e -> controller.deleteNode(node));
+
         Button showAgentsButton = new Button("See agents");
         showAgentsButton.setOnAction(e -> controller.showAgents(node));
 
         Button createAgentButton = new Button("Create an agent");
         createAgentButton.setOnAction(e -> controller.showCreateAgent(node));
 
+        Button createEdgeButton = new Button("Create an edge");
+        createEdgeButton.setOnAction(e -> controller.showCreateEdge(node));
+
         VBox content = new VBox(25);
         content.setPadding(new Insets(25));
-        content.getChildren().addAll(grid, showAgentsButton, createAgentButton);
+        content.getChildren().addAll(grid, deleteButton, showAgentsButton, createAgentButton, createEdgeButton);
 
         setCenter(content);
     }
