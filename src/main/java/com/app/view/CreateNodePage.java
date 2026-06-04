@@ -6,6 +6,7 @@ import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.node.Node;
 import com.app.model.graph.location.node.NodeType;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -69,6 +70,8 @@ public class CreateNodePage extends BorderPane {
         maxAgentsSpinner = new Spinner<>(1, 1000, 10);
 
         GridPane grid = new GridPane();
+
+        grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
         grid.setVgap(12);
         addRow(grid, 0, "Name", nameField);
@@ -83,6 +86,7 @@ public class CreateNodePage extends BorderPane {
 
         VBox content = new VBox(25, grid, errorLabel, create);
         content.setPadding(new Insets(15));
+        content.setAlignment(Pos.CENTER);
         setCenter(content);
 
         create.setOnAction(e -> createNode());

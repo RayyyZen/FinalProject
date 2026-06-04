@@ -8,6 +8,7 @@ import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.node.Node;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -97,6 +98,7 @@ public class CreateAgentPage extends BorderPane {
         destinationBox.setConverter(nodeConverter());
 
         GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
         grid.setVgap(12);
         addRow(grid, 0, "Start node", startNodeBox);
@@ -114,6 +116,7 @@ public class CreateAgentPage extends BorderPane {
 
         VBox content = new VBox(25, grid, errorLabel, create);
         content.setPadding(new Insets(15));
+        content.setAlignment(Pos.CENTER);
         setCenter(content);
 
         create.setOnAction(e -> {

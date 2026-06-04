@@ -7,6 +7,7 @@ import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -92,6 +93,8 @@ public class CreateEdgePage extends BorderPane {
         distanceField.setPromptText("> 0");
 
         GridPane grid = new GridPane();
+
+        grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
         grid.setVgap(12);
         addRow(grid, 0, "Name", nameField);
@@ -108,6 +111,7 @@ public class CreateEdgePage extends BorderPane {
 
         VBox content = new VBox(25, grid, errorLabel, create);
         content.setPadding(new Insets(15));
+        content.setAlignment(Pos.CENTER);
         setCenter(content);
 
         create.setOnAction(e -> {
