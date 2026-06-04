@@ -72,7 +72,7 @@ public class GraphView extends BorderPane {
         Button addAgent = new Button("Create an agent");
         Button playBtn = new Button("Play");
         Button stopBtn = new Button("Stop");
-        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(2), e -> { simulation.move(); relayout(); }));
+        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(1), e -> { simulation.move(); relayout(); }));
         loop.setCycleCount(Timeline.INDEFINITE);
         playBtn.setOnAction(e -> loop.play());
         stopBtn.setOnAction(e -> loop.stop());
@@ -81,7 +81,10 @@ public class GraphView extends BorderPane {
         removeBtn.getStyleClass().add("tool-button");
         addNode.getStyleClass().add("tool-button");
         addEdge.getStyleClass().add("tool-button");
+        addAgent.getStyleClass().add("tool-button");
 
+        playBtn.getStyleClass().add("primary-button");
+        stopBtn.getStyleClass().add("primary-button");
         nextBtn.getStyleClass().add("primary-button");
 
         Region spacer = new Region();
@@ -94,7 +97,7 @@ public class GraphView extends BorderPane {
         // nodePane
         nodePane = new Pane();
         nodePane.setPrefSize(NODEPANE_W, NODEPANE_H);
-        nodePane.getStyleClass().add("background");
+        this.getStyleClass().add("background");
         setCenter(nodePane);
 
         // Button actions

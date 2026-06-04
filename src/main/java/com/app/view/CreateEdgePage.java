@@ -57,10 +57,18 @@ public class CreateEdgePage extends BorderPane {
         Button back = new Button("Back");
         back.setOnAction(e -> controller.showGraph());
 
+        back.getStyleClass().add("primary-button");
+
+
+
         BorderPane topBar = new BorderPane();
         topBar.setLeft(back);
         topBar.setCenter(title);
         setTop(topBar);
+
+        topBar.setPadding(new Insets(15, 20, 15, 20));
+
+        this.getStyleClass().add("background");
 
         nameField = new TextField();
 
@@ -96,8 +104,10 @@ public class CreateEdgePage extends BorderPane {
         Label errorLabel = new Label();
         Button create = new Button("Create");
 
+        create.getStyleClass().add("primary-button");
+
         VBox content = new VBox(25, grid, errorLabel, create);
-        content.setPadding(new Insets(25));
+        content.setPadding(new Insets(15));
         setCenter(content);
 
         create.setOnAction(e -> {

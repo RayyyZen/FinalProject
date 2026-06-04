@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
@@ -57,10 +58,16 @@ public class CreateAgentPage extends BorderPane {
         Button back = new Button("Back");
         back.setOnAction(e -> controller.showGraph());
 
+        back.getStyleClass().add("primary-button");
+
         BorderPane topBar = new BorderPane();
         topBar.setLeft(back);
         topBar.setCenter(title);
         setTop(topBar);
+
+        topBar.setPadding(new Insets(15, 20, 15, 20));
+
+        this.getStyleClass().add("background");
 
         ComboBox<Node> startNodeBox = new ComboBox<>();
         startNodeBox.getItems().addAll(graph.getAllNodes());
@@ -103,8 +110,10 @@ public class CreateAgentPage extends BorderPane {
         Label errorLabel = new Label();
         Button create = new Button("Create");
 
+        create.getStyleClass().add("primary-button");
+
         VBox content = new VBox(25, grid, errorLabel, create);
-        content.setPadding(new Insets(25));
+        content.setPadding(new Insets(15));
         setCenter(content);
 
         create.setOnAction(e -> {
