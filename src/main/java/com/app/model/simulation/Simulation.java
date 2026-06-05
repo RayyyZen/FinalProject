@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.app.model.agent.Agent;
+import com.app.model.agent.AgentBehavior;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
@@ -68,6 +69,16 @@ public class Simulation implements Serializable {
                 allAgents.add(agent);
             }
         }
+
+        allAgents.sort((a, b) -> {
+            if(a.getBehavior() == AgentBehavior.GIVEPRIORITY){
+                return 1;
+            }
+            else if(a.getBehavior() == AgentBehavior.GIVEPRIORITY){
+                return -1;
+            }
+            return 0;
+        });
 
         Iterator<Agent> iterator = allAgents.iterator();
 

@@ -1,6 +1,11 @@
 package com.app.model.graph.location.node;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.app.model.agent.Agent;
+import com.app.model.agent.AgentState;
 import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.*;
@@ -80,7 +85,33 @@ public class Node extends Location {
         }
 
         if(agent.getDestination() != null){
-            Edge edge = graph.getNextLocation(this, agent.getDestination());
+
+            Edge edge = null;
+
+            if(agent.getState() == AgentState.CRAZY){
+                List<Edge> edges = graph.getEdges((Node) agent.getLocation());
+                edge = edges.get(ThreadLocalRandom.current().nextInt(0, edges.size()));
+
+            }
+            else if(agent.getState() == AgentState.CALM){
+                edge = graph.getNextLocation(this, agent.getDestination());
+            }
+            else{
+                List<Edge> all = graph.getEdges((Node) agent.getLocation());
+                if(all != null && !all.isEmpty()){
+                    Edge ed = all.get(0);
+                    int max = ed.getNumberOfAgents();
+                    for(Edge e : all){
+                        if(e.getNumberOfAgents() > max){
+                            ed = e;
+                            max = e.getNumberOfAgents();
+                        }
+                    }
+                    edge = ed;
+                }
+
+            }
+
             if(edge != null){
                 try{
                     this.removeAgentById(agent.getId());
