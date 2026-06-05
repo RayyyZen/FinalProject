@@ -22,11 +22,15 @@ public class HomePage extends VBox {
         imageView.setPreserveRatio(true);
 
         Button go = new Button("Go Graph");
-
-
-        go.setOnAction(e -> controller.showGraph());
+        go.setOnAction(e -> {
+            controller.showSimulationName();
+        });
         go.getStyleClass().add("primary-button");
 
-        getChildren().addAll(imageView, go);
+        Button saves = new Button("Go Saves");
+        saves.setOnAction(e -> controller.showFilesPage());
+        saves.getStyleClass().add("primary-button");
+
+        getChildren().addAll(imageView, go, saves);
     }
 }

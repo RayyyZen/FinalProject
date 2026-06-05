@@ -1,5 +1,6 @@
 package com.app.model.graph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +14,9 @@ import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.*;
 import com.app.model.util.Check;
 
-public class Graph {
+public class Graph implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     /**
      * The nodes of the graph

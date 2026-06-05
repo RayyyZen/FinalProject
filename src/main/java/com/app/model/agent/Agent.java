@@ -1,5 +1,6 @@
 package com.app.model.agent;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.app.model.exception.AppException;
@@ -8,7 +9,9 @@ import com.app.model.graph.location.Location;
 import com.app.model.graph.location.node.Node;
 import com.app.model.util.Check;
 
-public class Agent {
+public class Agent implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     /**
      * The unique id of the agent

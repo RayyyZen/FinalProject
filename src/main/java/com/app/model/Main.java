@@ -4,8 +4,8 @@ import com.app.model.simulation.Simulation;
 
 public class Main {
     
-    public static void main(String[] args){
-        Simulation simulation = new Simulation();
+    public static void main(String[] args) throws Exception{
+        Simulation simulation = Simulation.restoreFromFile();
 
         System.out.println(simulation.getGraph());
 
@@ -20,6 +20,12 @@ public class Main {
         System.out.println(simulation.getGraph());
 
         //System.out.println("\n\n" + Dijkstra.nextLocation(simulation.getGraph(), simulation.getGraph().getAllNodes().get(0), simulation.getGraph().getAllNodes().get(1)) + "\n\n");
+
+        try{
+            simulation.saveInFile();
+        }catch(Exception e){
+            System.out.print(e);
+        }
 
 
     }

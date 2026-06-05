@@ -17,7 +17,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class MainController {
 
-    private final Simulation simulation;
+    private Simulation simulation;
     private final BorderPane root;
 
     /**
@@ -163,5 +163,17 @@ public class MainController {
         } else {
             showGraph();
         }
+    }
+
+    public void showFilesPage(){
+        root.setCenter(new FilesPage(this, simulation));
+    }
+
+    public void showSimulationName(){
+        root.setCenter(new SimulationNamePage(this, simulation));
+    }
+
+    public void setSimulation(Simulation simulation){
+        this.simulation = simulation;
     }
 }

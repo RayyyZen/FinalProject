@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.controller.MainController;
+import com.app.file.SaveLoadManager;
 import com.app.model.agent.Agent;
 import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
@@ -72,6 +73,32 @@ public class GraphView extends BorderPane {
         Button addAgent = new Button("Create an agent");
         Button playBtn = new Button("Play");
         Button stopBtn = new Button("Stop");
+
+
+
+        Button save = new Button("Save");
+
+        save.getStyleClass().add("tool-button");
+
+        save.setOnAction(e -> {
+            try{
+                SaveLoadManager.saveInFile(simulation);
+            } catch(Exception ex) {
+
+            }
+        });
+
+        Button exit = new Button("Exit");
+
+        exit.getStyleClass().add("tool-button");
+
+        exit.setOnAction(e -> {
+            controller.setSimulation(null);
+            controller.showHome();
+        });
+
+
+
         Timeline loop = new Timeline(new KeyFrame(Duration.seconds(1), e -> { simulation.move(); relayout(); }));
         loop.setCycleCount(Timeline.INDEFINITE);
         playBtn.setOnAction(e -> loop.play());
@@ -90,7 +117,7 @@ public class GraphView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent, spacer, playBtn, stopBtn, nextBtn);
+        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent, save, exit, spacer, playBtn, stopBtn, nextBtn);
         toolbar.setPadding(new Insets(15, 20, 15, 20));
         setTop(toolbar);
 

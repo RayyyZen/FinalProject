@@ -12,7 +12,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
 
-        Simulation simulation = new Simulation();
+        Simulation simulation = null;
 
         MainController controller = new MainController(simulation);
 

@@ -1,5 +1,6 @@
 package com.app.model.graph.location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +17,9 @@ import com.app.model.util.Check;
  * @since 1.0
  * @author Rayane
  */
-public abstract class Location {
+public abstract class Location implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     /**
      * The unique id of the location
