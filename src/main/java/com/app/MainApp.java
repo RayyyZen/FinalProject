@@ -1,12 +1,11 @@
 package com.app;
 
-import javafx.application.*;
-import javafx.geometry.Rectangle2D;
-import javafx.stage.*;
-import javafx.scene.*;
-
 import com.app.controller.MainController;
 import com.app.model.simulation.Simulation;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
@@ -17,16 +16,11 @@ public class MainApp extends Application {
 
         MainController controller = new MainController(simulation);
 
-        Rectangle2D screen = Screen.getPrimary().getVisualBounds();
-
-        Scene scene = new Scene(controller.getRoot(), screen.getWidth(), screen.getHeight());
+        Scene scene = new Scene(controller.getRoot(), 1400, 950);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
+        stage.setMaximized(true);
         stage.setScene(scene);
-        stage.setX(screen.getMinX());
-        stage.setY(screen.getMinY());
-        stage.setWidth(screen.getWidth());
-        stage.setHeight(screen.getHeight());
         stage.show();
     }
 

@@ -127,8 +127,10 @@ public class GraphView extends BorderPane {
         this.getStyleClass().add("background");
         setCenter(nodePane);
 
-        nodePane.widthProperty().addListener((o, ov, nv) -> relayout());
-        nodePane.heightProperty().addListener((o, ov, nv) -> relayout());
+        nodePane.minWidthProperty().bind(this.widthProperty());
+        nodePane.maxWidthProperty().bind(this.widthProperty());
+        nodePane.minHeightProperty().bind(this.heightProperty());
+        nodePane.maxHeightProperty().bind(this.heightProperty());
 
         // Button actions
         addBtn.setOnAction(e -> {
@@ -174,10 +176,8 @@ public class GraphView extends BorderPane {
         int n = nodes.size();
         if (n == 0) return;
 
-        double w = nodePane.getWidth()  > 0 ? nodePane.getWidth()  : NODEPANE_W;
-        double h = nodePane.getHeight() > 0 ? nodePane.getHeight() : NODEPANE_H;
-        double cx = w / 2;
-        double cy = h / 2;
+        double cx = NODEPANE_W / 2;
+        double cy = NODEPANE_H / 2;
 
         List<NodeView> views = new ArrayList<>();
         if (n == 1) {
