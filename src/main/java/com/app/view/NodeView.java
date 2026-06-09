@@ -26,7 +26,7 @@ public class NodeView extends Group {
     public NodeView(Node node, double x, double y, MainController controller) {
         this.node = node;
 
-        Circle circle = new Circle(25, Color.LIGHTBLUE);
+        Circle circle = new Circle(25, getCongestionColor(node));
 
         circle.getStyleClass().addAll("node", "click");
 
@@ -50,5 +50,25 @@ public class NodeView extends Group {
      */
     public Node getNode() {
         return node;
+    }
+
+    /**
+     * Returns a color based on how full the node is :
+     * green when almost empty, orange when half full, red when almost full.
+     */
+    private Color getCongestionColor(Node node) {
+        int max = node.getMaxAgents();
+        if (max <= 0) {
+            return Color.LIGHTGREEN;
+        }
+        double ratio = (double) node.getNumberOfAgents() / max;
+
+        if (ratio < 0.5) {
+            return Color.LIGHTGREEN;
+        } else if (ratio < 0.8) {
+            return Color.ORANGE;
+        } else {
+            return Color.RED;
+        }
     }
 }
