@@ -7,6 +7,7 @@ import com.app.file.SaveLoadManager;
 import com.app.model.exception.AppException;
 import com.app.model.simulation.Simulation;
 
+import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,20 +39,35 @@ public class FilesPage extends BorderPane {
     private void buildPage() {
         String[] filesName = SaveLoadManager.getFilesName();
 
+        BorderPane topBar = new BorderPane();
+
         Button back = new Button("Back");
         back.setOnAction(e -> controller.showHome());
+        back.setPadding(new Insets(15));
+        back.getStyleClass().add("primary-button");
+        topBar.setLeft(back);
+        topBar.setPadding(new Insets(15));
+
+        setTop(topBar);
+
+
+
 
         if(filesName == null){
             BorderPane pane = new BorderPane();
             Label label = new Label("No text found");
-            pane.setCenter(new VBox(back,label));
+            pane.setCenter(new VBox(label));
             setCenter(pane);
         }
         else{
-            VBox pane = new VBox();
-            pane.getChildren().add(back);
+            VBox pane = new VBox(20);
+
+            Label title = new Label("Select an existing graph:");
+            pane.getChildren().add(title);
+
             for(String fileName : filesName){
                 Button button = new Button(fileName);
+                button.getStyleClass().add("primary-button");
                 button.setOnAction(e -> {
                     try{
                         simulation = SaveLoadManager.restoreFromFile(fileName);
@@ -61,9 +77,10 @@ public class FilesPage extends BorderPane {
 
                     }
                 });
-                pane.getChildren().addAll(button);
+                pane.getChildren().add(button);
             }
             setCenter(pane);
+            pane.setAlignment(Pos.CENTER);
         }
     }
 }

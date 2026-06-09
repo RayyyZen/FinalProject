@@ -25,6 +25,7 @@ public class HomePage extends VBox {
         go.setOnAction(e -> {
             controller.showSimulationName();
         });
+
         go.getStyleClass().add("primary-button");
 
         Button saves = new Button("Go Saves");
