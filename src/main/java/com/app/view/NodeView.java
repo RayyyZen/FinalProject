@@ -23,7 +23,7 @@ public class NodeView extends Group {
      * @param x    the x-coordinate within the parent pane
      * @param y    the y-coordinate within the parent pane
      */
-    public NodeView(Node node, double x, double y, MainController controller) {
+    public NodeView(Node node, double x, double y, double labelAngle, MainController controller) {
         this.node = node;
 
         Circle circle = new Circle(25, getCongestionColor(node));
@@ -41,8 +41,10 @@ public class NodeView extends Group {
 
         Text capacity = new Text(node.getNumberOfAgents() + " / " + node.getMaxAgents());
         capacity.setFill(Color.BLACK);
-        capacity.setX(-capacity.getLayoutBounds().getWidth() / 2);
-        capacity.setY(45);
+
+        double offset = 45;
+        capacity.setX(Math.cos(labelAngle) * offset - capacity.getLayoutBounds().getWidth() / 2);
+        capacity.setY(Math.sin(labelAngle) * offset + 5);
 
         getChildren().addAll(circle, label, capacity);
 
