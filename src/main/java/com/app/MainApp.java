@@ -16,7 +16,7 @@ public class MainApp extends Application {
 
         MainController controller = new MainController(simulation);
 
-        Scene scene = new Scene(controller.getRoot(), 1000, 700);
+        Scene scene = new Scene(controller.getRoot(), 1400, 950);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         stage.setScene(scene);

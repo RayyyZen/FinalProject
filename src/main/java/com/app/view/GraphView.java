@@ -51,8 +51,8 @@ public class GraphView extends BorderPane {
     private final Pane nodePane;
 
     private static final int DEFAULT_MAX_AGENTS = 10;
-    private static final double NODEPANE_W = 1000;
-    private static final double NODEPANE_H = 600;
+    private static final double NODEPANE_W = 1350;
+    private static final double NODEPANE_H = 850;
     private static final double LAYOUT_MARGIN = 80;
 
     /**
@@ -224,7 +224,12 @@ public class GraphView extends BorderPane {
                     event.consume();
                    controller.showEdgeDetails(edge);
                 });
-                nodePane.getChildren().addAll(edgeLine, arrow);
+                Text edgeLabel = new Text(String.valueOf(edge.getNumberOfAgents()));
+                edgeLabel.setFill(Color.BLACK);
+                edgeLabel.setX((x1 + x2) / 2 + 5);
+                edgeLabel.setY((y1 + y2) / 2 - 5);
+
+                nodePane.getChildren().addAll(edgeLine, arrow, edgeLabel);
 
                 for (Agent agent : edge.getAgents()) {
                     
