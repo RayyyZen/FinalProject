@@ -5,6 +5,7 @@ import com.app.model.agent.Agent;
 import com.app.model.graph.location.Location;
 import com.app.model.graph.location.node.Node;
 
+import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,6 +39,7 @@ public class AgentDetailsPage extends BorderPane{
 
         Button backButton = new Button("Back to agents");
         backButton.setOnAction(e -> controller.showAgents(agent.getLocation()));
+        backButton.getStyleClass().add("primary-button");
 
         Button deleteButton = new Button("Delete agent");
         deleteButton.setOnAction(e -> controller.deleteAgent(agent));
@@ -65,6 +67,7 @@ public class AgentDetailsPage extends BorderPane{
         addRow(grid, 8, "Destination", formatNode(agent.getDestination()));
 
         setCenter(grid);
+        grid.setAlignment(Pos.CENTER);
     }
 
     /**

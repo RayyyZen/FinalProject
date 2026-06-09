@@ -47,6 +47,8 @@ public class AgentListPage extends BorderPane {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> controller.showGraph());
 
+        backButton.getStyleClass().add("primary-button");
+
         BorderPane topBar = new BorderPane();
         topBar.setLeft(backButton);
         topBar.setCenter(title);

@@ -2,13 +2,11 @@ package com.app.view;
 
 import com.app.controller.MainController;
 import com.app.model.graph.location.edge.Edge;
-
+import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class EdgeDetailsPage extends BorderPane {
     
@@ -35,17 +33,35 @@ public class EdgeDetailsPage extends BorderPane {
 
         Button backButton = new Button("Back to graph");
         backButton.setOnAction(event -> controller.showGraph());
+        backButton.getStyleClass().add("primary-button");
+
+        Button deleteButton = new Button("Delete edge");
+        deleteButton.setOnAction(e -> controller.deleteEdge(edge));
+        deleteButton.getStyleClass().add("primary-button");
+
+        Button showAgentsButton = new Button("See agents");
+        showAgentsButton.setOnAction(e -> controller.showAgents(edge));
+        showAgentsButton.getStyleClass().add("primary-button");
+
+        HBox toolBar = new HBox(10, backButton, deleteButton, showAgentsButton);
+        toolBar.setPadding(new Insets(15, 20, 15, 20));
+        setTop(toolBar);
 
         BorderPane topBar = new BorderPane();
+        topBar.setPadding(new Insets(15, 20, 15, 20));
         topBar.setLeft(backButton);
+        BorderPane.setAlignment(backButton, Pos.CENTER_LEFT);
         topBar.setCenter(title);
-        topBar.setPadding(new Insets(15));
+
+        HBox actionsBox = new HBox(10, showAgentsButton, deleteButton);
+        actionsBox.setAlignment(Pos.CENTER_RIGHT);
+        topBar.setRight(actionsBox);
 
         setTop(topBar);
 
         GridPane grid = new GridPane();
-        grid.setHgap(20);
-        grid.setVgap(12);
+        grid.setAlignment(Pos.CENTER);
+
 
         addRow(grid, 0, "ID", String.valueOf(edge.getId()));
         addRow(grid, 1, "Name", edge.getName());
@@ -55,16 +71,10 @@ public class EdgeDetailsPage extends BorderPane {
         addRow(grid, 5, "Distance", String.valueOf(edge.getDistance()));
         addRow(grid, 6, "Agents", edge.getNumberOfAgents() + " / " + edge.getMaxAgents());
 
-        Button deleteButton = new Button("Delete edge");
-        deleteButton.setOnAction(e -> controller.deleteEdge(edge));
-
-        Button showAgentsButton = new Button("See agents");
-        showAgentsButton.setOnAction(e -> controller.showAgents(edge));
-
         VBox content = new VBox(25);
         content.setPadding(new Insets(25));
-        content.getChildren().addAll(grid, deleteButton, showAgentsButton);
-
+        content.getChildren().add(grid);
+        content.setAlignment(Pos.CENTER);
         setCenter(content);
     }
 
