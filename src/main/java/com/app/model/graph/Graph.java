@@ -124,14 +124,22 @@ public class Graph implements Serializable {
     }
 
     public void removeNode(Node node) throws AppException {
-        Check.checkNullArgument(node, "The node is null !");
 
-        for(Edge edge : this.getEdges(node)){
-            this.removeEdge(edge);
+        Iterator<Edge> iterator = this.getAllEdges(node).iterator();
+
+        while(iterator.hasNext()){
+            Edge edge = iterator.next();
+            this.removeAgentsFromEdge(edge);
         }
-
         this.removeAgentsFromNode(node);
         this.nodes.remove(node);
+
+        iterator = this.getAllEdges(node).iterator();
+
+        while(iterator.hasNext()){
+            Edge edge = iterator.next();
+            this.removeAgentsFromEdge(edge);
+        }
     }
 
     public void removeAllNodes(){
@@ -175,6 +183,20 @@ public class Graph implements Serializable {
         
         for(Edge edge : this.edges){
             if(edge.getSource().equals(node)){
+                edges.add(edge);
+            }
+        }
+
+        return edges;
+    }
+
+    public List<Edge> getAllEdges(Node node){
+        Check.checkNullArgument(node, "The node is null !");
+
+        List<Edge> edges = new ArrayList<>();
+        
+        for(Edge edge : this.edges){
+            if(edge.getSource().equals(node) || edge.getDestination().equals(node)){
                 edges.add(edge);
             }
         }

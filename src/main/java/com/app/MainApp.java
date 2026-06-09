@@ -19,7 +19,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(controller.getRoot(), 1400, 950);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-        stage.setMaximized(true);
+        stage.setFullScreen(true);
         stage.setScene(scene);
         stage.show();
     }
