@@ -127,11 +127,6 @@ public class GraphView extends BorderPane {
         this.getStyleClass().add("background");
         setCenter(nodePane);
 
-        nodePane.minWidthProperty().bind(this.widthProperty());
-        nodePane.maxWidthProperty().bind(this.widthProperty());
-        nodePane.minHeightProperty().bind(this.heightProperty());
-        nodePane.maxHeightProperty().bind(this.heightProperty());
-
         nodePane.widthProperty().addListener((o, ov, nv) -> relayout());
         nodePane.heightProperty().addListener((o, ov, nv) -> relayout());
 
