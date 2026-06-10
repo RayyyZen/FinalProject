@@ -6,6 +6,8 @@ import com.app.model.graph.location.node.Node;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
@@ -26,7 +28,9 @@ public class NodeView extends Group {
     public NodeView(Node node, double x, double y, double labelAngle, MainController controller) {
         this.node = node;
 
-        Circle circle = new Circle(25, getCongestionColor(node));
+        boolean empty = node.getNumberOfAgents() == 0;
+
+        Circle circle = new Circle(25, empty ? Color.BLACK : getCongestionColor(node));
 
         circle.getStyleClass().addAll("node", "click");
 
@@ -36,13 +40,15 @@ public class NodeView extends Group {
         });
 
         Text label = new Text(node.getName());
+        label.setFill(empty ? Color.WHITE : Color.BLACK);
         label.setX(-label.getLayoutBounds().getWidth() / 2);
         label.setY(5);
 
         Text capacity = new Text(node.getNumberOfAgents() + " / " + node.getMaxAgents());
         capacity.setFill(Color.BLACK);
+        capacity.setFont(Font.font("System", FontWeight.BOLD, 14));
 
-        double offset = 45;
+        double offset = 50;
         capacity.setX(Math.cos(labelAngle) * offset - capacity.getLayoutBounds().getWidth() / 2);
         capacity.setY(Math.sin(labelAngle) * offset + 5);
 
