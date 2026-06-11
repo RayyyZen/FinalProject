@@ -68,16 +68,16 @@ These behaviors influence how agents compete for paths and how decisions are mad
 
 Locations represent points in the graph where agents can be positioned.
 
-- They store:
-  - current agents
-  - capacity (max agents)
-  - and other informations
+They store:
+- current agents
+- capacity (max agents)
+- and other informations
 
 They are divided into two types:
 
 #### Node
 
-- Represent rooms, exits, or decision points
+- Represent exits, or decision points
 - Can be open or closed
 - Control whether agents can pass
 
