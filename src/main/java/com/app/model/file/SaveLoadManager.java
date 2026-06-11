@@ -1,4 +1,4 @@
-package com.app.file;
+package com.app.model.file;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.controller.MainController;
-import com.app.file.SaveLoadManager;
 import com.app.model.agent.Agent;
 import com.app.model.exception.AppException;
+import com.app.model.file.SaveLoadManager;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.edge.Edge;
@@ -201,9 +201,22 @@ public class GraphView extends BorderPane {
                 NodeView a = views.get(s);
                 NodeView b = views.get(t);
 
+                int c = 0;
+                int value = -3;
+                for (Edge e : simulation.getGraph().getAllEdges()){
+                    if(e.equals(edge)){
+                        value *= -1;
+                    }
+                    if(e.getSource().equals(edge.getDestination()) && e.getDestination().equals(edge.getSource())){
+                        c = value;
+                        break;
+                    }
+                }
+
+
                 Line edgeLine = new Line(
-                        a.getLayoutX(), a.getLayoutY(),
-                        b.getLayoutX(), b.getLayoutY()
+                        a.getLayoutX() + c, a.getLayoutY() + c,
+                        b.getLayoutX() + c, b.getLayoutY() + c
                 );
 
                 edgeLine.setOnMouseClicked(event -> {
@@ -213,8 +226,8 @@ public class GraphView extends BorderPane {
 
                 edgeLine.getStyleClass().addAll("edge", "click");
 
-                double x1 = a.getLayoutX(), y1 = a.getLayoutY();
-                double x2 = b.getLayoutX(), y2 = b.getLayoutY();
+                double x1 = a.getLayoutX() + c, y1 = a.getLayoutY() + c;
+                double x2 = b.getLayoutX() + c, y2 = b.getLayoutY() + c;
 
                 double angle = Math.atan2(y2 - y1, x2 - x1);
                 double radius = 25;
@@ -229,12 +242,8 @@ public class GraphView extends BorderPane {
                     event.consume();
                    controller.showEdgeDetails(edge);
                 });
-                Text edgeLabel = new Text(String.valueOf(edge.getNumberOfAgents()));
-                edgeLabel.setFill(Color.BLACK);
-                edgeLabel.setX((x1 + x2) / 2 + 5);
-                edgeLabel.setY((y1 + y2) / 2 - 5);
 
-                nodePane.getChildren().addAll(edgeLine, arrow, edgeLabel);
+                nodePane.getChildren().addAll(edgeLine, arrow);
 
                 for (Agent agent : edge.getAgents()) {
                     

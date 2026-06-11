@@ -3,8 +3,8 @@ package com.app.view;
 import java.util.List;
 
 import com.app.controller.MainController;
-import com.app.file.SaveLoadManager;
 import com.app.model.exception.AppException;
+import com.app.model.file.SaveLoadManager;
 import com.app.model.simulation.Simulation;
 
 import javafx.geometry.Pos;

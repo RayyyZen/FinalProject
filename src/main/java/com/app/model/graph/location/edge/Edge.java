@@ -1,5 +1,8 @@
 package com.app.model.graph.location.edge;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.app.model.agent.Agent;
 import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
@@ -149,6 +152,19 @@ public class Edge extends Location {
 
             }
         }
+    }
+
+    public static List<Edge> getUnsaturatedEdges(List<Edge> edges){
+        Iterator<Edge> iterator = edges.iterator();
+
+        while(iterator.hasNext()){
+            Edge e = iterator.next();
+            if(e.getNumberOfAgents() >= e.getMaxAgents()){
+                iterator.remove();
+            }
+        }
+
+        return edges;
     }
 
     /**
