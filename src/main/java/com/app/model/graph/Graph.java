@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.app.algo.Dijkstra;
 import com.app.model.agent.Agent;
 import com.app.model.exception.AppException;
 import com.app.model.graph.location.LocationState;
@@ -272,7 +271,8 @@ public class Graph implements Serializable {
     }
 
     public Edge getNextLocation(Node source, Node destination){
-        return Dijkstra.nextLocation(this, source, destination);
+        //return Dijkstra.nextLocation(this, source, destination);
+        return null;
     }
 
     /**

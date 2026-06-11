@@ -11,7 +11,7 @@ import com.app.model.simulation.Simulation;
 
 public class SaveLoadManager {
 
-    private final static String DIRECTORY = "data";
+    private final static String DIRECTORY = "saves";
     
     public static void saveInFile(Simulation simulation) throws Exception {
         File dir = new File(DIRECTORY);
