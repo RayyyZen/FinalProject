@@ -1,6 +1,6 @@
 <h1 align="center">🚨 SafeWay 🚨</h1>
 
-![SafeWay](Data/SafeWay.png)
+![SafeWay](data/SafeWay.png)
 
 ## Introduction
 
