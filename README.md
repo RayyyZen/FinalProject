@@ -1,4 +1,4 @@
-<h1 align="center">🚨 SafeWay 🚨</h1>
+<h1 align="center">🔥 SafeWay 🔥</h1>
 
 ![SafeWay](data/SafeWay.png)
 
