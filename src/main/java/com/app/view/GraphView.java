@@ -12,13 +12,14 @@ import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
 import com.app.model.graph.location.node.NodeType;
 import com.app.model.simulation.Simulation;
-
+import javafx.geometry.Pos;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -30,6 +31,15 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import javafx.scene.control.Label;
+
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
 
 /**
  * Main graphical view of the {@link Graph}.
@@ -115,9 +125,88 @@ public class GraphView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolbar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent, save, exit, spacer, playBtn, stopBtn, nextBtn);
-        toolbar.setPadding(new Insets(15, 20, 15, 20));
-        setTop(toolbar);
+        HBox toolBar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent,spacer, save, exit);
+        toolBar.setPadding(new Insets(15, 20, 15, 20));
+        setTop(toolBar);
+
+
+
+        Button mult1 = new Button("x1");
+
+        mult1.setOnAction(e -> {
+
+        });
+        Button mult2 = new Button("x2");
+
+        mult2.setOnAction(e -> {
+
+        });
+        Button mult3 = new Button("x4");
+
+        mult3.setOnAction(e -> {
+
+        });
+        Button mult4 = new Button("x8");
+
+        mult4.setOnAction(e -> {
+
+        });
+
+        mult1.getStyleClass().add("primary-button");
+        mult2.getStyleClass().add("primary-button");
+        mult3.getStyleClass().add("primary-button");
+        mult4.getStyleClass().add("primary-button");
+
+        VBox rightBar = new VBox(10, mult1, mult2, mult3, mult4);
+        rightBar.setPadding(new Insets(15, 20, 15, 20));
+        setRight(rightBar);
+        rightBar.setAlignment(Pos.CENTER);
+
+        Label legendTitle = new Label("Congestion level:");
+
+        Rectangle gradientBar = new Rectangle(200, 15);
+        gradientBar.setArcWidth(10);
+        gradientBar.setArcHeight(10);
+        gradientBar.setStroke(Color.BLACK);
+
+        Stop[] stops = new Stop[] {
+                new Stop(0.0, Color.WHITE),
+                new Stop(0.5, Color.ORANGE),
+                new Stop(1.0, Color.RED)
+        };
+
+
+        LinearGradient linearGradient = new LinearGradient(
+                0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+        gradientBar.setFill(linearGradient);
+
+        Label minLabel = new Label("0%");
+
+        Label maxLabel = new Label("100%");
+
+        Region spacer1 = new Region();
+        HBox.setHgrow(spacer1, Priority.ALWAYS);
+
+        HBox labelsBox = new HBox(minLabel, spacer1, maxLabel);
+        labelsBox.setMaxWidth(200);
+
+        VBox legendContent = new VBox(5, legendTitle, gradientBar, labelsBox);
+        legendContent.setPadding(new Insets(10, 0, 20, 0));
+
+        VBox leftBar = new VBox(20);
+        leftBar.setPadding(new Insets(15, 20, 15, 20));
+        setLeft(leftBar);
+        leftBar.setAlignment(Pos.CENTER);
+        leftBar.getChildren().add(legendContent);
+
+
+
+        HBox bottomBar = new HBox(10, playBtn, stopBtn, nextBtn);
+        bottomBar.setPadding(new Insets(15, 20, 40, 20));
+        setBottom(bottomBar);
+        bottomBar.setAlignment(Pos.CENTER);
+
+
 
         // nodePane
         nodePane = new Pane();
@@ -267,4 +356,7 @@ public class GraphView extends BorderPane {
         nodePane.getChildren().addAll(views);
         nodePane.getChildren().addAll(agentVisuals);
     }
+
+
+
 }
