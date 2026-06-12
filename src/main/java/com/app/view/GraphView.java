@@ -64,6 +64,20 @@ public class GraphView extends BorderPane {
     private static final double NODEPANE_H = 850;
     private static final double LAYOUT_MARGIN = 200;
 
+    private static final double TIME = 0.8;
+
+    private void updateLoopSpeed(Timeline loop, double speed) {
+        loop.stop();
+        loop.getKeyFrames().setAll(
+            new KeyFrame(Duration.seconds(speed), e -> {
+                simulation.move();
+                simulation.clearExits();
+                relayout();
+            })
+        );
+        loop.play();
+    }
+
     /**
      * Builds the view for the given graph and immediately renders the nodes
      * already present in the model.
@@ -111,7 +125,7 @@ public class GraphView extends BorderPane {
         });
 
 
-        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> { simulation.move(); simulation.clearExits(); relayout(); }));
+        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(TIME), e -> { simulation.move(); simulation.clearExits(); relayout(); }));
         loop.setCycleCount(Timeline.INDEFINITE);
         playBtn.setOnAction(e -> loop.play());
         stopBtn.setOnAction(e -> loop.stop());
@@ -136,25 +150,16 @@ public class GraphView extends BorderPane {
 
 
         Button mult1 = new Button("x1");
+        mult1.setOnAction(e -> updateLoopSpeed(loop, TIME));
 
-        mult1.setOnAction(e -> {
-
-        });
         Button mult2 = new Button("x2");
+        mult2.setOnAction(e -> updateLoopSpeed(loop, TIME / 2));
 
-        mult2.setOnAction(e -> {
-
-        });
         Button mult3 = new Button("x4");
+        mult3.setOnAction(e -> updateLoopSpeed(loop, TIME / 4));
 
-        mult3.setOnAction(e -> {
-
-        });
         Button mult4 = new Button("x8");
-
-        mult4.setOnAction(e -> {
-
-        });
+        mult4.setOnAction(e -> updateLoopSpeed(loop, TIME / 8));
 
         mult1.getStyleClass().add("primary-button");
         mult2.getStyleClass().add("primary-button");

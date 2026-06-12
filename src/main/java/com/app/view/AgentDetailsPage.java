@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 /**
  * Page displaying the details of one selected agent.
@@ -95,6 +96,7 @@ public class AgentDetailsPage extends BorderPane{
         ComboBox<Node> destinationBox = new ComboBox<>();
         if (controller.getSimulation() != null) {
             destinationBox.getItems().addAll(controller.getSimulation().getGraph().getAllNodes());
+            destinationBox.setConverter(nodeConverter());
         }
         destinationBox.setValue(agent.getDestination());
         addEditableRow(grid, 7, "Destination", formatNode(agent.getDestination()), destinationBox);
@@ -130,6 +132,27 @@ public class AgentDetailsPage extends BorderPane{
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(15));
         setCenter(content);
+    }
+
+    /**
+     * Builds a converter so the destination combo box displays "id. name" instead of the full toString().
+     * @return a converter that turns a node into its "id. name" label
+     */
+    private StringConverter<Node> nodeConverter() {
+        return new StringConverter<Node>() {
+            @Override
+            public String toString(Node n) {
+                if (n == null) {
+                    return "";
+                }
+                return n.getId() + ". " + n.getName();
+            }
+
+            @Override
+            public Node fromString(String t) {
+                return null;
+            }
+        };
     }
 
     private void addRow(GridPane grid, int row, String label, String value) {

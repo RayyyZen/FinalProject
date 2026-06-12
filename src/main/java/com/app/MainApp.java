@@ -19,14 +19,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(controller.getRoot());
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-        // Récupère les dimensions de l'écran principal
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-
-        stage.setX(screenBounds.getMinX());
-        stage.setY(screenBounds.getMinY());
-        stage.setWidth(screenBounds.getWidth());
-        stage.setHeight(screenBounds.getHeight());
-        stage.setMaximized(true); // maximisé sans cacher la barre des tâches
+        stage.setFullScreen(true);
 
         stage.setScene(scene);
         stage.show();
