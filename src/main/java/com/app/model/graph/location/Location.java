@@ -7,18 +7,20 @@ import java.util.List;
 import java.util.Objects;
 
 import com.app.model.agent.Agent;
-import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
 import com.app.model.util.Check;
 
 /**
  * The location class that contains its informations and the agents located on it
- * @version 1.0
+ * @version 3.0
  * @since 1.0
  * @author Rayane
  */
 public abstract class Location implements Serializable {
 
+    /**
+     * The serial version UID
+     */
     private static final long serialVersionUID = 1L;
     
     /**
@@ -45,6 +47,16 @@ public abstract class Location implements Serializable {
      * The agents located on the location
      */
     private List<Agent> agents;
+
+    /**
+     * The total number of agents that passed by the location
+     */
+    private int numberOfPassedAgents;
+
+    /**
+     * The average speed of the agents that passed by the location
+     */
+    private double averageSpeed;
 
     /**
      * Checks if an argument of any method of the location class is null
@@ -77,6 +89,9 @@ public abstract class Location implements Serializable {
         this.maxAgents = maxAgents;
 
         this.agents = new ArrayList<>();
+
+        this.numberOfPassedAgents = 0;
+        this.averageSpeed = 0.0;
     }
 
     /**
@@ -120,6 +135,14 @@ public abstract class Location implements Serializable {
     }
 
     /**
+     * Returns the congestion of the location
+     * @return the congestion of the location
+     */
+    public double getCongestion(){
+        return this.getNumberOfAgents() / this.getMaxAgents();
+    }
+
+    /**
      * Returns all the agents that are stored in the location
      * @return all the agents that are stored in the location
      */
@@ -128,33 +151,31 @@ public abstract class Location implements Serializable {
     }
 
     /**
-     * Returns an agent from the location by his id
-     * @param id The id of the agent that will be eventually returned
-     * @return an agent from the location by his id
+     * Adds a new agent to the location
+     * @param agent The agent that will be added to the location
+     * @param forced Indicated wether the agent add must be forced
      */
-    public Agent getAgentById(int id){
-        for(Agent agent : this.agents){
-            if(agent.getId() == id){
-                return agent;
-            }
+    private void add(Agent agent, boolean forced) {
+        Check.checkNullArgument(agent, "The agent who was being added to the location is null !");
+
+        if(!forced && this.getNumberOfAgents() >= this.maxAgents){
+            throw new IllegalStateException("The location is full !");
         }
-        return null;
+        
+        this.agents.add(agent);
+        agent.setLocation(this);
+        agent.setPosition(0);
+
+        this.numberOfPassedAgents++;
+        this.averageSpeed = ((this.averageSpeed * (this.numberOfPassedAgents - 1)) + agent.getSpeed()) / this.numberOfPassedAgents;
     }
 
     /**
      * Adds a new agent to the location
      * @param agent The agent that will be added to the location
-     * @throws AppException In case the location has reached its maximum number of stored agents
      */
-    public void addAgent(Agent agent) throws AppException {
-        Check.checkNullArgument(agent, "The agent who was being added to the location is null !");
-
-        if(this.getNumberOfAgents() >= this.maxAgents){
-            throw new AppException("The location is full !");
-        }
-        
-        this.agents.add(agent);
-        agent.setLocation(this);
+    public void addAgent(Agent agent) {
+        this.add(agent, false);
     }
 
     /**
@@ -162,28 +183,16 @@ public abstract class Location implements Serializable {
      * @param agent The agent that will be added to the location
      */
     public void forceAddAgent(Agent agent) {
-        Check.checkNullArgument(agent, "The agent who was being added to the location is null !");
-        
-        this.agents.add(agent);
-        agent.setLocation(this);
+        this.add(agent, true);
     }
 
     /**
-     * Removes an agent from the location by his id
-     * @param id The id of the agent that will be removed
+     * Removes an agent from the location
+     * @param agent The agent that will be removed from the location
      */
-    public void removeAgentById(int id){
-        Iterator<Agent> iterator = this.agents.iterator();
-
-        while(iterator.hasNext()){
-            Agent agent = iterator.next();
-            
-            if(agent.getId() == id){
-                iterator.remove();
-                agent.setLocation(null);
-                return;
-            }
-        }
+    public void removeAgent(Agent agent){
+        this.agents.remove(agent);
+        agent.setLocation(null);
     }
 
     /**
@@ -200,6 +209,21 @@ public abstract class Location implements Serializable {
     }
 
     /**
+     * Returns true if the location is valid, or false otherwise
+     * @return true if the location is valid, or false otherwise
+     */
+    public boolean valid(){
+        return this.getState() == LocationState.OPEN && this.getNumberOfAgents() < this.getMaxAgents();
+    }
+
+    /**
+     * Moves an agent to his next location according to his destination
+     * @param graph The graph where the agent belongs
+     * @param agent The agent that will be moved
+     */
+    public abstract void moveAgentToNextLocation(Graph graph, Agent agent);
+
+    /**
      * Returns a string that contains the agents attributes
      * @return a string that contains the agents attributes
      */
@@ -214,12 +238,6 @@ public abstract class Location implements Serializable {
 
         return string.toString();
     }
-
-    /**
-     * Moves an agent to his next location according to his destination
-     * @param agent The agent that will be moved
-     */
-    public abstract void moveAgentToNextLocation(Graph graph, Agent agent) throws AppException;
 
     /**
      * Returns a String that contains the location's attributes

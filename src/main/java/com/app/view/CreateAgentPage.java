@@ -142,7 +142,7 @@ public class CreateAgentPage extends BorderPane {
                 return;
             }
             try {
-                Agent agent = new Agent(name, speed, stateBox.getValue(), behaviorBox.getValue(), tolerantBox.isSelected(), null);
+                Agent agent = new Agent(name, speed, stateBox.getValue(), behaviorBox.getValue(), null);
 
                 Node destination = destinationBox.getValue();
                 if (destination != null) {

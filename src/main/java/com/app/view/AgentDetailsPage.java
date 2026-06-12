@@ -61,10 +61,9 @@ public class AgentDetailsPage extends BorderPane{
         addRow(grid, 2, "Speed", String.valueOf(agent.getSpeed()));
         addRow(grid, 3, "State", String.valueOf(agent.getState()));
         addRow(grid, 4, "Behavior", String.valueOf(agent.getBehavior()));
-        addRow(grid, 5, "Tolerant to congestion", String.valueOf(agent.isTolerantToCongestion()));
-        addRow(grid, 6, "Current location", formatLocation(agent.getLocation()));
-        addRow(grid, 7, "Position", String.valueOf(agent.getPosition()));
-        addRow(grid, 8, "Destination", formatNode(agent.getDestination()));
+        addRow(grid, 5, "Current location", formatLocation(agent.getLocation()));
+        addRow(grid, 6, "Position", String.valueOf(agent.getPosition()));
+        addRow(grid, 7, "Destination", formatNode(agent.getDestination()));
 
         setCenter(grid);
         grid.setAlignment(Pos.CENTER);

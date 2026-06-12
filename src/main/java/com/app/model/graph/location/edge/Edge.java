@@ -1,10 +1,9 @@
 package com.app.model.graph.location.edge;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.app.model.agent.Agent;
-import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.Location;
 import com.app.model.graph.location.LocationState;
@@ -13,7 +12,7 @@ import com.app.model.util.Check;
 
 /**
  * The edge class that contains its informations
- * @version 1.0
+ * @version 3.0
  * @since 1.0
  * @author Rayane
  */
@@ -30,9 +29,14 @@ public class Edge extends Location {
     private Node destination;
 
     /**
-     * The distance between the nodes (weight of the edge)
+     * The distance between the nodes in meters (weight of the edge)
      */
     private double distance;
+
+    /**
+     * The amount of time passed between two movements in an edge (in seconds)
+     */
+    private double time;
 
     /**
      * The unique id that was given to the last created edge + 1
@@ -44,7 +48,10 @@ public class Edge extends Location {
      */
     private static final int MAXAGENTS = 20;
 
-    private static final int TIME = 1;
+    /**
+     * The constant amount of time passed between two movements in an edge (in seconds)
+     */
+    private final double TIME = 1.0;
 
     /**
      * The edge constructor that takes as arguments its name, max number of agents it can store, source node, destination node and the distance between both nodes
@@ -71,6 +78,8 @@ public class Edge extends Location {
         this.source = source;
         this.destination = destination;
         this.distance = distance;
+
+        this.time = TIME;
     }
 
     /**
@@ -120,51 +129,63 @@ public class Edge extends Location {
     }
 
     /**
+     * Returns the amount of time passed between two movements in an edge
+     * @return the amount of time passed between two movements in an edge
+     */
+    public double getTime(){
+        return this.time;
+    }
+
+    /**
+     * Returns all the valid edges from a list of edges
+     * @param edges A list of edges
+     * @return all the valid edges from a list of edges
+     */
+    public static List<Edge> getValidEdges(List<Edge> edges){
+        List<Edge> validEdges = new ArrayList<>();
+
+        for(Edge edge : edges){
+            if(edge.valid()){
+                validEdges.add(edge);
+            }
+        }
+
+        return validEdges;
+    }
+
+    /**
      * Moves an agent to his next location according to his destination
+     * @param graph The graph where the agent belongs
      * @param agent The agent that will be moved
      */
-    public void moveAgentToNextLocation(Graph graph, Agent agent) throws AppException {
-        if(!this.getAgents().contains(agent)){
-            throw new AppException("The agent does not belong to this edge");
+    @Override
+    public void moveAgentToNextLocation(Graph graph, Agent agent) {
+        Check.checkMoveAgent(graph, agent, this);
+
+        if(!(agent.getLocation() instanceof Edge)){
+            throw new IllegalStateException("The agent isn't on an edge");
         }
 
         double position = agent.getPosition();
         double speed = agent.getSpeed();
         double distance = this.distance;
 
-        double congestion = this.getNumberOfAgents() / this.getMaxAgents();
+        double congestion = this.getCongestion();
         double newSpeed = speed * Math.exp((-1) * congestion);
-        double traveledDistance = newSpeed * TIME;
+        double traveledDistance = newSpeed * this.time;
 
-        double newPosition = Math.min(position + ((traveledDistance / 10.0) / distance), 1);
+        double newPosition = Math.min(position + (traveledDistance / distance), 1);
         agent.setPosition(newPosition);
 
-        if(newPosition == 1){
+        if(newPosition == 1 && this.destination != null && this.destination.valid()){
             Node node = this.destination;
-            try{
-                this.removeAgentById(agent.getId());
-                node.addAgent(agent);
-                agent.setPosition(0);
-                if(node.equals(agent.getDestination())){
-                    agent.setDestination(null);
-                }
-            } catch(AppException e) {
+            this.removeAgent(agent);
+            node.addAgent(agent);
 
+            if(node.equals(agent.getDestination())){
+                agent.setDestination(null);
             }
         }
-    }
-
-    public static List<Edge> getUnsaturatedEdges(List<Edge> edges){
-        Iterator<Edge> iterator = edges.iterator();
-
-        while(iterator.hasNext()){
-            Edge e = iterator.next();
-            if(e.getNumberOfAgents() >= e.getMaxAgents()){
-                iterator.remove();
-            }
-        }
-
-        return edges;
     }
 
     /**

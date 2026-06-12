@@ -1,5 +1,18 @@
 package com.app.model.graph.location;
 
+/**
+ * The enumeration that contains the different states of a location
+ */
 public enum LocationState {
-    OPEN, CLOSED
+
+    /**
+     * An open location
+     */
+    OPEN,
+    
+    /**
+     * A closed location
+     */
+    CLOSED
+
 }

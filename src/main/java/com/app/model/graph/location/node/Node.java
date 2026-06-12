@@ -1,12 +1,7 @@
 package com.app.model.graph.location.node;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.app.model.agent.Agent;
-import com.app.model.agent.AgentState;
-import com.app.model.exception.AppException;
+import com.app.model.agent.path.PathFinder;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.*;
 import com.app.model.graph.location.edge.Edge;
@@ -14,7 +9,7 @@ import com.app.model.util.Check;
 
 /**
  * The node class that contains its informations
- * @version 1.0
+ * @version 3.0
  * @since 1.0
  * @author Rayane
  */
@@ -33,10 +28,10 @@ public class Node extends Location {
     /**
      * The constant maximum number of agents the node can store if it is not specified by the user
      */
-    private static final int MAXAGENTS = 10;
+    private static final int MAXAGENTS = 50;
 
     /**
-     * The node constructor that takes as arguments its name, state, type and the number of agents it can store
+     * The node constructor that takes as arguments its name, state, type and the maximum number of agents it can store
      * @param name The name of the node
      * @param state The state of the node
      * @param type The type of the node
@@ -51,7 +46,7 @@ public class Node extends Location {
     }
 
     /**
-     * The node constructor that takes as arguments its state, type and the number of agents it can store
+     * The node constructor that takes as arguments its state, type and the maximum number of agents it can store
      * @param state The state of the node
      * @param type The type of the node
      * @param maxAgents The maximum number of agents the node can store
@@ -77,49 +72,27 @@ public class Node extends Location {
 
     /**
      * Moves an agent to his next location according to his destination
+     * @param graph The graph where the agent belongs
      * @param agent The agent that will be moved
      */
-    public void moveAgentToNextLocation(Graph graph, Agent agent) throws AppException {
-        if(!this.getAgents().contains(agent)){
-            throw new AppException("The agent does not belong to this edge");
+    @Override
+    public void moveAgentToNextLocation(Graph graph, Agent agent) {
+        Check.checkMoveAgent(graph, agent, this);
+
+        if(!(agent.getLocation() instanceof Node)){
+            throw new IllegalStateException("The agent isn't on a node");
         }
 
         if(agent.getDestination() != null){
+            PathFinder pathFinder = agent.getPathFinder();
+            Node source = (Node) agent.getLocation();
+            Node destination = agent.getDestination();
+            
+            Edge edge = pathFinder.getNextLocation(source, destination, graph);
 
-            Edge edge = null;
-
-            if(agent.getState() == AgentState.CRAZY){
-                List<Edge> edges = graph.getEdges((Node) agent.getLocation());
-                edge = edges.get(ThreadLocalRandom.current().nextInt(0, edges.size()));
-
-            }
-            else if(agent.getState() == AgentState.CALM){
-                edge = graph.getNextLocation(this, agent.getDestination());
-            }
-            else{
-                List<Edge> all = graph.getEdges((Node) agent.getLocation());
-                if(all != null && !all.isEmpty()){
-                    Edge ed = all.get(0);
-                    int max = ed.getNumberOfAgents();
-                    for(Edge e : all){
-                        if(e.getNumberOfAgents() > max){
-                            ed = e;
-                            max = e.getNumberOfAgents();
-                        }
-                    }
-                    edge = ed;
-                }
-
-            }
-
-            if(edge != null){
-                try{
-                    this.removeAgentById(agent.getId());
-                    edge.addAgent(agent);
-                    agent.setPosition(0);
-                } catch(AppException e) {
-                    
-                }
+            if(edge != null && edge.valid()){
+                this.removeAgent(agent);
+                edge.addAgent(agent);
             }
         }
     }

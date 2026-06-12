@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,13 +31,18 @@ public class Simulation implements Serializable {
     private final String name;
 
     /**
+     * The escaped agents
+     */
+    private List<Agent> escapedAgents;
+
+    /**
      * Builds a new simulation with a freshly initialized graph
      * (see {@link Graph#initializeGraph()}).
      */
     public Simulation(String name){
-        this.graph = new Graph();
-        this.graph.initializeGraph();
+        this.graph = Graph.generateRandomGraph();
         this.name = name;
+        this.escapedAgents = new ArrayList<>();
     }
 
     /**
@@ -70,15 +77,7 @@ public class Simulation implements Serializable {
             }
         }
 
-        allAgents.sort((a, b) -> {
-            if(a.getBehavior() == AgentBehavior.GIVEPRIORITY){
-                return 1;
-            }
-            else if(a.getBehavior() == AgentBehavior.GIVEPRIORITY){
-                return -1;
-            }
-            return 0;
-        });
+        Collections.sort(allAgents);
 
         Iterator<Agent> iterator = allAgents.iterator();
 

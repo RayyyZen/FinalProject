@@ -2,15 +2,26 @@ package com.app.model.agent;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
-import com.app.model.exception.AppException;
+import com.app.model.agent.path.PathFinder;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.Location;
+import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.node.Node;
 import com.app.model.util.Check;
 
-public class Agent implements Serializable {
+/**
+ * The agent class that contains its informations
+ * @version 3.0
+ * @since 1.0
+ * @author Rayane
+ */
+public class Agent implements Serializable, Comparable<Agent> {
 
+    /**
+     * The serial version UID
+     */
     private static final long serialVersionUID = 1L;
     
     /**
@@ -39,11 +50,6 @@ public class Agent implements Serializable {
     private AgentBehavior behavior;
 
     /**
-     * Indicated if the agent is tolerant to congestion
-     */
-    private boolean isTolerantToCongestion;
-
-    /**
      * The actual location of the agent
      */
     private Location location;
@@ -60,14 +66,14 @@ public class Agent implements Serializable {
     private Node destination;
 
     /**
-     * The unique id that was given to the last created node + 1
+     * The unique id that was given to the last created agent + 1
      */
     private static int lastID = 0;
 
     /**
-     * The constant speed that an agent initially has if the user does not specify it
+     * The maximum constant speed (in m/s) that an agent can initially have if the user does not specify it
      */
-    private final static double SPEED = 1000.0; 
+    private final static double SPEED = 10.0;
 
     /**
      * The agent constructor that takes as arguments his name, speed, state, behavior, if he is tolerant to congestion and eventually his actual location
@@ -75,10 +81,9 @@ public class Agent implements Serializable {
      * @param speed The speed of the agent
      * @param state The state of the agent
      * @param behavior The behavior of the agent
-     * @param isTolerantToCongestion Indicated if the agent is tolerant to congestion
      * @param location The actual location of the agent
      */
-    public Agent(String name, double speed, AgentState state, AgentBehavior behavior, boolean isTolerantToCongestion, Location location){
+    public Agent(String name, double speed, AgentState state, AgentBehavior behavior, Location location){
         Check.checkClassNullArgument(name, "agent", "name");
         Check.checkClassNullArgument(state, "agent", "state");
         Check.checkClassNullArgument(behavior, "agent", "behavior");
@@ -94,7 +99,6 @@ public class Agent implements Serializable {
         this.speed = speed;
         this.state = state;
         this.behavior = behavior;
-        this.isTolerantToCongestion = isTolerantToCongestion;
         this.location = location;
 
         this.position = 0;
@@ -102,10 +106,21 @@ public class Agent implements Serializable {
     }
 
     /**
+     * The agent constructor that takes as arguments his speed, state, behavior, if he is tolerant to congestion and eventually his actual location
+     * @param speed The speed of the agent
+     * @param state The state of the agent
+     * @param behavior The behavior of the agent
+     * @param location The actual location of the agent
+     */
+    public Agent(double speed, AgentState state, AgentBehavior behavior, Location location){
+        this("Agent" + lastID, speed, state, behavior, location);
+    }
+
+    /**
      * The agent constructor that does not take any arguments
      */
     public Agent(){
-        this("Agent" + lastID, SPEED, AgentState.CALM, AgentBehavior.NORMAL, true, null);
+        this("Agent" + lastID, ThreadLocalRandom.current().nextDouble(0.0, SPEED * 100), AgentState.CALM, AgentBehavior.NORMAL, null);
     }
 
     /**
@@ -149,14 +164,6 @@ public class Agent implements Serializable {
     }
 
     /**
-     * Returns the value that indicates if the agent is tolerant to congestion or not
-     * @return the value that indicates if the agent is tolerant to congestion or not
-     */
-    public boolean isTolerantToCongestion(){
-        return this.isTolerantToCongestion;
-    }
-
-    /**
      * Returns the current location of the agent
      * @return the current location of the agent
      */
@@ -181,6 +188,24 @@ public class Agent implements Serializable {
     }
 
     /**
+     * Changes the state of the agent
+     * @param state The new state of the agent
+     */
+    public void setState(AgentState state){
+        Check.checkNullArgument(state, "The agent state is null");
+        this.state = state;
+    }
+
+    /**
+     * Changes the state of the agent
+     * @param state The new state of the agent
+     */
+    public void setBehavior(AgentBehavior behavior){
+        Check.checkNullArgument(behavior, "The agent behavior is null");
+        this.behavior = behavior;
+    }
+
+    /**
      * Changes the location of the agent
      * @param location The new location of the agent (can be null)
      */
@@ -201,16 +226,29 @@ public class Agent implements Serializable {
      * @param position The new position of the agent
      */
     public void setPosition(double position){
+        if(position < 0 || position > 1){
+            throw new IllegalStateException("The position of an agent in a location is between 0 and 1");
+        }
         this.position = position;
     }
 
-    public void moveToNextLocation(Graph graph){
-        if(this.location != null){
-            try{
-                this.location.moveAgentToNextLocation(graph, this);
-            } catch(AppException e) {
+    /**
+     * Returns the path finder of an agent according to his state
+     * @return the path finder of an agent according to his state
+     */
+    public PathFinder getPathFinder(){
+        return this.state.getPathFinder();
+    }
 
-            }
+    /**
+     * Moves an agent to the next location according to his location, destination and state
+     * @param graph The graph where the agent is located
+     */
+    public void moveToNextLocation(Graph graph){
+        Check.checkNullArgument(graph, "The graph is null");
+
+        if(this.location != null){
+            this.location.moveAgentToNextLocation(graph, this);
         }
     }
 
@@ -264,5 +302,17 @@ public class Agent implements Serializable {
     @Override
     public int hashCode(){
         return Objects.hash(this.id);
+    }
+
+    /**
+     * Returns the value comparison between the agent and an other one
+     * @param other An other agent that will be compared
+     * @return the value comparison between the agent and an other one
+     */
+    @Override
+    public int compareTo(Agent other) {
+        Check.checkNullArgument(other, "The agent is null");
+
+        return (this.behavior.getValue() - other.behavior.getValue()) / 2;
     }
 }
