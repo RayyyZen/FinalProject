@@ -154,6 +154,14 @@ public class Edge extends Location {
     }
 
     /**
+     * Returns the source node of an edge
+     * @return the source node of an edge
+     */
+    public Node getSourceNode(){
+        return this.source;
+    }
+
+    /**
      * Moves an agent to his next location according to his destination
      * @param graph The graph where the agent belongs
      * @param agent The agent that will be moved

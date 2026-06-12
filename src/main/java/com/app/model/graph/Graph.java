@@ -10,6 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.app.model.agent.Agent;
 import com.app.model.agent.AgentBehavior;
 import com.app.model.agent.AgentState;
+import com.app.model.agent.path.shortestpath.ShortestTimePath;
+import com.app.model.graph.location.Location;
 import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.*;
@@ -71,7 +73,7 @@ public class Graph implements Serializable {
     /**
      * Minimum number of nodes in the graph if there is a random graph generation
      */
-    private static final int MINNODES = 5;
+    private static final int MINNODES = 10;
 
     /**
      * Maximum number of nodes in the graph if there is a random graph generation
@@ -79,14 +81,24 @@ public class Graph implements Serializable {
     private static final int MAXNODES = 15;
 
     /**
+     * Minimum number of exit nodes in the graph if there is a random graph generation
+     */
+    private static final int MINEXITS = 2;
+
+    /**
+     * Maximum number of exit nodes in the graph if there is a random graph generation
+     */
+    private static final int MAXEXITS = 5;
+
+    /**
      * Minimum number of edges in the graph if there is a random graph generation
      */
-    private static final int MINEDGES = 10;
+    private static final int MINEDGES = 20;
 
     /**
      * Maximum number of nodes in the graph if there is a random graph generation
      */
-    private static final int MAXEDGES = 20;
+    private static final int MAXEDGES = 30;
 
     /**
      * Minimum distance of an edge in the graph if there is a random graph generation (in meters)
@@ -125,7 +137,7 @@ public class Graph implements Serializable {
      * @param destination The destination node
      * @return true if an edge from source to destination already exists in a graph, or false otherwise
      */
-    private static boolean existEdge(Graph graph, Node source, Node destination){
+    public static boolean existEdge(Graph graph, Node source, Node destination){
         Check.checkNullArgument(graph, "The graph in the graph class is null");
         Check.checkNullArgument(source, "The source node in the graph class is null");
         Check.checkNullArgument(destination, "The destination node in the graph class is null");
@@ -148,13 +160,19 @@ public class Graph implements Serializable {
 
         List<LocationState> states = List.of(LocationState.CLOSED, LocationState.OPEN);
 
-        List<NodeType> nodeTypes = List.of(NodeType.DESTINATION, NodeType.EXIT);
+        //List<NodeType> nodeTypes = List.of(NodeType.DESTINATION, NodeType.EXIT);
 
         int numberOfNodes = ThreadLocalRandom.current().nextInt(MINNODES, MAXNODES);
+        int numberOfExits = ThreadLocalRandom.current().nextInt(MINEXITS, MAXEXITS);
 
         for(int i = 0; i < numberOfNodes; i++){
+            NodeType nodeType = NodeType.DESTINATION;
+            if(i < numberOfExits){
+                nodeType = NodeType.EXIT;
+            }
+
             LocationState state = states.get(ThreadLocalRandom.current().nextInt(0, states.size()));
-            NodeType nodeType = nodeTypes.get(ThreadLocalRandom.current().nextInt(0, nodeTypes.size()));
+            //NodeType nodeType = nodeTypes.get(ThreadLocalRandom.current().nextInt(0, nodeTypes.size()));
             int maxAgents = ThreadLocalRandom.current().nextInt(MINAGENTS, MAXAGENTS);
 
             Node node = new Node(state, nodeType, maxAgents);
@@ -169,7 +187,10 @@ public class Graph implements Serializable {
                 AgentBehavior agentBehavior = agentBehaviors.get(ThreadLocalRandom.current().nextInt(0, agentBehaviors.size()));
                 double speed = ThreadLocalRandom.current().nextDouble(MINSPEED, MAXSPEED);
 
-                Agent agent = new Agent(speed, agentState, agentBehavior, null);
+                Node destination = new ShortestTimePath().getClosestExit(node, randomGraph);
+
+                Agent agent = new Agent(speed, agentState, agentBehavior, node);
+                agent.setDestination(destination);
 
                 node.addAgent(agent);
             }
@@ -226,6 +247,35 @@ public class Graph implements Serializable {
      */
     public List<Edge> getAllEdges(){
         return this.edges;
+    }
+
+    /**
+     * Returns all the locations of the graph
+     * @return all the locations of the graph
+     */
+    public List<Location> getAllLocations(){
+        List<Location> allLocations = new ArrayList<>();
+        
+        allLocations.addAll(this.nodes);
+        allLocations.addAll(this.edges);
+
+        return allLocations;
+    }
+
+    /**
+     * Returns all the agents of the graph
+     * @return all the agents of the graph
+     */
+    public List<Agent> getAllAgents(){
+        List<Location> allLocations = this.getAllLocations();
+
+        List<Agent> allAgents = new ArrayList<>();
+
+        for(Location location : allLocations){
+            allAgents.addAll(location.getAgents());
+        }
+
+        return allAgents;
     }
 
     /**
@@ -315,6 +365,14 @@ public class Graph implements Serializable {
         }
 
         List<Node> adjNodes = this.getAdjNodes(node);
+        Iterator<Node> it = adjNodes.iterator();
+
+        while(it.hasNext()){
+            Node n = it.next();
+            if(!n.valid()){
+                it.remove();
+            }
+        }
 
         if(adjNodes.isEmpty()){
             node.removeAllAgents();
@@ -345,6 +403,8 @@ public class Graph implements Serializable {
                 iterator.remove();
                 count++;
             }
+
+            counter++;
         }
     }
 

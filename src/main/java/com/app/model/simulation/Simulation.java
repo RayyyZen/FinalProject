@@ -1,34 +1,40 @@
 package com.app.model.simulation;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import com.app.model.agent.Agent;
-import com.app.model.agent.AgentBehavior;
+import com.app.model.agent.path.shortestpath.ShortestTimePath;
 import com.app.model.graph.Graph;
-import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
+import com.app.model.graph.location.node.NodeType;
+import com.app.model.util.Check;
 
 /**
- * Top-level model object holding the state of the running simulation.
- * For now it only owns the {@link Graph}; agents and ticks will be added later.
+ * The simulation class that contains its name and a graph
+ * @version 3.0
+ * @since 2.0
+ * @author Rayane
  */
 public class Simulation implements Serializable {
 
+    /**
+     * The serial version UID
+     */
     private static final long serialVersionUID = 1L;
 
-    private final Graph graph;
-
+    /**
+     * The name of the simulation
+     */
     private final String name;
+
+    /**
+     * The graph that contains the nodes, edges and agents
+     */
+    private final Graph graph;
 
     /**
      * The escaped agents
@@ -36,47 +42,78 @@ public class Simulation implements Serializable {
     private List<Agent> escapedAgents;
 
     /**
-     * Builds a new simulation with a freshly initialized graph
-     * (see {@link Graph#initializeGraph()}).
+     * The maximum number of cleared exit nodes from its agents at once
      */
-    public Simulation(String name){
-        this.graph = Graph.generateRandomGraph();
+    private final int MAXEXITCLEAR = 5;
+
+    /**
+     * The simulation constructor that takes as an argument its name and graph
+     * @param name The name of the simulation
+     * @param graph The graph of the simulation
+     */
+    public Simulation(String name, Graph graph){
+        Check.checkNullArgument(name, "The simulation's name is null");
+        Check.checkNullArgument(graph, "The simulation's graph is null");
+
         this.name = name;
+        this.graph = graph;
         this.escapedAgents = new ArrayList<>();
     }
 
     /**
-     * @return the graph held by this simulation
+     * The simulation constructor that takes as an argument only its name
+     * @param name The name of the simulation
+     */
+    public Simulation(String name){
+        this(name, new Graph());
+    }
+
+    /**
+     * Returns the name of the simulation
+     * @return the name of the simulation
+     */
+    public String getName(){
+        return this.name;
+    }
+
+    /**
+     * Returns the graph contained in the simulation
+     * @return the graph contained in the simulation
      */
     public Graph getGraph(){
         return this.graph;
     }
 
     /**
-     * @return the graph held by this simulation
+     * Returns the escaped agents
+     * @return the escaped agents
      */
-    public String getName(){
-        return this.name;
+    public List<Agent> getEscapedAgents(){
+        return this.escapedAgents;
     }
 
+    /**
+     * Optimizes the destinations of all the agents
+     */
+    public void optimizeDestinations(){
+        List<Agent> allAgents = this.graph.getAllAgents();
+
+        Iterator<Agent> iterator = allAgents.iterator();
+
+        while(iterator.hasNext()){
+            Agent agent = iterator.next();
+            Node source = agent.getLocation().getSourceNode();
+            Node destination = new ShortestTimePath().getClosestExit(source, this.graph);
+
+            agent.setDestination(destination);
+        }
+    }
+
+    /**
+     * Moves all the agents in all the locations of the graph contained in the simulation according to there destinations
+     */
     public void move(){
-        List<Node> nodes = this.graph.getAllNodes();
-        List<Edge> edges = this.graph.getAllEdges();
-
-        List<Agent> allAgents = new ArrayList<>();
-
-        for(Node node : nodes){
-            for(Agent agent : node.getAgents()){
-                allAgents.add(agent);
-            }
-        }
-
-        for(Edge edge : edges){
-            for(Agent agent : edge.getAgents()){
-                allAgents.add(agent);
-            }
-        }
-
+        List<Agent> allAgents = this.graph.getAllAgents();
         Collections.sort(allAgents);
 
         Iterator<Agent> iterator = allAgents.iterator();
@@ -87,19 +124,28 @@ public class Simulation implements Serializable {
         }
     }
 
-    public void saveInFile() throws Exception {
-        File dir = new File("data");
-        dir.mkdirs();
+    /**
+     * Clears the exit locations from its agents
+     */
+    public void clearExits(){
+        Iterator<Node> iterator = this.graph.getAllNodes().iterator();
 
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("1.bin"));
-        out.writeObject(this);
-        out.close();
-    }
+        while(iterator.hasNext()){
+            Node node = iterator.next();
+            if(node.getType() == NodeType.EXIT){
+                List<Agent> agents = new ArrayList<>(node.getAgents());
+                Collections.sort(agents);
 
-    public static Simulation restoreFromFile() throws Exception {
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream("1.bin"));
-        Simulation simulation = (Simulation) in.readObject();
-        in.close();
-        return simulation;
+                Iterator<Agent> it = agents.iterator();
+
+                int counter = 0;
+                while(counter < MAXEXITCLEAR && it.hasNext()){
+                    Agent agent = it.next();
+                    node.removeAgent(agent);
+                    this.escapedAgents.add(agent);
+                    counter++;
+                }
+            }
+        }
     }
 }

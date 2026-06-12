@@ -26,7 +26,7 @@ public class FollowerPath implements PathFinder {
     public Edge getNextLocation(Node source, Node destination, Graph graph) {
         Check.checkPathArgument(source, destination, graph);
 
-        List<Edge> edges = Edge.getValidEdges(graph.getEdges(source));
+        List<Edge> edges = Edge.getValidEdges(graph.getAdjEdges(source));
         Edge edge = null;
 
         if(edges != null && !edges.isEmpty()){

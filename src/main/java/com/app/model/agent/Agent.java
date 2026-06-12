@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.app.model.agent.path.PathFinder;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.Location;
-import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.node.Node;
 import com.app.model.util.Check;
 
@@ -313,6 +312,6 @@ public class Agent implements Serializable, Comparable<Agent> {
     public int compareTo(Agent other) {
         Check.checkNullArgument(other, "The agent is null");
 
-        return (this.behavior.getValue() - other.behavior.getValue()) / 2;
+        return other.behavior.getValue() - this.behavior.getValue();
     }
 }

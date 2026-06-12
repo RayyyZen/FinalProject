@@ -53,7 +53,7 @@ public class GraphView extends BorderPane {
     private static final int DEFAULT_MAX_AGENTS = 10;
     private static final double NODEPANE_W = 1350;
     private static final double NODEPANE_H = 850;
-    private static final double LAYOUT_MARGIN = 80;
+    private static final double LAYOUT_MARGIN = 200;
 
     /**
      * Builds the view for the given graph and immediately renders the nodes
@@ -98,8 +98,7 @@ public class GraphView extends BorderPane {
         });
 
 
-
-        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(1), e -> { simulation.move(); relayout(); }));
+        Timeline loop = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> { simulation.move(); simulation.clearExits(); relayout(); }));
         loop.setCycleCount(Timeline.INDEFINITE);
         playBtn.setOnAction(e -> loop.play());
         stopBtn.setOnAction(e -> loop.stop());
@@ -141,16 +140,14 @@ public class GraphView extends BorderPane {
             List<Node> nodes = simulation.getGraph().getAllNodes();
             if (!nodes.isEmpty()) {
                 Node last = nodes.get(nodes.size() - 1);
-                try {
-                    simulation.getGraph().removeNode(last);
-                } catch (AppException e1) {
-                }
+                simulation.getGraph().removeNode(last);
                 relayout();
             }
         });
 
         nextBtn.setOnAction(e -> {
             simulation.move();
+            simulation.clearExits();
             relayout();
         });
 

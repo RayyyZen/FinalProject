@@ -141,7 +141,6 @@ public class CreateAgentPage extends BorderPane {
                 errorLabel.setText("The speed must be > 0");
                 return;
             }
-            try {
                 Agent agent = new Agent(name, speed, stateBox.getValue(), behaviorBox.getValue(), null);
 
                 Node destination = destinationBox.getValue();
@@ -150,9 +149,7 @@ public class CreateAgentPage extends BorderPane {
                 }
                 startNode.addAgent(agent);
                 controller.showAgents(startNode);
-            } catch (AppException ex) {
-                errorLabel.setText(ex.getMessage());
-            }
+                //errorLabel.setText(ex.getMessage());
         });
     }
 

@@ -2,6 +2,7 @@ package com.app.controller;
 
 import com.app.model.exception.AppException;
 import com.app.model.agent.Agent;
+import com.app.model.graph.Graph;
 import com.app.model.graph.location.*;
 import com.app.model.graph.location.node.Node;
 import com.app.model.graph.location.edge.Edge;
@@ -132,10 +133,7 @@ public class MainController {
      * @param node the selected node
      */
     public void deleteNode(Node node) {
-        try {
             simulation.getGraph().removeNode(node);
-        } catch (AppException e) {
-        }
         showGraph();
     }
 
@@ -144,10 +142,7 @@ public class MainController {
      * @param edge the selected edge
      */
     public void deleteEdge(Edge edge) {
-        try {
             simulation.getGraph().removeEdge(edge);
-        } catch (AppException e) {
-        }
         showGraph();
     }
 
@@ -158,7 +153,7 @@ public class MainController {
     public void deleteAgent(Agent agent) {
         Location location = agent.getLocation();
         if (location != null) {
-            location.removeAgentById(agent.getId());
+            location.removeAgent(agent);
             showAgents(location);
         } else {
             showGraph();
@@ -171,6 +166,10 @@ public class MainController {
 
     public void showSimulationName(){
         root.setCenter(new SimulationNamePage(this, simulation));
+    }
+
+    public void showRandomSimulationName(){
+        root.setCenter(new SimulationNamePage(this, simulation, Graph.generateRandomGraph()));
     }
 
     public void setSimulation(Simulation simulation){

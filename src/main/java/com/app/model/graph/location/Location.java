@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import com.app.model.agent.Agent;
 import com.app.model.graph.Graph;
+import com.app.model.graph.location.node.Node;
 import com.app.model.util.Check;
 
 /**
@@ -215,6 +216,12 @@ public abstract class Location implements Serializable {
     public boolean valid(){
         return this.getState() == LocationState.OPEN && this.getNumberOfAgents() < this.getMaxAgents();
     }
+
+    /**
+     * Returns the source node of a location
+     * @return the source node of a location
+     */
+    public abstract Node getSourceNode();
 
     /**
      * Moves an agent to his next location according to his destination

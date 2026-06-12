@@ -125,7 +125,7 @@ public class CreateEdgePage extends BorderPane {
                 errorLabel.setText("An edge must connect 2 different nodes");
                 return;
             }
-            if (graph.existEdge(source, destination)) {
+            if (Graph.existEdge(graph, source, destination)) {
                 errorLabel.setText("This edge already exists");
                 return;
             }

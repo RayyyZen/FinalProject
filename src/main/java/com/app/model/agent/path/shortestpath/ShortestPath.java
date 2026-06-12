@@ -62,7 +62,7 @@ public abstract class ShortestPath implements PathFinder {
                 continue;
             }
 
-            for(Edge edge : graph.getEdges(node)){
+            for(Edge edge : graph.getAdjEdges(node)){
                 if(edge.valid()){
                     relax(edge, pq, distTo, edgeTo);
                 }

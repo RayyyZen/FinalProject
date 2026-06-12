@@ -1,6 +1,7 @@
 package com.app.view;
 
 import com.app.controller.MainController;
+import com.app.model.graph.Graph;
 import com.app.model.simulation.Simulation;
 
 
@@ -17,7 +18,7 @@ public class SimulationNamePage extends BorderPane {
     
     Simulation simulation;
 
-    public SimulationNamePage(MainController controller, Simulation simulation) {
+    public SimulationNamePage(MainController controller, Simulation simulation, Graph graph) {
         this.simulation = simulation;
 
         Button back = new Button("Back");
@@ -38,18 +39,18 @@ public class SimulationNamePage extends BorderPane {
         TextField nameField = new TextField();
         nameField.setMaxWidth(250);
 
-        Button go = new Button("Go Graph");
-        go.setOnAction(e -> {
+        Button start = new Button("Start");
+        start.setOnAction(e -> {
             String name = nameField.getText();
             if(name != null && !name.isEmpty()){
-                this.simulation = new Simulation(name);
+                this.simulation = new Simulation(name, graph);
                 controller.setSimulation(this.simulation);
                 controller.showGraph();
             }
         });
-        go.getStyleClass().add("primary-button");
+        start.getStyleClass().add("primary-button");
 
-        vbox.getChildren().addAll(title, nameField, go);
+        vbox.getChildren().addAll(title, nameField, start);
 
 
         vbox.setPadding(new Insets(15));
@@ -57,5 +58,9 @@ public class SimulationNamePage extends BorderPane {
         setCenter(vbox);
         vbox.setAlignment(Pos.CENTER);
 
+    }
+
+    public SimulationNamePage(MainController controller, Simulation simulation){
+        this(controller, simulation, new Graph());
     }
 }

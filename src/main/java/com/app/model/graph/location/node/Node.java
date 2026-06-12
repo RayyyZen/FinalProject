@@ -71,6 +71,14 @@ public class Node extends Location {
     }
 
     /**
+     * Returns the source node of a node
+     * @return the source node of a node
+     */
+    public Node getSourceNode(){
+        return this;
+    }
+
+    /**
      * Moves an agent to his next location according to his destination
      * @param graph The graph where the agent belongs
      * @param agent The agent that will be moved

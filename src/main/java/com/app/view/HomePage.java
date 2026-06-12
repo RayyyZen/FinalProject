@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import com.app.controller.MainController;
+import com.app.model.simulation.Simulation;
 
 public class HomePage extends VBox {
 
@@ -21,17 +22,24 @@ public class HomePage extends VBox {
         imageView.setFitWidth(500);
         imageView.setPreserveRatio(true);
 
-        Button go = new Button("Go Graph");
-        go.setOnAction(e -> {
+        Button newSimulation = new Button("New Simulation");
+        newSimulation.setOnAction(e -> {
             controller.showSimulationName();
         });
 
-        go.getStyleClass().add("primary-button");
+        newSimulation.getStyleClass().add("primary-button");
 
-        Button saves = new Button("Go Saves");
+        Button randomSimulation = new Button("Random Simulation");
+        randomSimulation.setOnAction(e -> {
+            controller.showRandomSimulationName();
+        });
+
+        randomSimulation.getStyleClass().add("primary-button");
+
+        Button saves = new Button("See Saves");
         saves.setOnAction(e -> controller.showFilesPage());
         saves.getStyleClass().add("primary-button");
 
-        getChildren().addAll(imageView, go, saves);
+        getChildren().addAll(imageView, newSimulation, randomSimulation, saves);
     }
 }
