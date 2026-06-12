@@ -173,11 +173,11 @@ public class Graph implements Serializable {
 
             LocationState state = states.get(ThreadLocalRandom.current().nextInt(0, states.size()));
             //NodeType nodeType = nodeTypes.get(ThreadLocalRandom.current().nextInt(0, nodeTypes.size()));
-            int maxAgents = ThreadLocalRandom.current().nextInt(MINAGENTS, MAXAGENTS);
+            int maxAgents = ThreadLocalRandom.current().nextInt(MINAGENTS, MAXAGENTS + 1);
 
             Node node = new Node(state, nodeType, maxAgents);
 
-            int numberOfAgents = ThreadLocalRandom.current().nextInt(MINAGENTS, maxAgents);
+            int numberOfAgents = ThreadLocalRandom.current().nextInt(MINAGENTS, maxAgents + 1);
 
             for(int j = 0; j < numberOfAgents; j++){
                 List<AgentState> agentStates = List.of(AgentState.CALM, AgentState.TIRED, AgentState.PANICKED, AgentState.CRAZY);
