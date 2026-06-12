@@ -170,5 +170,12 @@ public class MainController {
      */
     public void showRandomSimulationName(){
         root.setCenter(new SimulationNamePage(this, simulation, Graph.generateRandomGraph()));
-    }   
+    }
+
+    /**
+     * Shows the escaped agents page
+     */
+    public void showEscapedAgents(){
+        root.setCenter(new EscapedAgentsPage(this));
+    }
 }

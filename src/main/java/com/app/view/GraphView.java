@@ -85,6 +85,10 @@ public class GraphView extends BorderPane {
 
 
 
+        Button escapedBtn = new Button("Agents escaped");
+        escapedBtn.getStyleClass().add("tool-button");
+        escapedBtn.setOnAction(e -> controller.showEscapedAgents());
+
         Button save = new Button("Save");
 
         save.getStyleClass().add("tool-button");
@@ -125,7 +129,7 @@ public class GraphView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolBar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent,spacer, save, exit);
+        HBox toolBar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent, escapedBtn, spacer, save, exit);
         toolBar.setPadding(new Insets(15, 20, 15, 20));
         setTop(toolBar);
 

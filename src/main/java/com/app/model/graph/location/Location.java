@@ -120,6 +120,15 @@ public abstract class Location implements Serializable {
     }
 
     /**
+     * Changes the state of the location
+     * @param state the new state of the location
+     */
+    public void setState(LocationState state){
+        Check.checkNullArgument(state, "The location state is null");
+        this.state = state;
+    }
+
+    /**
      * Returns the maximum number of agents the location can store
      * @return the maximum number of agents the location can store
      */

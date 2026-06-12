@@ -187,6 +187,17 @@ public class Agent implements Serializable, Comparable<Agent> {
     }
 
     /**
+     * Changes the speed of the agent
+     * @param speed The new speed of the agent
+     */
+    public void setSpeed(double speed){
+        if(speed <= 0){
+            throw new IllegalArgumentException("The agent speed must be > 0");
+        }
+        this.speed = speed;
+    }
+
+    /**
      * Changes the state of the agent
      * @param state The new state of the agent
      */
