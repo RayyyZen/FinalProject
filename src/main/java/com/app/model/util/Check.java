@@ -6,6 +6,7 @@ import com.app.model.graph.location.Location;
 import com.app.model.graph.location.node.Node;
 
 public class Check {
+    
     /**
      * Checks if an argument is null
      * @param obj The argument that will be checked

@@ -36,7 +36,10 @@ public class EdgeDetailsPage extends BorderPane {
         backButton.getStyleClass().add("primary-button");
 
         Button deleteButton = new Button("Delete edge");
-        deleteButton.setOnAction(e -> controller.deleteEdge(edge));
+        deleteButton.setOnAction(e -> {
+            controller.getSimulation().getGraph().removeEdge(edge);
+            controller.showGraph();
+        });
         deleteButton.getStyleClass().add("primary-button");
 
         Button showAgentsButton = new Button("See agents");

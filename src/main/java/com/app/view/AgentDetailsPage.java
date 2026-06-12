@@ -42,7 +42,15 @@ public class AgentDetailsPage extends BorderPane{
         backButton.getStyleClass().add("primary-button");
 
         Button deleteButton = new Button("Delete agent");
-        deleteButton.setOnAction(e -> controller.deleteAgent(agent));
+        deleteButton.setOnAction(e -> {
+            Location location = agent.getLocation();
+            if (location != null) {
+                location.removeAgent(agent);
+                controller.showAgents(location);
+            } else {
+                controller.showGraph();
+            }
+        });
 
         BorderPane topBar = new BorderPane();
         topBar.setLeft(backButton);

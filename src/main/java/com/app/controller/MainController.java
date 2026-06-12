@@ -12,12 +12,21 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
 /**
- * Top-level UI controller. Owns the root {@link BorderPane} and swaps the
- * page currently displayed in its center (HomePage, GraphView, ...).
+ * The main controller class
+ * @version 3.0
+ * @since 1.0
+ * @author Rayane, Alexis, Atahan, Remis
  */
 public class MainController {
 
+    /**
+     * The simulation
+     */
     private Simulation simulation;
+
+    /**
+     * The main pane that is contained in the scene
+     */
     private final BorderPane root;
 
     /**
@@ -28,11 +37,33 @@ public class MainController {
         this.simulation = simulation;
         this.root = new BorderPane();
 
-        showHome();
+        this.showHome();
     }
 
     /**
-     * Replaces the center of the root pane with the home page.
+     * @return the simulation
+     */
+    public Simulation getSimulation(){
+        return this.simulation;
+    }
+
+    /**
+     * @return the root JavaFX node, to be wired into the main Scene
+     */
+    public Parent getRoot(){
+        return this.root;
+    }
+
+    /**
+     * Changes the simulation to another one
+     * @param simulation The new simulation
+     */
+    public void setSimulation(Simulation simulation){
+        this.simulation = simulation;
+    }
+
+    /**
+     * Replaces the center of the root pane with the home page
      */
     public void showHome() {
         HomePage page = new HomePage(this);
@@ -40,15 +71,15 @@ public class MainController {
     }
 
     /**
-     * Replaces the center of the root pane with the graph view.
+     * Replaces the center of the root pane with the graph view
      */
     public void showGraph() {
-        GraphView page = new GraphView(this,simulation);
+        GraphView page = new GraphView(this, simulation);
         root.setCenter(page);
     }
 
     /**
-     * Shows the details page for a selected node.
+     * Shows the details page for a selected node
      * @param node the selected node
      */
     public void showNodeDetails(Node node) {
@@ -57,7 +88,7 @@ public class MainController {
     }
 
     /**
-     * Shows the details page for a selected edge.
+     * Shows the details page for a selected edge
      * @param edge the selected edge
      */
     public void showEdgeDetails(Edge edge) {
@@ -66,14 +97,7 @@ public class MainController {
     }
 
     /**
-     * @return the root JavaFX node, to be wired into the main Scene
-     */
-    public Parent getRoot() {
-        return root;
-    }
-
-    /**
-     * Shows the page containing all agents.
+     * Shows the page containing all agents
      * @param location the agent's location
      */
     public void showAgents(Location location) {
@@ -82,7 +106,7 @@ public class MainController {
     }
 
     /**
-     * Shows the details page for a selected agent.
+     * Shows the details page for a selected agent
      * @param agent the selected agent
      */
     public void showAgentDetails(Agent agent) {
@@ -91,14 +115,14 @@ public class MainController {
     }
 
     /**
-     * Create option to add a detail node.
+     * Create option to add a detail node
      */
     public void showCreateNode() {
         root.setCenter(new CreateNodePage(this, simulation.getGraph()));
     }
 
     /**
-     * Create option to add a detail edge.
+     * Create option to add a detail edge
      * @param source the node source
      */
     public void showCreateEdge(Node source) {
@@ -106,72 +130,45 @@ public class MainController {
     }
 
     /**
-     * Create option to add a detail edge.
+     * Create option to add a detail edge
      */
     public void showCreateEdge() {
         root.setCenter(new CreateEdgePage(this, simulation.getGraph()));
     }
 
     /**
-     * Create option to add a detail agent.
+     * Create option to add a detail agent
      */
     public void showCreateAgent() {
         root.setCenter(new CreateAgentPage(this, simulation.getGraph()));
     }
 
     /**
-     * Create option to add a detail agent.
+     * Create option to add a detail agent
      * @param node the selected node
      */
     public void showCreateAgent(Node node) {
         root.setCenter(new CreateAgentPage(this, simulation.getGraph(), node));
     }
-
+    
     /**
-     * Delete option for a selected node
-     * @param node the selected node
+     * Shows the files page
      */
-    public void deleteNode(Node node) {
-            simulation.getGraph().removeNode(node);
-        showGraph();
-    }
-
-    /**
-     * Delete option for a selected edge
-     * @param edge the selected edge
-     */
-    public void deleteEdge(Edge edge) {
-            simulation.getGraph().removeEdge(edge);
-        showGraph();
-    }
-
-    /**
-     * Delete option for a selected agent
-     * @param agent the selected agent
-     */
-    public void deleteAgent(Agent agent) {
-        Location location = agent.getLocation();
-        if (location != null) {
-            location.removeAgent(agent);
-            showAgents(location);
-        } else {
-            showGraph();
-        }
-    }
-
     public void showFilesPage(){
         root.setCenter(new FilesPage(this, simulation));
     }
 
+    /**
+     * Shows the simulation's name page
+     */
     public void showSimulationName(){
         root.setCenter(new SimulationNamePage(this, simulation));
     }
 
+    /**
+     * Shows the random simulation's name page
+     */
     public void showRandomSimulationName(){
         root.setCenter(new SimulationNamePage(this, simulation, Graph.generateRandomGraph()));
-    }
-
-    public void setSimulation(Simulation simulation){
-        this.simulation = simulation;
-    }
+    }   
 }
