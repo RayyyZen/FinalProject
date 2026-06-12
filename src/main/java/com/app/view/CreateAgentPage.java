@@ -4,7 +4,6 @@ import com.app.controller.MainController;
 import com.app.model.agent.Agent;
 import com.app.model.agent.AgentBehavior;
 import com.app.model.agent.AgentState;
-import com.app.model.exception.AppException;
 import com.app.model.graph.Graph;
 import com.app.model.graph.location.node.Node;
 import javafx.geometry.Insets;
