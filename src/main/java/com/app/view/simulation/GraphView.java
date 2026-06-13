@@ -305,7 +305,11 @@ public class GraphView extends BorderPane {
         Circle exitNodes = new Circle(25, Color.WHITE);
         exitNodes.getStyleClass().add("exit");
 
-        VBox legendContent = new VBox(5, legendTitle, gradientBar, labelsBox, exitLegend, exitNodes);
+        Label emptyLegend = new Label("Empty nodes:");
+
+        Circle emptyNodes = new Circle(25, Color.BLACK);
+
+        VBox legendContent = new VBox(5, legendTitle, gradientBar, labelsBox, exitLegend, exitNodes, emptyLegend, emptyNodes);
         legendContent.setPadding(new Insets(10, 0, 20, 0));
 
         VBox leftBar = new VBox(20);
