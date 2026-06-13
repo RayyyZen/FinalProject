@@ -152,7 +152,8 @@ public class Graph implements Serializable {
     }
 
     /**
-     * Returns a random graph
+     * Generates a random graph with random nodes, edges and agents
+     * inside the MIN/MAX bounds defined as constants of this class
      * @return a random graph
      */
     public static Graph generateRandomGraph(){
@@ -410,7 +411,7 @@ public class Graph implements Serializable {
 
     /**
      * Removes all agents of an edge in the graph
-     * @param node The edge that will be emptied of its agents 
+     * @param edge The edge that will be emptied of its agents
      */
     public void removeAgentsFromEdge(Edge edge) {
         Check.checkNullArgument(edge, "The edge is null !");
