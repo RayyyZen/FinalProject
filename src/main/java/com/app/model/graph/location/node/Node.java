@@ -71,6 +71,15 @@ public class Node extends Location {
     }
 
     /**
+     * Changes the type of the node
+     * @param type The new type of the node
+     */
+    public void setType(NodeType type){
+        Check.checkClassNullArgument(type, "node", "type");
+        this.type = type;
+    }
+
+    /**
      * Returns the source node of a node
      * @return the source node of a node
      */

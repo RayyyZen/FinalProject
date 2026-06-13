@@ -71,9 +71,9 @@ public class GraphView extends BorderPane {
     private static final double NODEPANE_H = 850;
 
     /**
-     * The layout margin
+     * Fraction of the half-dimension used for the graph (responsive)
      */
-    private static final double LAYOUT_MARGIN = 200;
+    private static final double LAYOUT_RATIO = 0.80;
 
     /**
      * The loop initial time period
@@ -385,7 +385,7 @@ public class GraphView extends BorderPane {
         if (n == 1) {
             views.add(new NodeView(nodes.get(0), cx, cy, Math.PI / 2, controller));
         } else {
-            double radius = Math.min(cx, cy) - LAYOUT_MARGIN;
+            double radius = Math.min(cx, cy) * LAYOUT_RATIO;
             for (int i = 0; i < n; i++) {
                 double angle = 2 * Math.PI * i / n - Math.PI / 2;
                 double x = cx + radius * Math.cos(angle);

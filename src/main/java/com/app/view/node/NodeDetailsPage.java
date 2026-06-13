@@ -3,6 +3,7 @@ package com.app.view.node;
 import com.app.controller.MainController;
 import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.node.Node;
+import com.app.model.graph.location.node.NodeType;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -99,7 +100,11 @@ public class NodeDetailsPage extends BorderPane{
         stateBox.setValue(node.getState());
         addEditableRow(grid, 2, "State", String.valueOf(node.getState()), stateBox);
 
-        addRow(grid, 3, "Type", String.valueOf(node.getType()));
+        ComboBox<NodeType> typeBox = new ComboBox<>();
+        typeBox.getItems().addAll(NodeType.values());
+        typeBox.setValue(node.getType());
+        addEditableRow(grid, 3, "Type", String.valueOf(node.getType()), typeBox);
+
         addRow(grid, 4, "Agents", node.getNumberOfAgents() + " / " + node.getMaxAgents());
         addRow(grid, 5, "Passed agents", String.valueOf(node.getNumberOfPassedAgents()));
         addRow(grid, 6, "Average speed", String.valueOf(node.getAverageSpeed()));
@@ -109,6 +114,7 @@ public class NodeDetailsPage extends BorderPane{
         modifyButton.setOnAction(e -> {
             if (editMode) {
                 node.setState(stateBox.getValue());
+                node.setType(typeBox.getValue());
             }
             editMode = !editMode;
             buildPage();
