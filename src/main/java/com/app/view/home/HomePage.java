@@ -8,8 +8,18 @@ import javafx.scene.image.ImageView;
 
 import com.app.controller.MainController;
 
+/**
+ * The home page class
+ * @version 3.0
+ * @since 1.0
+ * @author Alexis
+ */
 public class HomePage extends VBox {
 
+    /**
+     * The home page constructor
+     * @param controller The main controller
+     */
     public HomePage(MainController controller) {
 
         this.getStyleClass().add("home-page");
@@ -41,4 +51,5 @@ public class HomePage extends VBox {
 
         getChildren().addAll(imageView, newSimulation, randomSimulation, saves);
     }
+
 }

@@ -12,6 +12,11 @@ import com.app.model.util.Check;
 public class ShortestDistancePath extends ShortestPath {
 
     /**
+     * The shortest distance path class
+     */
+    public ShortestDistancePath(){}
+
+    /**
      * Returns the value of an edge according to what will be compared in order to get the optimized path
      * Here the edge value is the distance of the edge
      * @param edge An edge

@@ -10,12 +10,34 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
+/**
+ * The edge details class
+ * @version 3.0
+ * @since 1.0
+ * @author Atahan, Rémi
+ */
 public class EdgeDetailsPage extends BorderPane {
 
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * A specific edge from the graph
+     */
     private final Edge edge;
+
+    /**
+     * Indicates if it is in the editing mode
+     */
     private boolean editMode;
 
+    /**
+     * The edge details class
+     * @param controller The main controller
+     * @param edge A specific edge from the graph
+     */
     public EdgeDetailsPage(MainController controller, Edge edge) {
         this.controller = controller;
         this.edge = edge;
@@ -23,6 +45,9 @@ public class EdgeDetailsPage extends BorderPane {
         buildPage();
     }
 
+    /**
+     * Buils the edge details page
+     */
     private void buildPage() {
         Label title = new Label("Edge details");
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
@@ -87,6 +112,13 @@ public class EdgeDetailsPage extends BorderPane {
         setCenter(content);
     }
 
+    /**
+     * Adds one information row to the grid
+     * @param grid the target grid
+     * @param rowIndex the row index
+     * @param label the attribute name
+     * @param value the attribute value
+     */
     private void addRow(GridPane grid, int row, String label, String value) {
         Label nameLabel = new Label(label + ":");
         nameLabel.setStyle("-fx-font-weight: bold;");
@@ -94,6 +126,14 @@ public class EdgeDetailsPage extends BorderPane {
         grid.add(new Label(value), 1, row);
     }
 
+    /**
+     * Adds one information row to the grid about the editable button
+     * @param grid the target grid
+     * @param row the row index
+     * @param label the attribute name
+     * @param value the attribute value
+     * @param field The field
+     */
     private void addEditableRow(GridPane grid, int row, String label, String value, javafx.scene.Node field) {
         Label nameLabel = new Label(label + ":");
         nameLabel.setStyle("-fx-font-weight: bold;");

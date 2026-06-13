@@ -161,6 +161,22 @@ public abstract class Location implements Serializable {
     }
 
     /**
+     * Returns the number of agents that passed by the location
+     * @return the number of agents that passed by the location
+     */
+    public int getNumberOfPassedAgents(){
+        return this.numberOfPassedAgents;
+    }
+
+    /**
+     * Returns the average speed of the agents that passed by the location
+     * @return the average speed of the agents that passed by the location
+     */
+    public double getAverageSpeed(){
+        return this.averageSpeed;
+    }
+
+    /**
      * Adds a new agent to the location
      * @param agent The agent that will be added to the location
      * @param forced Indicated wether the agent add must be forced

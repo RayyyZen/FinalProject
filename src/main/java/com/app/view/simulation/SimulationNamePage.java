@@ -13,10 +13,25 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The simulation name class
+ * @version 3.0
+ * @since 2.0
+ * @author Rayane, Alexis
+ */
 public class SimulationNamePage extends BorderPane {
     
+    /**
+     * The simulation
+     */
     Simulation simulation;
 
+    /**
+     * The simulation name constructor
+     * @param controller The main controller
+     * @param simulation The simulation
+     * @param graph The graph that will be given to the simulation
+     */
     public SimulationNamePage(MainController controller, Simulation simulation, Graph graph) {
         this.simulation = simulation;
 
@@ -59,6 +74,11 @@ public class SimulationNamePage extends BorderPane {
 
     }
 
+    /**
+     * The second simulation name constructor
+     * @param controller The main controller
+     * @param simulation The simulation
+     */
     public SimulationNamePage(MainController controller, Simulation simulation){
         this(controller, simulation, new Graph());
     }

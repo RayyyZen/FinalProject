@@ -17,6 +17,11 @@ import com.app.model.util.Check;
 public class RandomPath implements PathFinder {
 
     /**
+     * The random path class
+     */
+    public RandomPath(){}
+
+    /**
      * Returns the next location that should be visited between two nodes from a graph by following random destinations
      * @param source The source node
      * @param destination The destination node

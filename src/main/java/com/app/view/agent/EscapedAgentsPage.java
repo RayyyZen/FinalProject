@@ -18,16 +18,25 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 /**
- * Page displaying all escaped agents as clickable circles
- * (same visual style as {@link AgentListPage}).
+ * The escaped agents class
+ * @version 3.0
+ * @since 3.0
+ * @author Rémi
  */
 public class EscapedAgentsPage extends BorderPane {
 
+    /**
+     * The agent's circle radius
+     */
     private static final int AGENT_RADIUS = 20;
+
+    /**
+     * The main controller
+     */
     private final MainController controller;
 
     /**
-     * Creates the escaped agents page.
+     * Creates the escaped agents page
      * @param controller the main controller used for navigation
      */
     public EscapedAgentsPage(MainController controller) {
@@ -36,7 +45,7 @@ public class EscapedAgentsPage extends BorderPane {
     }
 
     /**
-     * Builds the page layout.
+     * Builds the page layout
      */
     private void buildPage() {
         Label title = new Label("Escaped agents");
@@ -76,7 +85,7 @@ public class EscapedAgentsPage extends BorderPane {
     }
 
     /**
-     * Creates one clickable circle for one agent.
+     * Creates one clickable circle for one agent
      * @param agent the represented agent
      * @return a clickable graphical circle
      */

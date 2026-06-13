@@ -23,6 +23,11 @@ import com.app.model.util.Check;
 public abstract class ShortestPath implements PathFinder {
 
     /**
+     * The shortest path class
+     */
+    public ShortestPath(){}
+
+    /**
      * Returns the value of an edge according to what will be compared in order to get the optimized path
      * @param edge An edge
      * @return the value of an edge according to what will be compared in order to get the optimized path
@@ -150,7 +155,7 @@ public abstract class ShortestPath implements PathFinder {
      * Returns the closest exit from a source node in the graph
      * @param source A source node from a graph
      * @param graph A graph that contains the source node
-     * @return
+     * @return the closest exit from a source node in the graph
      */
     public Node getClosestExit(Node source, Graph graph){
         Check.checkNullArgument(source, "The source node is null");

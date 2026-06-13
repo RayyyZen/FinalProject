@@ -58,3 +58,8 @@
     -fx-cursor: hand;
 
 }
+
+.exit {
+    -fx-stroke: #0055AA;
+    -fx-stroke-width: 6px;
+}

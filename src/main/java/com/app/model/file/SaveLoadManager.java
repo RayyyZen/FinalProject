@@ -20,11 +20,17 @@ public class SaveLoadManager {
      * The directory where the simulation saves are stored
      */
     private final static String DIRECTORY = "saves";
+
+    /**
+     * The save load manager class
+     */
+    public SaveLoadManager(){}
     
     /**
      * Saves a simulation in a binary file
      * The file name is the same as the simulation name
      * @param simulation The simulation that will be saved
+     * @throws Exception In case there is a problem in the file saving process
      */
     public static void saveInFile(Simulation simulation) throws Exception {
         File dir = new File(DIRECTORY);
@@ -42,6 +48,7 @@ public class SaveLoadManager {
      * Restores a simulation from a file
      * @param fileName The name of the file that will be restored
      * @return The simulation that was restored from the file
+     * @throws Exception In case there is a problem in the file restore process
      */
     public static Simulation restoreFromFile(String fileName) throws Exception {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(DIRECTORY + "/" + fileName));

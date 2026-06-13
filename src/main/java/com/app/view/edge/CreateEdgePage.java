@@ -19,17 +19,35 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 /**
- * Page used to create a new edge between two existing nodes.
+ * The creation edge class
+ * @version 3.0
+ * @since 2.0
+ * @author Atahan
  */
 public class CreateEdgePage extends BorderPane {
 
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * The simulation's graph
+     */
     private final Graph graph;
+
+    /**
+     * The name's textfield
+     */
     private TextField nameField;
+
+    /**
+     * The source node
+     */
     private final Node presetSource;
 
     /**
-     * Creates the edge adding page.
+     * Creates the edge adding page
      * @param controller the main controller used for navigation
      * @param graph the selected graph
      */
@@ -38,7 +56,7 @@ public class CreateEdgePage extends BorderPane {
     }
 
     /**
-     * Creates the edge adding page.
+     * Creates the edge adding page
      * @param controller the main controller used for navigation
      * @param graph the selected graph
      * @param presetSource the preselected node
@@ -51,7 +69,7 @@ public class CreateEdgePage extends BorderPane {
     }
 
     /**
-     * Builds the page layout.
+     * Builds the page layout
      */
     private void buildPage() {
         Label title = new Label("Create an edge");
@@ -59,8 +77,6 @@ public class CreateEdgePage extends BorderPane {
         back.setOnAction(e -> controller.showGraph());
 
         back.getStyleClass().add("primary-button");
-
-
 
         BorderPane topBar = new BorderPane();
         topBar.setLeft(back);
@@ -153,7 +169,7 @@ public class CreateEdgePage extends BorderPane {
     }
 
     /**
-     * Builds a converter so the combo boxes display "id. name" instead of the full toString().
+     * Builds a converter so the combo boxes display "id. name" instead of the full toString()
      * @return a converter that turns a node into its "id. name" label
      */
     private StringConverter<Node> nodeConverter() {

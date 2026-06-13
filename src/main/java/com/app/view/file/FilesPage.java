@@ -11,16 +11,28 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The files view class
+ * @version 3.0
+ * @since 2.0
+ * @author Rayane, Alexis
+ */
 public class FilesPage extends BorderPane {
 
+    /**
+     * The main controller
+     */
     private final MainController controller;
 
+    /**
+     * The simulation
+     */
     private Simulation simulation;
 
     /**
-     * Creates the node details page.
+     * Creates the node details page
      * @param controller the main controller used for navigation
-     * @param node the selected node
+     * @param simulation the simulation
      */
     public FilesPage(MainController controller, Simulation simulation) {
         this.controller = controller;
@@ -29,7 +41,7 @@ public class FilesPage extends BorderPane {
     }
 
     /**
-     * Builds the page layout.
+     * Builds the page layout
      */
     private void buildPage() {
         String[] filesName = SaveLoadManager.getFilesName();
@@ -44,9 +56,6 @@ public class FilesPage extends BorderPane {
         topBar.setPadding(new Insets(15));
 
         setTop(topBar);
-
-
-
 
         if(filesName == null){
             BorderPane pane = new BorderPane();

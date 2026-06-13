@@ -20,14 +20,33 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 /**
- * Page displaying the details of one selected agent.
+ * The agent details class
+ * @version 3.0
+ * @since 1.0
+ * @author Atahan, Rémi
  */
 public class AgentDetailsPage extends BorderPane{
 
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * A specific agent
+     */
     private final Agent agent;
+
+    /**
+     * Indicates if it is the editing mode
+     */
     private boolean editMode;
 
+    /**
+     * The agent details contructor
+     * @param controller The main controller
+     * @param agent A specific agent from the graph
+     */
     public AgentDetailsPage(MainController controller, Agent agent) {
         this.controller = controller;
         this.agent = agent;
@@ -35,6 +54,9 @@ public class AgentDetailsPage extends BorderPane{
         buildPage();
     }
 
+    /**
+     * Builds the agent details page
+     */
     private void buildPage() {
         Label title = new Label("Agent details");
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
@@ -135,7 +157,7 @@ public class AgentDetailsPage extends BorderPane{
     }
 
     /**
-     * Builds a converter so the destination combo box displays "id. name" instead of the full toString().
+     * Builds a converter so the destination combo box displays "id. name" instead of the full toString()
      * @return a converter that turns a node into its "id. name" label
      */
     private StringConverter<Node> nodeConverter() {
@@ -155,6 +177,13 @@ public class AgentDetailsPage extends BorderPane{
         };
     }
 
+    /**
+     * Adds one information row to the grid
+     * @param grid the target grid
+     * @param rowIndex the row index
+     * @param label the attribute name
+     * @param value the attribute value
+     */
     private void addRow(GridPane grid, int row, String label, String value) {
         Label nameLabel = new Label(label + ":");
         nameLabel.setStyle("-fx-font-weight: bold;");
@@ -162,6 +191,14 @@ public class AgentDetailsPage extends BorderPane{
         grid.add(new Label(value), 1, row);
     }
 
+    /**
+     * Adds one information row to the grid about the editable button
+     * @param grid the target grid
+     * @param row the row index
+     * @param label the attribute name
+     * @param value the attribute value
+     * @param field The field
+     */
     private void addEditableRow(GridPane grid, int row, String label, String value, javafx.scene.Node field) {
         Label nameLabel = new Label(label + ":");
         nameLabel.setStyle("-fx-font-weight: bold;");
@@ -169,10 +206,20 @@ public class AgentDetailsPage extends BorderPane{
         grid.add(editMode ? field : new Label(value), 1, row);
     }
 
+    /**
+     * Returns a location's string format
+     * @param location A location
+     * @return a location's sting format
+     */
     private String formatLocation(Location location) {
         return location == null ? "none" : location.getName();
     }
 
+    /**
+     * Returns a node's string format
+     * @param location A node
+     * @return a node's sting format
+     */
     private String formatNode(Node node) {
         return node == null ? "none" : node.getName();
     }

@@ -113,6 +113,16 @@ It:
 
 Simulations can be saved and restored later using serialized binary files, allowing replay and analysis of evacuation scenarios.
 
+## Documentation
+
+You can generate a javadoc documentation by running the following command : 
+
+```sh
+mvn javadoc:javadoc
+```
+
+You will find the generated documentation in the `target/site/apidocs` folder, then you can open the `index.html` page.
+
 ## License
 
 This project is licensed under the BSD 2-Clause License. See the [LICENSE](LICENSE) file for details.

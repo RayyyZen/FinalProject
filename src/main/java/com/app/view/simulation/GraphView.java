@@ -6,7 +6,6 @@ import java.util.List;
 import com.app.controller.MainController;
 import com.app.model.agent.Agent;
 import com.app.model.file.SaveLoadManager;
-import com.app.model.graph.Graph;
 import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
 import com.app.model.simulation.Simulation;
@@ -39,35 +38,68 @@ import javafx.scene.paint.Stop;
 import javafx.scene.paint.CycleMethod;
 
 /**
- * Main graphical view of the {@link Graph}.
- * <p>
- * Layout :
- * <ul>
- *   <li>top    : a toolbar with "add" and "remove" buttons</li>
- *   <li>center : a nodePane where every node is drawn on a circle and every
- *       edge is drawn as a line between its endpoints</li>
- * </ul>
- * Every model change triggers a full re-layout so the view always mirrors
- * the model exactly.
+ * The graph view class
+ * @version 3.0
+ * @since 1.0
+ * @author Rémi, Alexis, Rayane
  */
 public class GraphView extends BorderPane {
 
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * The simulation
+     */
     private final Simulation simulation;
+
+    /**
+     * The node pane
+     */
     private final Pane nodePane;
 
+    /**
+     * The node pane width
+     */
     private static final double NODEPANE_W = 1350;
+
+    /**
+     * The node pane height
+     */
     private static final double NODEPANE_H = 850;
+
+    /**
+     * The layout margin
+     */
     private static final double LAYOUT_MARGIN = 200;
 
+    /**
+     * The loop initial time period
+     */
     private static final double TIME = 0.8;
 
+    /**
+     * The add node counter
+     */
     private int addNodeCounter = 1;
 
+    /**
+     * The add edge counter
+     */
     private int addEdgeCounter = 1;
 
+    /**
+     * The add agent counter
+     */
     private int addAgentCounter = 1;
 
+    /**
+     * Updates a loop's speed
+     * @param loop A loop
+     * @param speed The new speed
+     */
     private void updateLoopSpeed(Timeline loop, double speed) {
         loop.stop();
         loop.getKeyFrames().setAll(
@@ -80,6 +112,12 @@ public class GraphView extends BorderPane {
         loop.play();
     }
 
+    /**
+     * Returns the correspondant text of an add button
+     * @param element The element that will be added
+     * @param counter The number of occurences of the element that will be added
+     * @return the correspondant text of an add button
+     */
     private String addText(String element, int counter){
         String str = "";
         if(counter > 1){
@@ -89,9 +127,10 @@ public class GraphView extends BorderPane {
     }
 
     /**
+     * The graph view constructor
      * Builds the view for the given graph and immediately renders the nodes
-     * already present in the model.
-     * @param graph the graph to display and mutate
+     * @param controller The main controller
+     * @param simulation The simulation
      */
     public GraphView(MainController controller, Simulation simulation) {
         this.controller = controller;
@@ -101,7 +140,6 @@ public class GraphView extends BorderPane {
         Button addNodeBtn = new Button("Add 1 node");
         Button addEdgeBtn = new Button("Add 1 edge");
         Button addAgentBtn = new Button("Add 1 agent");
-        Button removeBtn = new Button("Delete a node");
         Button nextBtn = new Button("Next");
         Button addNode = new Button("Create a node");
         Button addEdge = new Button("Create an edge");
@@ -195,7 +233,6 @@ public class GraphView extends BorderPane {
         addNodeBtn.getStyleClass().add("tool-button");
         addEdgeBtn.getStyleClass().add("tool-button");
         addAgentBtn.getStyleClass().add("tool-button");
-        removeBtn.getStyleClass().add("tool-button");
         addNode.getStyleClass().add("tool-button");
         addEdge.getStyleClass().add("tool-button");
         addAgent.getStyleClass().add("tool-button");
@@ -313,15 +350,6 @@ public class GraphView extends BorderPane {
             relayout();
         });
 
-        removeBtn.setOnAction(e -> {
-            List<Node> nodes = simulation.getGraph().getAllNodes();
-            if (!nodes.isEmpty()) {
-                Node last = nodes.get(nodes.size() - 1);
-                simulation.getGraph().removeNode(last);
-                relayout();
-            }
-        });
-
         nextBtn.setOnAction(e -> {
             simulation.move();
             simulation.clearExits();
@@ -435,6 +463,8 @@ public class GraphView extends BorderPane {
                     agentVisual.setLayoutX(agentX - 10);
                     agentVisual.setLayoutY(agentY - 10);
 
+                    agentVisual.setOnMouseClicked(e -> controller.showAgentDetails(agent));
+
                     agentVisuals.add(agentVisual);
                 }
             }
@@ -445,7 +475,5 @@ public class GraphView extends BorderPane {
         nodePane.getChildren().addAll(views);
         nodePane.getChildren().addAll(agentVisuals);
     }
-
-
 
 }

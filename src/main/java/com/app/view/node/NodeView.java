@@ -2,6 +2,7 @@ package com.app.view.node;
 
 import com.app.controller.MainController;
 import com.app.model.graph.location.node.Node;
+import com.app.model.graph.location.node.NodeType;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -11,19 +12,25 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * Graphical representation of a {@link Node}: a colored circle with the node
- * name as a centered label. Keeps a reference to its underlying model node so
- * the view layer can look up which node was clicked.
+ * The node view class
+ * @version 3.0
+ * @since 1.0
+ * @author Rémi
  */
 public class NodeView extends Group {
 
+    /**
+     * A node from the simulation's graph
+     */
     private final Node node;
 
     /**
-     * Builds a new node view at the given position.
+     * Builds a new node view at the given position
      * @param node the model node this view represents
-     * @param x    the x-coordinate within the parent pane
-     * @param y    the y-coordinate within the parent pane
+     * @param x the x-coordinate within the parent pane
+     * @param y the y-coordinate within the parent pane
+     * @param labelAngle The label angle
+     * @param controller The main controller
      */
     public NodeView(Node node, double x, double y, double labelAngle, MainController controller) {
         this.node = node;
@@ -33,6 +40,10 @@ public class NodeView extends Group {
         Circle circle = new Circle(25, empty ? Color.BLACK : getCongestionColor(node));
 
         circle.getStyleClass().addAll("node", "click");
+
+        if(node.getType() == NodeType.EXIT){
+            circle.getStyleClass().add("exit");
+        }
 
         setOnMouseClicked(event -> {
             event.consume();
@@ -59,6 +70,7 @@ public class NodeView extends Group {
     }
 
     /**
+     * Returns the model node this view represents
      * @return the model node this view represents
      */
     public Node getNode() {
@@ -68,6 +80,13 @@ public class NodeView extends Group {
     /**
      * Returns a color based on how full the node is :
      * white when empty, orange when half full, red when full.
+     */
+
+    /**
+     * Returns a color based on how full the node is :
+     * white when empty, orange when half full, red when full
+     * @param node A node
+     * @return a color based on how full the node is
      */
     private Color getCongestionColor(Node node) {
         int max = node.getMaxAgents();

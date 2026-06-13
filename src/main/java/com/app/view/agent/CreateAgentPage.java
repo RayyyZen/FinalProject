@@ -19,12 +19,26 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 /**
- * Page used to create a new agent and place it on a selected node.
+ * The creation agent class
+ * @version 3.0
+ * @since 2.0
+ * @author Atahan
  */
 public class CreateAgentPage extends BorderPane {
 
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * The simulation's graph
+     */
     private final Graph graph;
+
+    /**
+     * The node where the new agent will belong
+     */
     private final Node node;
 
     /**
@@ -37,7 +51,7 @@ public class CreateAgentPage extends BorderPane {
     }
 
     /**
-     * Creates the agents adding page.
+     * Creates the agents adding page
      * @param controller the main controller used for navigation
      * @param graph the selected graph
      * @param node the selected node
@@ -50,7 +64,7 @@ public class CreateAgentPage extends BorderPane {
     }
 
     /**
-     * Builds the page layout.
+     * Builds the page layout
      */
     private void buildPage() {
         Label title = new Label("Create an agent on ");
@@ -152,7 +166,7 @@ public class CreateAgentPage extends BorderPane {
     }
 
     /**
-     * Builds a converter so the destination combo box displays "id. name" instead of the full toString().
+     * Builds a converter so the destination combo box displays "id. name" instead of the full toString()
      * @return a converter that turns a node into its "id. name" label
      */
     private StringConverter<Node> nodeConverter() {
@@ -173,7 +187,7 @@ public class CreateAgentPage extends BorderPane {
     }
 
     /**
-     * Adds one information row to the grid.
+     * Adds one information row to the grid
      * @param grid the target grid
      * @param rowIndex the row index
      * @param label the attribute name

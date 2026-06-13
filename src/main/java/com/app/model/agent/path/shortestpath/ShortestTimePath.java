@@ -12,6 +12,11 @@ import com.app.model.util.Check;
 public class ShortestTimePath extends ShortestPath {
 
     /**
+     * The shortest time path class
+     */
+    public ShortestTimePath(){}
+
+    /**
      * Returns the value of an edge according to what will be compared in order to get the optimized path
      * Here the edge value is the time it takes to travel an edge
      * @param edge An edge

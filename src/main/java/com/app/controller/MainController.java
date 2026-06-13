@@ -52,6 +52,7 @@ public class MainController {
     }
 
     /**
+     * Returns the simulation
      * @return the simulation
      */
     public Simulation getSimulation(){
@@ -59,6 +60,7 @@ public class MainController {
     }
 
     /**
+     * Returns the root JavaFX node, to be wired into the main Scene
      * @return the root JavaFX node, to be wired into the main Scene
      */
     public Parent getRoot(){

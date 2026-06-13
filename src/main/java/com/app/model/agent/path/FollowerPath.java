@@ -16,6 +16,11 @@ import com.app.model.util.Check;
 public class FollowerPath implements PathFinder {
 
     /**
+     * The follower path class
+     */
+    public FollowerPath(){}
+
+    /**
      * Returns the next location that should be visited between two nodes from a graph according to an algorithm that follows the crowd
      * @param source The source node
      * @param destination The destination node

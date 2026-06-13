@@ -17,20 +17,33 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-
 /**
- * Page displaying all agents as clickable circles.
+ * The agent list class
+ * @version 3.0
+ * @since 1.0
+ * @author Atahan
  */
 public class AgentListPage extends BorderPane {
     
+    /**
+     * The agent's circle radius
+     */
     private static final int AGENT_RADIUS = 20;
+
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * A specific location
+     */
     private final Location location;
 
     /**
-     * Creates the page displaying all agents.
+     * Creates the page displaying all agents
      * @param controller the main controller used for navigation
-     * @param graph the graph containing the agents
+     * @param location the location containing the agents
      */
     public AgentListPage(MainController controller, Location location) {
         this.controller = controller;
@@ -39,7 +52,7 @@ public class AgentListPage extends BorderPane {
     }
 
     /**
-     * Builds the page layout.
+     * Builds the page layout
      */
     private void buildPage() {
         Label title = new Label("Agents list");
@@ -79,7 +92,7 @@ public class AgentListPage extends BorderPane {
     }
 
     /**
-     * Creates one clickable circle for one agent.
+     * Creates one clickable circle for one agent
      * @param agent the represented agent
      * @return a clickable graphical circle
      */

@@ -14,6 +14,11 @@ import com.app.model.graph.location.node.Node;
 public class Check {
 
     /**
+     * The check class constructor
+     */
+    private Check() {}
+
+    /**
      * Checks if an argument is null
      * @param obj The argument that will be checked
      * @param message The message that will be shown if the argument is null

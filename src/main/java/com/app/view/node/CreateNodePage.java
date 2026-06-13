@@ -17,18 +17,45 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Page used to create a new node and add it to the graph.
+ * The node creation class
+ * @version 3.0
+ * @since 2.0
+ * @author Atahan
  */
 public class CreateNodePage extends BorderPane {
+
+    /**
+     * The main controller
+     */
     private final MainController controller;
+
+    /**
+     * The graph of the simulation
+     */
     private final Graph graph;
+
+    /**
+     * The name's field
+     */
     private TextField nameField;
+
+    /**
+     * The node's state field
+     */
     private ComboBox<LocationState> stateBox;
+
+    /**
+     * The node's type field
+     */
     private ComboBox<NodeType> typeBox;
+
+    /**
+     * The max agents field
+     */
     private Spinner<Integer> maxAgentsSpinner;
 
     /**
-     * Creates the node adding page.
+     * Creates the node adding page
      * @param controller the main controller used for navigation
      * @param graph the selected graph
      */
@@ -39,7 +66,7 @@ public class CreateNodePage extends BorderPane {
     }
 
     /**
-     * Builds the page layout.
+     * Builds the page layout
      */
     private void buildPage() {
         Label title = new Label("Create a node");
@@ -93,7 +120,7 @@ public class CreateNodePage extends BorderPane {
     }
 
     /**
-     * Adds one information row to the grid.
+     * Adds one information row to the grid
      * @param grid the target grid
      * @param rowIndex the row index
      * @param label the attribute name
@@ -106,7 +133,7 @@ public class CreateNodePage extends BorderPane {
     }
 
     /**
-     * Reads the form, creates the node and adds it to the graph.
+     * Reads the form, creates the node and adds it to the graph
      */
     private void createNode() {
         String name = nameField.getText().trim();
