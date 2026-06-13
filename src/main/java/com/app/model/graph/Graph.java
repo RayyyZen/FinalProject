@@ -2,6 +2,7 @@ package com.app.model.graph;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -351,6 +352,81 @@ public class Graph implements Serializable {
     public void addEdge(Edge edge){
         checkGraphNullArgument(edge, "edge");
         this.edges.add(edge);
+    }
+
+    /**
+     * Adds default nodes to the graph
+     * @param numberOfNodes The number of added nodes
+     */
+    public void addDefaultNodes(int numberOfNodes){
+        Check.checkNumber(numberOfNodes);
+
+        for(int i = 0; i < numberOfNodes; i++){
+            this.nodes.add(new Node());
+        }
+    }
+
+    /**
+     * Adds default edges to the graph
+     * @param numberOfEdges The number of added edges
+     */
+    public void addDefaultEdges(int numberOfEdges){
+        Check.checkNumber(numberOfEdges);
+
+        List<Edge> possibleEdges = new ArrayList<>();
+
+        for(Node source : this.nodes){
+            for(Node destination : this.nodes){
+                if(!source.equals(destination) && !existEdge(this, source, destination)){
+                    possibleEdges.add(new Edge(source, destination, (MINDISTANCE + MAXDISTANCE) / 2));
+                }
+            }
+        }
+
+        Collections.shuffle(possibleEdges);
+
+        int counter = 0;
+
+        Iterator<Edge> iterator = possibleEdges.iterator();
+
+        while(iterator.hasNext() && counter < numberOfEdges){
+            Edge edge = iterator.next();
+            this.edges.add(edge);
+            counter++;
+        }
+    }
+
+    /**
+     * Returns the nodes where we can add agents
+     * @return the nodes where we can add agents
+     */
+    private List<Node> getPossibleNodes(){
+        List<Node> possibleNodes = new ArrayList<>();
+
+        for(Node node : this.nodes){
+            if(node.getNumberOfAgents() < node.getMaxAgents()){
+                possibleNodes.add(node);
+            }
+        }
+
+        return possibleNodes;
+    }
+
+    /**
+     * Adds default agents to the graph
+     * @param numberOfAgents The number of added agents
+     */
+    public void addDefaultAgents(int numberOfAgents){
+        Check.checkNumber(numberOfAgents);
+
+        for(int i = 0; i < numberOfAgents; i++){
+            List<Node> possibleNodes = this.getPossibleNodes();
+            if(possibleNodes.isEmpty()){
+                return;
+            }
+            int index = ThreadLocalRandom.current().nextInt(0, possibleNodes.size());
+            possibleNodes.get(index).addAgent(new Agent());
+        }
     }
 
     /**

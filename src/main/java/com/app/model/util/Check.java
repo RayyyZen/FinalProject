@@ -58,4 +58,14 @@ public class Check {
             throw new IllegalStateException("The agent does not belong to this location");
         }
     }
+
+    /**
+     * Checks if a number is >=1
+     * @param number The number that will be checked
+     */
+    public static void checkNumber(int number){
+        if(number < 1){
+            throw new IllegalArgumentException("The number of added elements must be >= 1");
+        }
+    }
 }

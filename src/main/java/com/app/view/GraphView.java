@@ -66,6 +66,12 @@ public class GraphView extends BorderPane {
 
     private static final double TIME = 0.8;
 
+    private int addNodeCounter = 1;
+
+    private int addEdgeCounter = 1;
+
+    private int addAgentCounter = 1;
+
     private void updateLoopSpeed(Timeline loop, double speed) {
         loop.stop();
         loop.getKeyFrames().setAll(
@@ -78,6 +84,14 @@ public class GraphView extends BorderPane {
         loop.play();
     }
 
+    private String addText(String element, int counter){
+        String str = "";
+        if(counter > 1){
+            str = "s";
+        }
+        return "Add " + counter + " " + element + str;
+    }
+
     /**
      * Builds the view for the given graph and immediately renders the nodes
      * already present in the model.
@@ -88,7 +102,9 @@ public class GraphView extends BorderPane {
         this.simulation = simulation;
 
         // Toolbar
-        Button addBtn = new Button("Add a node");
+        Button addNodeBtn = new Button("Add 1 node");
+        Button addEdgeBtn = new Button("Add 1 edge");
+        Button addAgentBtn = new Button("Add 1 agent");
         Button removeBtn = new Button("Delete a node");
         Button nextBtn = new Button("Next");
         Button addNode = new Button("Create a node");
@@ -97,10 +113,60 @@ public class GraphView extends BorderPane {
         Button playBtn = new Button("Play");
         Button stopBtn = new Button("Stop");
 
+        Button plusNodeBtn = new Button("+");
+        plusNodeBtn.getStyleClass().add("primary-button");
+        plusNodeBtn.setOnAction(e -> {
+            addNodeCounter++;
+            addNodeBtn.setText(this.addText("node", addNodeCounter));
+        });
+
+        Button minusNodeBtn = new Button("-");
+        minusNodeBtn.getStyleClass().add("primary-button");
+        minusNodeBtn.setOnAction(e -> {
+            if(addNodeCounter > 1){
+                addNodeCounter--;
+                addNodeBtn.setText(this.addText("node", addNodeCounter));
+            }
+        });
+
+        Button plusEdgeBtn = new Button("+");
+        plusEdgeBtn.getStyleClass().add("primary-button");
+        plusEdgeBtn.setOnAction(e -> {
+            addEdgeCounter++;
+            addEdgeBtn.setText(this.addText("edge", addEdgeCounter));
+        });
+
+        Button minusEdgeBtn = new Button("-");
+        minusEdgeBtn.getStyleClass().add("primary-button");
+        minusEdgeBtn.setOnAction(e -> {
+            if(addEdgeCounter > 1){
+                addEdgeCounter--;
+                addEdgeBtn.setText(this.addText("edge", addEdgeCounter));
+            }
+        });
+
+        Button plusAgentBtn = new Button("+");
+        plusAgentBtn.getStyleClass().add("primary-button");
+        plusAgentBtn.setOnAction(e -> {
+            addAgentCounter++;
+            addAgentBtn.setText(this.addText("agent", addAgentCounter));
+        });
+
+        Button minusAgentBtn = new Button("-");
+        minusAgentBtn.getStyleClass().add("primary-button");
+        minusAgentBtn.setOnAction(e -> {
+            if(addAgentCounter > 1){
+                addAgentCounter--;
+                addAgentBtn.setText(this.addText("agent", addAgentCounter));
+            }
+        });
+        
+
+
 
 
         Button escapedBtn = new Button("Agents escaped");
-        escapedBtn.getStyleClass().add("tool-button");
+        escapedBtn.getStyleClass().add("primary-button");
         escapedBtn.setOnAction(e -> controller.showEscapedAgents());
 
         Button save = new Button("Save");
@@ -130,7 +196,9 @@ public class GraphView extends BorderPane {
         playBtn.setOnAction(e -> loop.play());
         stopBtn.setOnAction(e -> loop.stop());
 
-        addBtn.getStyleClass().add("tool-button");
+        addNodeBtn.getStyleClass().add("tool-button");
+        addEdgeBtn.getStyleClass().add("tool-button");
+        addAgentBtn.getStyleClass().add("tool-button");
         removeBtn.getStyleClass().add("tool-button");
         addNode.getStyleClass().add("tool-button");
         addEdge.getStyleClass().add("tool-button");
@@ -143,7 +211,7 @@ public class GraphView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox toolBar = new HBox(10, addBtn, removeBtn, addNode, addEdge, addAgent, escapedBtn, spacer, save, exit);
+        HBox toolBar = new HBox(10, addNodeBtn, plusNodeBtn, minusNodeBtn, addEdgeBtn, plusEdgeBtn, minusEdgeBtn, addAgentBtn, plusAgentBtn, minusAgentBtn, addNode, addEdge, addAgent, spacer, save, exit);
         toolBar.setPadding(new Insets(15, 20, 15, 20));
         setTop(toolBar);
 
@@ -208,11 +276,18 @@ public class GraphView extends BorderPane {
         leftBar.setAlignment(Pos.CENTER);
         leftBar.getChildren().add(legendContent);
 
-
+        Button optimizeDestinations = new Button("Optimize destinations");
+        optimizeDestinations.getStyleClass().add("primary-button");
+        optimizeDestinations.setOnAction(e -> {
+            simulation.optimizeDestinations();
+            relayout();
+        });
 
         HBox bottomBar = new HBox(10, playBtn, stopBtn, nextBtn);
-        bottomBar.setPadding(new Insets(15, 20, 40, 20));
-        setBottom(bottomBar);
+        VBox bottomBox = new VBox(10, escapedBtn ,optimizeDestinations, bottomBar);
+        bottomBox.setPadding(new Insets(15, 20, 40, 20));
+        setBottom(bottomBox);
+        bottomBox.setAlignment(Pos.CENTER);
         bottomBar.setAlignment(Pos.CENTER);
 
 
@@ -227,9 +302,18 @@ public class GraphView extends BorderPane {
         nodePane.heightProperty().addListener((o, ov, nv) -> relayout());
 
         // Button actions
-        addBtn.setOnAction(e -> {
-            Node n = new Node(LocationState.OPEN, NodeType.DESTINATION, DEFAULT_MAX_AGENTS);
-            simulation.getGraph().addNode(n);
+        addNodeBtn.setOnAction(e -> {
+            simulation.getGraph().addDefaultNodes(addNodeCounter);
+            relayout();
+        });
+
+        addEdgeBtn.setOnAction(e -> {
+            simulation.getGraph().addDefaultEdges(addEdgeCounter);
+            relayout();
+        });
+
+        addAgentBtn.setOnAction(e -> {
+            simulation.getGraph().addDefaultAgents(addAgentCounter);
             relayout();
         });
 
