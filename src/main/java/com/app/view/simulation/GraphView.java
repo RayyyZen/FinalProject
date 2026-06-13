@@ -300,7 +300,12 @@ public class GraphView extends BorderPane {
         HBox labelsBox = new HBox(minLabel, spacer1, maxLabel);
         labelsBox.setMaxWidth(200);
 
-        VBox legendContent = new VBox(5, legendTitle, gradientBar, labelsBox);
+        Label exitLegend = new Label("Exit nodes:");
+
+        Circle exitNodes = new Circle(25, Color.WHITE);
+        exitNodes.getStyleClass().add("exit");
+
+        VBox legendContent = new VBox(5, legendTitle, gradientBar, labelsBox, exitLegend, exitNodes);
         legendContent.setPadding(new Insets(10, 0, 20, 0));
 
         VBox leftBar = new VBox(20);
