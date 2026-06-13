@@ -95,6 +95,8 @@ public class EdgeDetailsPage extends BorderPane {
         addRow(grid, 4, "Destination", edge.getDestination().getName());
         addRow(grid, 5, "Distance", String.valueOf(edge.getDistance()));
         addRow(grid, 6, "Agents", edge.getNumberOfAgents() + " / " + edge.getMaxAgents());
+        addRow(grid, 7, "Passed agents", String.valueOf(edge.getNumberOfPassedAgents()));
+        addRow(grid, 8, "Average speed", String.valueOf(edge.getAverageSpeed()));
 
         Button modifyButton = new Button(editMode ? "Save" : "Modify");
         modifyButton.getStyleClass().add("primary-button");

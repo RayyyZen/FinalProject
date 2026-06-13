@@ -101,6 +101,8 @@ public class NodeDetailsPage extends BorderPane{
 
         addRow(grid, 3, "Type", String.valueOf(node.getType()));
         addRow(grid, 4, "Agents", node.getNumberOfAgents() + " / " + node.getMaxAgents());
+        addRow(grid, 5, "Passed agents", String.valueOf(node.getNumberOfPassedAgents()));
+        addRow(grid, 6, "Average speed", String.valueOf(node.getAverageSpeed()));
 
         Button modifyButton = new Button(editMode ? "Save" : "Modify");
         modifyButton.getStyleClass().add("primary-button");

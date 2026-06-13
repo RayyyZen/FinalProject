@@ -9,7 +9,6 @@ import com.app.model.graph.location.node.Node;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -102,9 +101,6 @@ public class CreateAgentPage extends BorderPane {
         behaviorBox.getItems().addAll(AgentBehavior.values());
         behaviorBox.setValue(AgentBehavior.NORMAL);
 
-        CheckBox tolerantBox = new CheckBox("Tolerant to congestion");
-        tolerantBox.setSelected(true);
-
         ComboBox<Node> destinationBox = new ComboBox<>();
         destinationBox.getItems().addAll(graph.getAllNodes());
         destinationBox.setConverter(nodeConverter());
@@ -118,7 +114,6 @@ public class CreateAgentPage extends BorderPane {
         addRow(grid, 2, "Speed", speedField);
         addRow(grid, 3, "State", stateBox);
         addRow(grid, 4, "Behavior", behaviorBox);
-        addRow(grid, 5, "Congestion", tolerantBox);
         addRow(grid, 6, "Destination", destinationBox);
 
         Label errorLabel = new Label();
