@@ -2,6 +2,9 @@ package com.app.model.agent;
 
 /**
  * The enumeration that contains the different behaviors of an agent
+ * @version 3.0
+ * @since 3.0
+ * @author Rayane
  */
 public enum AgentBehavior {
 

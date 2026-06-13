@@ -14,7 +14,8 @@ import com.app.model.graph.location.node.NodeType;
 import com.app.model.util.Check;
 
 /**
- * The simulation class that contains its name and a graph
+ * The simulation class that contains a name, a graph and the list of escaped agents.
+ * Provides the main simulation loop methods (move, clearExits, optimizeDestinations).
  * @version 3.0
  * @since 2.0
  * @author Rayane
@@ -47,7 +48,7 @@ public class Simulation implements Serializable {
     private final int MAXEXITCLEAR = 5;
 
     /**
-     * The simulation constructor that takes as an argument its name and graph
+     * The simulation constructor that takes as arguments its name and graph
      * @param name The name of the simulation
      * @param graph The graph of the simulation
      */

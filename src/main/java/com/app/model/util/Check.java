@@ -5,8 +5,14 @@ import com.app.model.graph.Graph;
 import com.app.model.graph.location.Location;
 import com.app.model.graph.location.node.Node;
 
+/**
+ * The check utility class that provides static methods to validate arguments
+ * @version 3.0
+ * @since 1.0
+ * @author Rayane
+ */
 public class Check {
-    
+
     /**
      * Checks if an argument is null
      * @param obj The argument that will be checked

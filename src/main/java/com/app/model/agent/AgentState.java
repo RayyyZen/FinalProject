@@ -6,6 +6,9 @@ import com.app.model.util.Check;
 
 /**
  * The enumeration that contains the different states of an agent
+ * @version 3.0
+ * @since 1.0
+ * @author Rayane
  */
 public enum AgentState {
 

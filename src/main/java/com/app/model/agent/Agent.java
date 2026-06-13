@@ -207,8 +207,8 @@ public class Agent implements Serializable, Comparable<Agent> {
     }
 
     /**
-     * Changes the state of the agent
-     * @param state The new state of the agent
+     * Changes the behavior of the agent
+     * @param behavior The new behavior of the agent
      */
     public void setBehavior(AgentBehavior behavior){
         Check.checkNullArgument(behavior, "The agent behavior is null");
