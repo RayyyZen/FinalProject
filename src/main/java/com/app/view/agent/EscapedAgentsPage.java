@@ -1,4 +1,4 @@
-package com.app.view;
+package com.app.view.agent;
 
 import java.util.List;
 

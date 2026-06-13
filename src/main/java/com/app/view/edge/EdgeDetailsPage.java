@@ -1,8 +1,8 @@
-package com.app.view;
+package com.app.view.edge;
 
 import com.app.controller.MainController;
 import com.app.model.graph.location.LocationState;
-import com.app.model.graph.location.node.Node;
+import com.app.model.graph.location.edge.Edge;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -10,58 +10,47 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
-/**
- * Page displaying the details of one selected node.
- */
-public class NodeDetailsPage extends BorderPane{
+public class EdgeDetailsPage extends BorderPane {
 
     private final MainController controller;
-    private final Node node;
+    private final Edge edge;
     private boolean editMode;
 
-    public NodeDetailsPage(MainController controller, Node node) {
+    public EdgeDetailsPage(MainController controller, Edge edge) {
         this.controller = controller;
-        this.node = node;
+        this.edge = edge;
         this.editMode = false;
         buildPage();
     }
 
     private void buildPage() {
-        Label title = new Label("Node details");
+        Label title = new Label("Edge details");
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
         Button backButton = new Button("Back to graph");
         backButton.setOnAction(event -> controller.showGraph());
         backButton.getStyleClass().add("primary-button");
 
-        Button deleteButton = new Button("Delete node");
+        Button deleteButton = new Button("Delete edge");
         deleteButton.setOnAction(e -> {
-            controller.getSimulation().getGraph().removeNode(node);
+            controller.getSimulation().getGraph().removeEdge(edge);
             controller.showGraph();
         });
         deleteButton.getStyleClass().add("primary-button");
 
         Button showAgentsButton = new Button("See agents");
-        showAgentsButton.setOnAction(e -> controller.showAgents(node));
+        showAgentsButton.setOnAction(e -> controller.showAgents(edge));
         showAgentsButton.getStyleClass().add("primary-button");
 
-        Button createAgentButton = new Button("Create an agent");
-        createAgentButton.setOnAction(e -> controller.showCreateAgent(node));
-        createAgentButton.getStyleClass().add("primary-button");
-
-        Button createEdgeButton = new Button("Create an edge");
-        createEdgeButton.setOnAction(e -> controller.showCreateEdge(node));
-        createEdgeButton.getStyleClass().add("primary-button");
-
-        HBox actionsBox = new HBox(10, createAgentButton, createEdgeButton, showAgentsButton, deleteButton);
+        HBox actionsBox = new HBox(10, showAgentsButton, deleteButton);
         actionsBox.setAlignment(Pos.CENTER_RIGHT);
 
         BorderPane topBar = new BorderPane();
+        topBar.setPadding(new Insets(15, 20, 15, 20));
         topBar.setLeft(backButton);
         BorderPane.setAlignment(backButton, Pos.CENTER_LEFT);
         topBar.setCenter(title);
         topBar.setRight(actionsBox);
-        topBar.setPadding(new Insets(15));
         setTop(topBar);
 
         GridPane grid = new GridPane();
@@ -69,22 +58,24 @@ public class NodeDetailsPage extends BorderPane{
         grid.setHgap(20);
         grid.setVgap(12);
 
-        addRow(grid, 0, "ID", String.valueOf(node.getId()));
-        addRow(grid, 1, "Name", node.getName());
+        addRow(grid, 0, "ID", String.valueOf(edge.getId()));
+        addRow(grid, 1, "Name", edge.getName());
 
         ComboBox<LocationState> stateBox = new ComboBox<>();
         stateBox.getItems().addAll(LocationState.values());
-        stateBox.setValue(node.getState());
-        addEditableRow(grid, 2, "State", String.valueOf(node.getState()), stateBox);
+        stateBox.setValue(edge.getState());
+        addEditableRow(grid, 2, "State", String.valueOf(edge.getState()), stateBox);
 
-        addRow(grid, 3, "Type", String.valueOf(node.getType()));
-        addRow(grid, 4, "Agents", node.getNumberOfAgents() + " / " + node.getMaxAgents());
+        addRow(grid, 3, "Source", edge.getSource().getName());
+        addRow(grid, 4, "Destination", edge.getDestination().getName());
+        addRow(grid, 5, "Distance", String.valueOf(edge.getDistance()));
+        addRow(grid, 6, "Agents", edge.getNumberOfAgents() + " / " + edge.getMaxAgents());
 
         Button modifyButton = new Button(editMode ? "Save" : "Modify");
         modifyButton.getStyleClass().add("primary-button");
         modifyButton.setOnAction(e -> {
             if (editMode) {
-                node.setState(stateBox.getValue());
+                edge.setState(stateBox.getValue());
             }
             editMode = !editMode;
             buildPage();

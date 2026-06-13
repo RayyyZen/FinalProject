@@ -1,4 +1,4 @@
-package com.app.view;
+package com.app.view.edge;
 
 import com.app.controller.MainController;
 import com.app.model.graph.Graph;

@@ -1,6 +1,4 @@
-package com.app.view;
-
-import java.util.List;
+package com.app.view.file;
 
 import com.app.controller.MainController;
 import com.app.model.file.SaveLoadManager;
@@ -11,8 +9,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class FilesPage extends BorderPane {

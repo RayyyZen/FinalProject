@@ -1,4 +1,4 @@
-package com.app.view;
+package com.app.view.home;
 
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
@@ -7,7 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import com.app.controller.MainController;
-import com.app.model.simulation.Simulation;
 
 public class HomePage extends VBox {
 

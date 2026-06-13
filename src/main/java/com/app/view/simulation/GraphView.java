@@ -1,4 +1,4 @@
-package com.app.view;
+package com.app.view.simulation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +7,11 @@ import com.app.controller.MainController;
 import com.app.model.agent.Agent;
 import com.app.model.file.SaveLoadManager;
 import com.app.model.graph.Graph;
-import com.app.model.graph.location.LocationState;
 import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
-import com.app.model.graph.location.node.NodeType;
 import com.app.model.simulation.Simulation;
+import com.app.view.node.NodeView;
+
 import javafx.geometry.Pos;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,12 +34,9 @@ import javafx.util.Duration;
 import javafx.scene.control.Label;
 
 import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.paint.CycleMethod;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.Priority;
 
 /**
  * Main graphical view of the {@link Graph}.
@@ -59,7 +56,6 @@ public class GraphView extends BorderPane {
     private final Simulation simulation;
     private final Pane nodePane;
 
-    private static final int DEFAULT_MAX_AGENTS = 10;
     private static final double NODEPANE_W = 1350;
     private static final double NODEPANE_H = 850;
     private static final double LAYOUT_MARGIN = 200;
