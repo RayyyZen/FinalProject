@@ -3,12 +3,15 @@ package com.app.model.simulation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.app.model.agent.Agent;
 import com.app.model.agent.path.shortestpath.ShortestTimePath;
 import com.app.model.graph.Graph;
+import com.app.model.graph.location.edge.Edge;
 import com.app.model.graph.location.node.Node;
 import com.app.model.graph.location.node.NodeType;
 import com.app.model.util.Check;
@@ -148,5 +151,53 @@ public class Simulation implements Serializable {
                 }
             }
         }
+    }
+
+    public Node highDegreeNode(){
+        if(this.graph.getAllNodes().isEmpty()){
+            return null;
+        }
+
+        Node high = this.graph.getAllNodes().get(0);
+        int maxDegree = this.graph.getAllAdjEdges(high).size();
+
+        for(Node node : this.graph.getAllNodes()){
+            int degree = this.graph.getAllAdjEdges(node).size();
+            if(degree > maxDegree){
+                maxDegree = degree;
+            }
+        }
+
+        return high;
+    }
+
+    public List<Node> getNodesAdjToHigh(int value){
+        Node high = this.highDegreeNode();
+
+        List<Node> nodes = new ArrayList<>();
+        Map<Node, Integer> distTo = new HashMap<>();
+
+        Map<Node, Boolean> marked = new HashMap<>();
+
+        distTo.put(high, 0);
+        marked.put(high, true);
+
+        while(!nodes.isEmpty()){
+            Node node = nodes.getFirst();
+            for(Node n : this.graph.getAdjNodes(node)){
+                distTo.put(n, distTo.get(node) + 1);
+                nodes.addLast(n);
+            }
+        }
+
+        List<Node> ns = new ArrayList<>();
+
+        for(Map.Entry<Node, Integer> me : distTo.entrySet()){
+            if(me.getValue() == value){
+                ns.add(me.getKey());
+            }
+        }
+
+        return ns;
     }
 }
