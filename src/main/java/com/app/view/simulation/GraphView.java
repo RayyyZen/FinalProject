@@ -147,6 +147,12 @@ public class GraphView extends BorderPane {
         Button playBtn = new Button("Play");
         Button stopBtn = new Button("Stop");
 
+        Button degree = new Button("Degree");
+
+        degree.getStyleClass().add("primary-button");
+
+        //degree.setOnAction(e -> );
+
         Button plusNodeBtn = new Button("+");
         plusNodeBtn.getStyleClass().add("primary-button");
         plusNodeBtn.setOnAction(e -> {
@@ -325,7 +331,7 @@ public class GraphView extends BorderPane {
             relayout();
         });
 
-        HBox bottomBar = new HBox(10, playBtn, stopBtn, nextBtn);
+        HBox bottomBar = new HBox(10, playBtn, stopBtn, nextBtn, degree);
         VBox bottomBox = new VBox(10, escapedBtn ,optimizeDestinations, bottomBar);
         bottomBox.setPadding(new Insets(15, 20, 40, 20));
         setBottom(bottomBox);

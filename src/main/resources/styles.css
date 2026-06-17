@@ -63,3 +63,13 @@
     -fx-stroke: #0055AA;
     -fx-stroke-width: 6px;
 }
+
+.degree{
+    -fx-stroke: rgb(243, 22, 158);
+    -fx-stroke-width: 6px;
+}
+
+.degree2{
+    -fx-stroke: rgb(5, 228, 5);
+    -fx-stroke-width: 6px;
+}

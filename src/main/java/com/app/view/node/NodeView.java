@@ -45,6 +45,16 @@ public class NodeView extends Group {
             circle.getStyleClass().add("exit");
         }
 
+        //degree
+        if(node.getType() == NodeType.EXIT){
+            circle.getStyleClass().add("degree");
+        }
+
+        //degree2
+        if(node.getType() == NodeType.EXIT){
+            circle.getStyleClass().add("degree2");
+        }
+
         setOnMouseClicked(event -> {
             event.consume();
             controller.showNodeDetails(node);
